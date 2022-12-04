@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>myLike</title>
+</head>
+<body>
+
+<!-- Add your site or application content here -->
+<p>Recommandation Learn System</p>
+
+<ul>
+  <!--menu bar-->
+  <li><a href="index.html" title="meine Aufgaben">My Course</a></li>
+  <li><a href="search.html" title="Aufgabe suchen">Search</a></li>
+  <li><a href="myLike.html" title="gespeicherte Aufgaben">My like</a></li>
+  <li><a href="myProfil.html" title="mein Konto">My Profile</a></li>
+</ul>
+<style>
+  body {
+    margin: 0;
+  }
+
+  ul {
+    list-style-type: none;    /* 去除小标签 · */
+    margin: auto;
+    padding: 0;
+    width: 10%;                /*菜单宽 */
+    position: fixed;
+    height: 100%;
+    overflow: auto;            /*导航过多允许滚动*/
+  }
+
+  li a {
+    display: block;
+    color: white;               /*导航字体颜色*/
+    background-color: #de9709;    /*导航块背景颜色*/
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+
+
+  li a.active {                 /*激活导航菜单*/
+    background-color: #4CAF50;
+
+  }
+
+  li a:hover:not(.active) {      /*指针经过导航菜单*/
+    background-color: #9e8552;
+    color: white;
+  }
+</style>
+
+<div style="margin-left:10%;padding:1px 16px;height:1000px; background-color: #8e9b8e;">
+  <h1>my like page</h1>
+  <p>this page shows my likes</p>
+</div>
+
+</body>
+</html>
