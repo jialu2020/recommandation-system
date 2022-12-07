@@ -23,7 +23,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>React + Flask Test</p>
         <div>{getMessage.status === 200 ?
-          <h3>{getMessage.data.message[1]}</h3>
+          <h3>{getMessage.data.message}</h3>
           :
           <h3>No Response</h3>}</div>
       </header>
