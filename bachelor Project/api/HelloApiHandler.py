@@ -1,15 +1,16 @@
-import flask_restful
+from flask_restful import Api, Resource, reqparse
 
-class HelloApiHandler(flask_restful.Resource):
+
+class HelloApiHandler(Resource):
   def get(self):
     return {
       'resultStatus': 'SUCCESS',
       'message': "Hello Api Handler"
-      }
+    }
 
   def post(self):
     print(self)
-    parser = flask_restful.reqparse.RequestParser()
+    parser = reqparse.RequestParser()
     parser.add_argument('type', type=str)
     parser.add_argument('message', type=str)
 
@@ -29,7 +30,7 @@ class HelloApiHandler(flask_restful.Resource):
       message = "Your Message Requested: {}".format(ret_msg)
     else:
       message = "No Msg"
-    
+
     final_ret = {"status": "Success", "message": message}
 
     return final_ret
