@@ -1,0 +1,32 @@
+.title{
+  text-align: center;
+  color: black;
+  padding: 30px;
+
+}
+
+#mycourse{
+  padding: 10px;
+  font-size: large;
+  color: black;
+
+
+}
+.select{
+  display:block;
+  height:34px;
+  line-height:35px;
+  font-size:14px;
+  width:240px;
+  margin:30px auto;
+  color: white;
+  background: cornflowerblue;
+}
+.submit{
+  height:32px;
+  line-height:32px;
+  font-size:14px;
+  background: burlywood;
+  width:240px;
+
+}

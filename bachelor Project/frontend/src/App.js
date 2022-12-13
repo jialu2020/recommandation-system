@@ -1,34 +1,53 @@
 
-import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import axios from 'axios'
+
+import Homepage from "./pages/Homepage";
+import Navbar from "./Navbar";
+import Myprofile from "./pages/Myprofile";
+import Search from "./pages/Search";
+import Course from "./pages/Course";
+import Like from "./pages/Like";
+import {Route,Routes} from "react-router-dom"
+
 
 
 function App() {
-  const [getMessage, setGetMessage] = useState({})
 
-  useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
 
-  }, [])
+
+
+  class User {
+    constructor(firstname,lastname) {
+      this.firstname=firstname
+      this.lastname=lastname
+    }
+  }
+  const u1 = new User('Jia','Lu')
+  function formatName(user){
+    return user.firstname+  " " + user.lastname
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>React + Flask Test</p>
-        <div>{getMessage.status === 200 ?
-          <h3>{getMessage.data.message[1]}</h3>
-          :
-          <h3>No Response</h3>}</div>
-      </header>
+      {/*navigationbar als Component*/}
+      <Navbar/>
+      <div className="container">
+        <Routes>
+          <Route path= "/homepage" element= {<Homepage/>} />
+          <Route path= "/course" element= {<Course/>} />
+          <Route path= "/like" element= {<Like/>} />
+          <Route path= "/search" element= {<Search/>} />
+          <Route path= "/myprofile" element= {<Myprofile/>} />
+        </Routes>
+
+      </div>
     </div>
   );
+
 }
+
 
 export default App;
