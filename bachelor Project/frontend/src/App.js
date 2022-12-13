@@ -1,32 +1,25 @@
-
+import React, { useState } from "react";
 import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import { Login } from "./Login";
+import { Register } from "./Register"; 
 
 
 function App() {
-  const [getMessage, setGetMessage] = useState({})
+  //那个页面默认显示 所以默认为login页面
+  const [currentForm, setCurrentForm] = useState('login'); 
 
-  useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
+  //切换表单 toggle form
+  const toggleForm = (formName) => {
+    //这是一个setCurrentForm Hook抓取表单的名称 现在我们需要使用这个函数并将其传递给我们当前的表单
+    setCurrentForm(formName);
+  }
 
-  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>React + Flask Test</p>
-        <div>{getMessage.status === 200 ?
-          <h3>{getMessage.data.message}</h3>
-          :
-          <h3>No Response</h3>}</div>
-      </header>
+      {
+        currentForm === 'login' ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
+      }
     </div>
   );
 }
