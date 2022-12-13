@@ -1,9 +1,15 @@
-import React, { useState } from "react";
-import logo from './logo.svg';
+
 import './App.css';
 import { Login } from "./Login";
 import { Register } from "./Register";
-import { Logged } from "./Logged";
+import React, {Component, useEffect, useState} from 'react';
+import {Route,Routes} from "react-router-dom"
+import Homepage from "./pages/Homepage";
+import Navbar from "./Navbar";
+import Myprofile from "./pages/Myprofile";
+import Search from "./pages/Search";
+import Course from "./pages/Course";
+import Like from "./pages/Like";
 
 
 function App() {
@@ -22,11 +28,22 @@ function App() {
   }
     return (
       <div className="App">
-        {currentState === 'unlogged' ? <Login onStateSwitch={toggleState} /> : <Register onStateSwitch={toggleState} />}
-        {currentForm === 'login' ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />}
 
+        <div className="container">
+          <Navbar/>
+          <Routes>
+            <Route path= "/homepage" element= {<Homepage/>} />
+            <Route path= "/course" element= {<Course/>} />
+            <Route path= "/like" element= {<Like/>} />
+            <Route path= "/search" element= {<Search/>} />
+            <Route path= "/myprofile" element= {<Myprofile/>} />
+          </Routes>
 
+        </div>
       </div>
+
+
+
     );
 }
 
