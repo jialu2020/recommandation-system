@@ -1,6 +1,6 @@
 .title{
   text-align: center;
-  color: black;
+  color: white;
   padding: 30px;
 
 }
@@ -8,7 +8,8 @@
 #mycourse{
   padding: 10px;
   font-size: large;
-  color: black;
+  color: white;
+  font-style: unset;
 
 
 }
@@ -24,9 +25,25 @@
 }
 .submit{
   height:32px;
-  line-height:32px;
+  line-height:0px;
   font-size:14px;
   background: burlywood;
   width:240px;
+  text-align:center;
 
 }
+
+.submit:hover{
+  color: cornflowerblue;
+
+}
+
+.submit:active{
+  background-color: #888888;
+
+  color: white;
+  transition: 0.1s
+
+}
+
+

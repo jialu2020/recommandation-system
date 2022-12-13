@@ -2,7 +2,6 @@
 nav{
   display: flex;
   align-content: center;
-  /*zwischendurch space*/
   justify-content: space-between;
   background: burlywood;
   padding: 20px 80px;
@@ -11,7 +10,6 @@ nav{
 
 #navbar{
   display: flex;
-  /*导航块背景颜色*/
   background-color: burlywood;
   justify-content: center;
 

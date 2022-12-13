@@ -1,3 +1,4 @@
+import "./MyprofileStyle.css"
 function Myprofile(){
 
   class User {
@@ -15,21 +16,24 @@ function Myprofile(){
   function getlastname(user){
     return user.lastname;
   }
-
-
   return(
 
-
-<div>
+  <div>
   <h1 class = "title">this is my Profile</h1>
 
 
-  <ul>
-   <li>firstname:</li>
-
-    <li>lastname:</li>
+  <ul id = "userinfo">
+    <li id = "listelement">firstname: {getfirstname(u1)}</li>
+    <li>lastname: {getlastname(u1)}</li>
   </ul>
-</div>
+
+
+    <button class = "submit">Edit</button>
+
+
+
+  </div>
+
 
 )
 
