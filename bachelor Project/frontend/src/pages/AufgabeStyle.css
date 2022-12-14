@@ -46,7 +46,13 @@ margin-top: 200px;
   display: flex;
   font-size: 24px;
   align-items: center;
+    justify-content: center;
   margin-bottom: 100px;
+}
+
+.score-table{
+width: 300px;
+margin-bottom: 50px;
 }
 
 .question-section {
@@ -83,6 +89,51 @@ margin-top: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.submit{
+  height:32px;
+  line-height:0px;
+  font-size:14px;
+  background: burlywood;
+  width:240px;
+  text-align:center;
+
+}
+
+.submit:hover{
+  color: cornflowerblue;
+
+}
+
+.submit:active{
+  background-color: #888888;
+
+  color: white;
+  transition: 0.1s
+
+}
+
+.back{
+  height:32px;
+  line-height:0px;
+  font-size:14px;
+  background: burlywood;
+  width:100px;
+  margin-left: 10px;
+}
+
+.back:hover{
+  color: cornflowerblue;
+
+}
+
+.back:active{
+  background-color: #888888;
+
+  color: white;
+  transition: 0.1s
+
 }
 
 /*button {

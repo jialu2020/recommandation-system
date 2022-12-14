@@ -3,8 +3,8 @@
 import './AufgabeStyle.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import { BaseTable, features, useTablePipeline } from "ali-react-table";
-import { useNavigate } from "react-router-dom";
+import { BaseTable } from "ali-react-table";
+//import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
 
@@ -14,7 +14,7 @@ function Aufgabe() {
 
     const [dataSource, setdataSource] = useState([]);
 
-const [questions, setquestions] = useState([]);
+//const [questions, setquestions] = useState([]);
 
   const columns: ArtColumn[] = [
     { code: 'antwort', name: 'Deine Antwort', width: 10 },
@@ -42,7 +42,7 @@ const [questions, setquestions] = useState([]);
 
 	const [message, setMessage] = useState('');
 
-  const [updated, setUpdated] = useState(message);
+ // const [updated, setUpdated] = useState(message);
 
   const handleChange = (event) => {
     setMessage(event.target.value);
@@ -79,13 +79,13 @@ useEffect(()=>{
 
 
   const NextClick = () => {
-    if (message == getMessage.data.Loesung[currentQuestion]) {
+    if (message === getMessage.data.Loesung[currentQuestion]) {
 			setScore(score + 1);
 		}
 
     setdataSource([
     ...dataSource,
-    { antwort: message, loesung: getMessage.data.Loesung[currentQuestion], bewertung: message == getMessage.data.Loesung[currentQuestion]?'richtig':'falsch'}
+    { antwort: message, loesung: getMessage.data.Loesung[currentQuestion], bewertung: message === getMessage.data.Loesung[currentQuestion]?'richtig':'falsch'}
     ])
 
 		const nextQuestion = currentQuestion + 1;
@@ -131,11 +131,11 @@ useEffect(()=>{
         </div>
                 )
        :(<h3>No Response</h3>)}
-        <div>
+        <div className='score-table'>
           <BaseTable dataSource={dataSource} columns={columns} />
         </div>
 		    <div>
-					<button  onClick={WeiterClick}>Weiter</button>
+					<button type= "submit"  onClick={WeiterClick}>Weiter</button>
         </div>
 	    </div>
 			) : (
@@ -162,7 +162,7 @@ useEffect(()=>{
 
 
 
-      <button disabled={!message} onClick={NextClick}>Next</button>
+      <button type= "submit" disabled={!message} onClick={NextClick}>Next</button>
 
     </div>
 
