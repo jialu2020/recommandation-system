@@ -1,10 +1,11 @@
 
 //import logo from './logo.svg';
-//import './AufgabeStyle.css';
+import './AufgabeStyle.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { BaseTable, features, useTablePipeline } from "ali-react-table";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar";
 
 
 function Aufgabe() {
@@ -118,36 +119,27 @@ useEffect(()=>{
 //  </div>
 //      </header>
 //    </div>
-
+<div>
+ <Navbar/>
     <div className='Aufgabe'>
 
 			{showScore? (
-
 			<div className = 'score-section'>
-
 				{getMessage.status === 200 ?(
-
 				<div className='score-text'>
 					You scored {score} out of {getMessage.data.Aufgabestellung.length}
         </div>
                 )
        :(<h3>No Response</h3>)}
-
-
         <div>
           <BaseTable dataSource={dataSource} columns={columns} />
         </div>
-
 		    <div>
-					<button type="submit" onClick={WeiterClick}>Weiter</button>
+					<button  onClick={WeiterClick}>Weiter</button>
         </div>
-
 	    </div>
-
 			) : (
-
 			<div>
-
 			{getMessage.status === 200 ?(
 					<div className='question-section' >
 						<div className='question-count'>
@@ -155,11 +147,8 @@ useEffect(()=>{
 						</div>
 						<div className='question-text'>{getMessage.data.Aufgabestellung[currentQuestion]}</div>
 					</div>
-
       )
-
 		:(<h3>No Response</h3>)}
-
 		<div>
       <input
         type="text"
@@ -173,12 +162,13 @@ useEffect(()=>{
 
 
 
-      <button type="submit" disabled={!message} onClick={NextClick}>Next</button>
+      <button disabled={!message} onClick={NextClick}>Next</button>
 
     </div>
 
 			)}
 
+		</div>
 		</div>
   );
 }
