@@ -4,8 +4,8 @@ from flask_restful import Api, Resource, reqparse
 class HelloApiHandler(Resource):
   def get(self):
     return {
-      'resultStatus': 'SUCCESS',
-      "message": ["ZhaoyuWu", "JiaLu", "KunYang"]
+      'Aufgabestellung': ["1+1=","1*1=","1-1="],
+      "Loesung": ["2", "1", "0"]
     }
 
 

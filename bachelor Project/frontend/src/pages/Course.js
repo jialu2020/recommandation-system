@@ -1,8 +1,18 @@
 import "./CourseStyle.css"
 import Navbar from "../Navbar";
-export default function Course(){
-  return(
+import { useNavigate } from "react-router-dom";
 
+
+
+export default function Course(){
+
+const navigate = useNavigate();
+
+ function handleClick(){
+    navigate("/aufgabe")
+  }
+
+  return(
 
     <div>
       <Navbar/>
@@ -16,7 +26,9 @@ export default function Course(){
           <option value="c#">C#</option>
           <option value="C++">C++</option>
         </select>
-        <button class = "submit" type="submit">submit</button>
+        <div>
+        <button class = "submit" onClick= {handleClick} type="submit" >submit</button>
+        </div>
       </form>
     </div>
 

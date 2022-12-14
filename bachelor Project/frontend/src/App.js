@@ -10,6 +10,7 @@ import Course from "./pages/Course";
 import Like from "./pages/Like";
 import {Login} from "./pages/Login";
 import {Register} from "./pages/Register";
+import Aufgabe from "./pages/Aufgabe";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path= "/myprofile" element= {<Myprofile/>} />
             <Route  path="/" element={<Login />}  />
             <Route  path="/register" element={<Register />}  />
+            <Route  path="/aufgabe" element={<Aufgabe />}  />
           </Routes>
         </div>
       </div>
