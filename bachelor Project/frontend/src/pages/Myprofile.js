@@ -28,17 +28,18 @@ function Myprofile(){
   const changeToFalse = () =>{
     setEditMode(false)
   }
+
+
+
   return(
 
   <div>
     <Navbar/>
-
-
      {editMode ? (
        <div>
          <EditProfile changeToFalse={changeToFalse}/>
        </div>
-       ): (
+       ):(
        // falls editMode=true shows regular things(page), click button back, quit Edit mode
         <div>
           <ul id="userinfo">
@@ -48,17 +49,11 @@ function Myprofile(){
              <li id="listelement">My courses :</li>
           </ul>
               <button className = "submit" onClick={()=>setEditMode(true)}>Edit</button>
-
       </div> )}
-
-
-
   </div>
 
 
 )
-
-
 
 
 }
