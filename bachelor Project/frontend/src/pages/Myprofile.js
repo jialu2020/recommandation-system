@@ -25,7 +25,9 @@ function Myprofile(){
   //The usage of useState is to pass a parameter as the initial value of the state,
   // and when the function is executed it will return two values,
   // a property of the current state and a method to modify the state.
-  const changeToFalse = () =>{
+
+
+  function changeToFalse(){
     setEditMode(false)
   }
 
@@ -37,7 +39,7 @@ function Myprofile(){
     <Navbar/>
      {editMode ? (
        <div>
-         <EditProfile changeToFalse={changeToFalse}/>
+         <EditProfile changeToFalse  = {changeToFalse} />
        </div>
        ):(
        // falls editMode=true shows regular things(page), click button back, quit Edit mode

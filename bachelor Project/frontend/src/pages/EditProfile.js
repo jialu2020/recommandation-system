@@ -1,18 +1,18 @@
 import React from "react";
-function changeToFalse(){
+export default ({changeToFalse})=>{
 
   return(
 
     <div>
-       <input class = "search" placeholder = "firstname.." />
-       <input class = "search"   placeholder = "lastname.." />
-       <input class = "search" placeholder = "email.." />
-       <input class = "search" placeholder = "passwort.." />
-       <button class = "submit">submit</button>
-       <button class = "back" onClick={() => changeToFalse()}>back</button>
+       <input className = "search" placeholder = "firstname.." />
+       <input className = "search"   placeholder = "lastname.." />
+       <input className = "search" placeholder = "email.." />
+       <input className = "search" placeholder = "passwort.." />
+       <button className = "submit">submit</button>
+       <button className= "back" onClick={()=>changeToFalse()}>back</button>
     </div>
 
   )
 
 }
-export default changeToFalse
+
