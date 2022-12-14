@@ -46,4 +46,24 @@
 
 }
 
+.back{
+  height:32px;
+  line-height:0px;
+  font-size:14px;
+  background: burlywood;
+  width:100px;
+  margin-left: 10px;
+}
 
+.back:hover{
+  color: cornflowerblue;
+
+}
+
+.back:active{
+  background-color: #888888;
+
+  color: white;
+  transition: 0.1s
+
+}
