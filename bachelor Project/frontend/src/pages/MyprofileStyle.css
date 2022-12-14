@@ -9,6 +9,9 @@
 }
 
 #listelement{
-  padding: 20px;
+  line-height: 2;
+  text-align: left;
+  padding-left: 2%;
+  margin-left: 2%;
 
 }

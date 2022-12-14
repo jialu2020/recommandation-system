@@ -38,7 +38,6 @@ function App() {
             <Route path= "/search" element= {<Search/>} />
             <Route path= "/myprofile" element= {<Myprofile/>} />
           </Routes>
-
         </div>
       </div>
 

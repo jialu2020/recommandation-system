@@ -6,6 +6,8 @@ export default function Homepage(){
          This webseit is a E-learning system for students to improve their learning efficiency
          and to ease the teaching burden of parents and teachers.
        </p>
+
+
      </div>
 
 
