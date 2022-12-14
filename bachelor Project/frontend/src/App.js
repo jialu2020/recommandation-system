@@ -22,7 +22,7 @@ function App() {
   }
     return (
       <div className="App">
-        {currentState === 'unlogged' ? <Login onStateSwitch={toggleState} /> : <Register onStateSwitch={toggleState} />}
+        
         {currentForm === 'login' ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />}
         
         

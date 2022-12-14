@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Register = (props) => {
 
@@ -14,6 +15,12 @@ export const Register = (props) => {
         console.log(name);
         console.log(password);
     }
+
+    const navigate = useNavigate();
+    
+    function handleClick(){
+        navigate("/")
+    }
     return(   
         <div className="auth-form-container">    
          <h2>Register</h2>   
@@ -25,9 +32,9 @@ export const Register = (props) => {
             <label htmlFor="password">password</label>
             <input value= {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name= "password"/>
             
-            <button type="sunmit">Register</button>
+            <button type="sunmit">Log In</button>
          </form>
-         <button className="link-btn" onClick= {() => props.onFormSwitch('login')}>Already have an account? Login here.</button>
+         <button className="link-btn" onClick= {handleClick} >Already have an account? Login here.</button>
         </div>
     ) 
 }
