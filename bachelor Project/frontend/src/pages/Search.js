@@ -1,11 +1,13 @@
 import "./SearchStyle.css"
+import Navbar from "../Navbar";
 
 export default function Search(){
   return(
     <div>
-      <h1 class = "title">
-        This is the search page
-      </h1>
+       <Navbar/>
+         <h1 class = "title">
+          This is the search page
+         </h1>
 
       <div>
         <form>

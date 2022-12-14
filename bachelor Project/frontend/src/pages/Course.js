@@ -1,9 +1,11 @@
 import "./CourseStyle.css"
+import Navbar from "../Navbar";
 export default function Course(){
   return(
 
 
     <div>
+      <Navbar/>
       <h1 class= "title">this page shows which course you are lerning</h1>
       <form>
         <label id = "mycourse">My Courses </label>

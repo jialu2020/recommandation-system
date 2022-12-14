@@ -1,5 +1,16 @@
+import Navbar from "../Navbar";
+
 export default function Like(){
-  return<h1 class = "title">This page is for saved questions</h1>
+
+  return (
+    <div>
+      <Navbar/>
+      <h1 className="title">This page is for saved questions</h1>
+    </div>
+
+
+
+    )
 
 }
 

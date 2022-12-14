@@ -1,6 +1,7 @@
 import "./MyprofileStyle.css"
 import EditProfile from "./EditProfile";
 import {useState} from "react";
+import Navbar from "../Navbar";
 function Myprofile(){
 
   class User {
@@ -30,6 +31,7 @@ function Myprofile(){
   return(
 
   <div>
+    <Navbar/>
 
 
      {editMode ? (
