@@ -1,7 +1,5 @@
 
 import './App.css';
-import { Login } from "./Login";
-import { Register } from "./Register";
 import React, {Component, useEffect, useState} from 'react';
 import {Route,Routes} from "react-router-dom"
 import Homepage from "./pages/Homepage";
@@ -10,6 +8,8 @@ import Myprofile from "./pages/Myprofile";
 import Search from "./pages/Search";
 import Course from "./pages/Course";
 import Like from "./pages/Like";
+import {Login} from "./pages/Login";
+import {Register} from "./pages/Register";
 
 
 function App() {
@@ -30,13 +30,16 @@ function App() {
       <div className="App">
 
         <div className="container">
-          <Navbar/>
+
           <Routes>
+
             <Route path= "/homepage" element= {<Homepage/>} />
             <Route path= "/course" element= {<Course/>} />
             <Route path= "/like" element= {<Like/>} />
             <Route path= "/search" element= {<Search/>} />
             <Route path= "/myprofile" element= {<Myprofile/>} />
+            <Route  path="/" element={<Login />}  />
+            <Route  path="/register" element={<Register />}  />
           </Routes>
 
         </div>
