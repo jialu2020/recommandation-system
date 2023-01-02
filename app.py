@@ -55,7 +55,13 @@ class UserSchema(ma.Schema):
 user_schema = UserSchema()
 user_schema = UserSchema(many=True)
 
+class AufgabeSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "aufgabenstellung", "musterloesung")
 
+
+aufgabe_schema = AufgabeSchema()
+aufgabe_schema = AufgabeSchema(many=True)
 
 
 @app.route("/get", methods=["GET"])
@@ -95,6 +101,12 @@ def update_user_with_id(id):
     db.session.commit()
 
     return UserSchema().jsonify(user)
+
+@app.route("/getaufgabe", methods=["GET"])
+def get_aufgabe():
+    all_aufgabe = Exercises.query.all()
+    results = aufgabe_schema.dump(all_aufgabe)
+    return jsonify(results)
 
 
 if __name__ == '__main__':
