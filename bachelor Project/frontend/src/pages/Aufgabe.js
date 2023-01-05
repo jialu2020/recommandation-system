@@ -28,6 +28,10 @@ function Aufgabe() {
 
 	const [done, setDone] = useState(0);
 
+	const [kategorie, setkategorie] = useState('');
+
+	const [schwerigkeit, setschwerigkeit] = useState('');
+
 	const [message, setMessage] = useState('');
 
   const handleChange = (event) => {
@@ -41,6 +45,7 @@ useEffect(()=>{
     }).catch(error => {
       console.log(error)
     })
+
  }, [])
 
   const NextClick = () => {
@@ -95,6 +100,44 @@ useEffect(()=>{
   };
 
   const WeiterClick = () => {
+
+//axios.post('/add', {
+//    username: 'wzy2',
+//    password: '123456'
+//  })
+//  .then(function (response) {
+//    console.log(response);
+//  })
+//  .catch(function (error) {
+//    console.log(error);
+//  });
+
+const data = {username: 'wzy3', kategorie : getMessage.data[0].kategorie , score : score, done : 3, schwerigkeit : getMessage.data[0].schwerigkeit};
+
+//fetch('http://127.0.0.1:5000/add', {
+//  method: 'POST',
+//  headers: {
+//    'Content-Type': 'application/json',
+//  },
+//  body: JSON.stringify(data),
+//})
+//  .then((response) => response.json())
+//  .then((data) => {
+//    console.log('Success:', data);
+//  })
+//  .catch((error) => {
+//    console.error('Error:', error);
+//  });
+const username = data.username
+const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+    fetch('http://127.0.0.1:5000/updateleistung/' + username, requestOptions)
+        .then(response => response.json())
+        .then(data);
+
   window.location.reload(false);
   }
 
