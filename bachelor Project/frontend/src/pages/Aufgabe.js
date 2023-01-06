@@ -1,4 +1,3 @@
-
 //import logo from './logo.svg';
 import './AufgabeStyle.css';
 import React, { useEffect, useState } from 'react';
@@ -7,30 +6,17 @@ import { BaseTable } from "ali-react-table";
 //import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
-
 function Aufgabe() {
 
-
-
-    const [dataSource, setdataSource] = useState([]);
-
-//const [questions, setquestions] = useState([]);
-
   const columns: ArtColumn[] = [
-    { code: 'antwort', name: 'Deine Antwort', width: 10 },
-    { code: 'loesung', name: 'Lösung', width: 10, align: 'right' },
+    { code: 'num', name: 'Number', width: 10},
+    { code: 'aufgabe', name: 'Aufgabe', width: 20, align: 'right'},
+    { code: 'antwort', name: 'Deine Antwort', width: 10, align: 'right' },
+    { code: 'musterloesung', name: 'Lösung', width: 10, align: 'right' },
     { code: 'bewertung', name: 'Bewertung', width: 10, align: 'right' }
   ]
 
-//  const questions = [
-//		{questionText: '1+1=?',
-//			answerOptions: '2'},
-//		{questionText: '1*1=?',
-//			answerOptions:'1'},
-//		{questionText: '1-1=?',
-//			answerOptions: '0'},
-//		{questionText: 'How many Harry Potter books are there?',	answerOptions: '7'},
-//	];
+  const [dataSource, setdataSource] = useState([]);
 
   const [getMessage, setGetMessage] = useState({})
 
@@ -40,85 +26,124 @@ function Aufgabe() {
 
 	const [score, setScore] = useState(0);
 
-	const [message, setMessage] = useState('');
+	const [done, setDone] = useState(0);
 
- // const [updated, setUpdated] = useState(message);
+	const [kategorie, setkategorie] = useState('');
+
+	const [schwerigkeit, setschwerigkeit] = useState('');
+
+	const [message, setMessage] = useState('');
 
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
 
-
 useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
+    axios.get('http://localhost:5000/getaufgabe').then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {
       console.log(error)
     })
 
-
-// const Aufgabesmenge = 0;
-// for(;Aufgabesmenge < getMessage.data.Aufgabestellung.length;Aufgabesmenge++)
-// //getMessage.data.Aufgabestellung.length)
-//
-//setquestions(
-//[
-//...questions,
-//{questionText: getMessage.data.Aufgabestellung[Aufgabesmenge], answerOptions: getMessage.data.Loesung[Aufgabesmenge]}
-//]
-//)
-
-//questions = [
-//{Aufgabestellung: getMessage.data.Aufgabestellung[0], Loesung: getMessage.data.Loesung[0]},
-//{Aufgabestellung: getMessage.data.Aufgabestellung[1], Loesung: getMessage.data.Loesung[1]},
-//{Aufgabestellung: getMessage.data.Aufgabestellung[2], Loesung: getMessage.data.Loesung[2]}
-//];
-
  }, [])
 
-
   const NextClick = () => {
-    if (message === getMessage.data.Loesung[currentQuestion]) {
-			setScore(score + 1);
-		}
+
+    setDone(done + 1);
 
     setdataSource([
     ...dataSource,
-    { antwort: message, loesung: getMessage.data.Loesung[currentQuestion], bewertung: message === getMessage.data.Loesung[currentQuestion]?'richtig':'falsch'}
+    {num: done+1,
+    aufgabe: getMessage.data[currentQuestion].aufgabenstellung,
+    antwort: message,
+    musterloesung: getMessage.data[currentQuestion].musterloesung,
+    bewertung: message === getMessage.data[currentQuestion].musterloesung?'richtig':'falsch'}
     ])
 
+    //setScore(dataSource.filter(item => item.antwort === item.musterloesung).length);
+
 		const nextQuestion = currentQuestion + 1;
-		if (nextQuestion < getMessage.data.Loesung.length) {
+
+		if (nextQuestion < getMessage.data.length) {
 			setCurrentQuestion(nextQuestion);
+
 			setMessage('');
+
 		} else {
-			setShowScore(true);
+
+		setShowScore(true);
+
 		setMessage('');
 		}
   };
 
+  const BackClick = () => {
+
+    if(dataSource !== null){
+
+    setDone(done-1);
+
+    setdataSource(current =>
+      current.filter(dataSource => {
+        return dataSource.aufgabe !== getMessage.data[currentQuestion - 1].aufgabenstellung;
+      }),
+    );
+
+    const nextQuestion = currentQuestion - 1;
+
+    setCurrentQuestion(nextQuestion);
+
+		setMessage('');
+
+		}
+  };
+
   const WeiterClick = () => {
+
+//axios.post('/add', {
+//    username: 'wzy2',
+//    password: '123456'
+//  })
+//  .then(function (response) {
+//    console.log(response);
+//  })
+//  .catch(function (error) {
+//    console.log(error);
+//  });
+
+const data = {username: 'wzy3', kategorie : getMessage.data[0].kategorie , score : score, done : 3, schwerigkeit : getMessage.data[0].schwerigkeit};
+
+//fetch('http://127.0.0.1:5000/add', {
+//  method: 'POST',
+//  headers: {
+//    'Content-Type': 'application/json',
+//  },
+//  body: JSON.stringify(data),
+//})
+//  .then((response) => response.json())
+//  .then((data) => {
+//    console.log('Success:', data);
+//  })
+//  .catch((error) => {
+//    console.error('Error:', error);
+//  });
+const username = data.username
+const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+    fetch('http://127.0.0.1:5000/updateleistung/' + username, requestOptions)
+        .then(response => response.json())
+        .then(data);
+
   window.location.reload(false);
   }
 
 
 
   return (
-//    <div className="App">
-//      <header className="App-header">
-//        <p>React + Flask Test</p>
-//
-//        <div>
-// {
-// getMessage.status === 200 ?
-//          <h3>{getMessage.data.Loesung[1]}</h3>
-//         :
-//         <h3>No Response</h3>
-//         }
-//  </div>
-//      </header>
-//    </div>
 <div>
  <Navbar/>
     <div className='Aufgabe'>
@@ -127,7 +152,7 @@ useEffect(()=>{
 			<div className = 'score-section'>
 				{getMessage.status === 200 ?(
 				<div className='score-text'>
-					You scored {score} out of {getMessage.data.Aufgabestellung.length}
+					You scored {dataSource.filter(item => item.antwort === item.musterloesung).length} out of {getMessage.data.length}
         </div>
                 )
        :(<h3>No Response</h3>)}
@@ -143,9 +168,9 @@ useEffect(()=>{
 			{getMessage.status === 200 ?(
 					<div className='question-section' >
 						<div className='question-count'>
-							<span>Question {currentQuestion + 1}</span>/{getMessage.data.Loesung.length}
+							<span>Question {currentQuestion + 1}</span>/{getMessage.data.length}
 						</div>
-						<div className='question-text'>{getMessage.data.Aufgabestellung[currentQuestion]}</div>
+						<div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
 					</div>
       )
 		:(<h3>No Response</h3>)}
@@ -160,11 +185,10 @@ useEffect(()=>{
 </div>
       <h2>Message: {message}</h2>
 
-
-
       <button type= "submit" disabled={!message} onClick={NextClick}>Next</button>
-
-    </div>
+ {done!==0 &&
+ <button type= "submit"  disabled={done===0} onClick={BackClick}> Back</button>
+ }   </div>
 
 			)}
 
