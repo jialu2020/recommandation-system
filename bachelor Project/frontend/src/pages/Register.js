@@ -1,37 +1,52 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Register = (props) => {
+export const Register = () => {
 
-  const [email, setEmail] = useState('');
+  const API_URL = 'http://localhost:5000';
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  //const [password1, setPassword1] = useState('');
-  const [name, setName] = useState('');
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
-    //如果不申明阻止默认值 那么页面将会被重新加载 然后会失去state的值
-    e.preventDefault();
-    console.log(email);
-    console.log(name);
-    console.log(password);
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetch(`${API_URL}/api/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          alert('You have registered successfully!');
+        }
+      })
+      .catch(error => {
+        alert(error.toString());
+      });
+  };
 
   const navigate = useNavigate();
 
   function handleClick(){
     navigate("/")
   }
+
   return(
     <div className="auth-form-container">
       <h2>Register</h2>
-      <form className= "register-form" onSubmit={handleSubmit}>
+      <form className= "register-form" onSubmit={handleSubmit} >
         <label htmlFor="name">Full name</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} type= "name" name="name" id="name" placeholder="full Name"/>
-        <label htmlFor="email">email</label>
-        <input value= {email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name= "email"/>
+        <input type= "name" name="username" value={username} onChange={event => setUsername(event.target.value)} placeholder="Username"/>
         <label htmlFor="password">password</label>
-        <input value= {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name= "password"/>
-
+        <input type="password" name= "password" value= {password} onChange={event => setPassword(event.target.value)}  placeholder="*********"/>
         <button type="submit">Register</button>
       </form>
       <button className="link-btn" onClick= {handleClick} >Already have an account? Login here.</button>

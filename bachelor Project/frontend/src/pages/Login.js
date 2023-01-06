@@ -6,26 +6,51 @@ import { useNavigate } from "react-router-dom";
 //props形参 父组件发送一些函数或值给他们的children,
 export const Login = () => {
   //创建状态 email是状态的名字 然后setEmailHook是一个函数来修改状态 最开始都是null所以使用''
-  const [email, setEmail] = useState('');
+ // const API_URL = 'http://localhost:5000';
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  //用户提交表单  handleSubmit函数负责
-  const handleSubmit = (e) => {
-    //如果不申明阻止默认值 那么页面将会被重新加载 然后会失去state的值
-    e.preventDefault();
-    console.log(email);
-    console.log(password);
-  }
-
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  //用户提交表单  handleSubmit函数负责
+  function handleSubmit(event) {
+    event.preventDefault();
 
-  function handleClick(){
-    navigate("/register")
+    // Send a request to the backend to check the login credentials
+    fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Login successful, store the token in local storage
+          localStorage.setItem('token', data.token);
+          // Redirect the user to the home page
+          alert('You have logged in successfully!');
+          navigate('/homepage');
+        } else {
+          // Login failed, display an error message
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        alert('An error occurred while logging in');
+      });
   }
 
-  function handleClick1(){
-    navigate("/homepage")
-  }
+
+
+
+  const handleRedirect = () => {
+    navigate("/register");
+  };
 
   return(
 
@@ -33,13 +58,13 @@ export const Login = () => {
       <h2>Login</h2>
 
       <form className= "login-form" onSubmit={handleSubmit}>
-        <label htmlFor="email">email</label>
-        <input value= {email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@gmail.com" id="email" name= "email"/>
+        <label htmlFor="username">username</label>
+        <input value= {username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="your username" id="username" name= "username"/>
         <label htmlFor="password">password</label>
         <input value= {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name= "password"/>
-        <button type="submit" onClick= {handleClick1} >Log In</button>
+        <button type="submit">Log In</button>
       </form>
-      <button className="link-btn" onClick= {handleClick} >Don't have an account? Register here.</button>
+      <button className="link-btn" onClick= {handleRedirect} >Don't have an account? Register here.</button>
     </div>
   )
 }
