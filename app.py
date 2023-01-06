@@ -167,5 +167,40 @@ def update_leistung_with_username(username):
 
     return LeistungSchema().jsonify(leistung)
 
+SECRET_KEY = 'i_love_u'
+@app.route('/api/login', methods=['POST'])
+def login():
+  data = request.get_json()
+  username = data['username']
+  password = data['password']
+
+  user = Users.query.filter_by(username=username, password=password).first()
+  # return UserSchema().jsonify(user)
+  # Login successful, generate a JWT token
+  if user is not None:
+      # Login successful, generate a JWT token
+      token = jwt.encode({'user_name': user.username}, SECRET_KEY, algorithm='HS256')
+      response = jsonify({'success': True, 'token': token})
+      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+      return response
+  else:
+      # Login failed
+      response = jsonify({'success': False, 'message': 'Invalid login credentials'})
+      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+      return response
+
+  @app.route('/api/register', methods=['POST'])
+  def register():
+      data = request.get_json()
+      username = data['username']
+      password = data['password']
+      user = Users.query.filter_by(username=username).first()
+      if user:
+          return jsonify({'error': 'User already exists'})
+      new_user = Users(username=username, password=password)
+      db.session.add(new_user)
+      db.session.commit()
+      return jsonify({'message': 'User created successfully'})
+
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
