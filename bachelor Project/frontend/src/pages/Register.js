@@ -3,22 +3,21 @@ import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
 
-  const API_URL = 'http://localhost:5000';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    fetch(`${API_URL}/api/register`, {
+    fetch('http://localhost:5000/api/register', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username,
-        password: password,
-      })
+        username,
+        password,
+      }),
     })
       .then(response => response.json())
       .then(data => {

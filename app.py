@@ -1,5 +1,4 @@
 import os
-
 import jwt
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
@@ -7,7 +6,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
-from  sqlalchemy.sql.expression import func
+from sqlalchemy.sql.expression import func
 import random
 import numpy as np
 import psycopg2
@@ -191,18 +190,22 @@ def login():
       response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
       return response
 
-  @app.route('/api/register', methods=['POST'])
-  def register():
-      data = request.get_json()
-      username = data['username']
-      password = data['password']
-      user = Users.query.filter_by(username=username).first()
-      if user:
-          return jsonify({'error': 'User already exists'})
-      new_user = Users(username=username, password=password)
-      db.session.add(new_user)
-      db.session.commit()
-      return jsonify({'message': 'User created successfully'})
+@app.route('/api/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    user = Users.query.filter_by(username=username).first()
+    if user:
+        response = jsonify({'error': 'User already exists'})
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        return response
+    new_user = Users(username=username, password=password)
+    db.session.add(new_user)
+    db.session.commit()
+    response = jsonify({'message': 'User created successfully'})
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    return response
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
