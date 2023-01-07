@@ -16,10 +16,10 @@ const navigate = useNavigate();
 
     <div>
       <Navbar/>
-      <h1 class= "title">this page shows which course you are lerning</h1>
+      <h1 className= "title">this page shows which course you are lerning</h1>
       <form>
         <label id = "mycourse">My Courses </label>
-        <select class = "select" name="languages" id="lang">
+        <select className = "select" name="languages" id="lang">
           <option value="select">Select a Course</option>
           <option value="java">Java</option>
           <option value="python">Python</option>
@@ -27,7 +27,7 @@ const navigate = useNavigate();
           <option value="C++">C++</option>
         </select>
         <div>
-        <button class = "submit" onClick= {handleClick} type="submit" >submit</button>
+        <button className = "submit" onClick= {handleClick} type="submit" >submit</button>
         </div>
       </form>
     </div>

@@ -5,7 +5,7 @@ export default function Search(){
   return(
     <div>
        <Navbar/>
-         <h1 class = "title">
+         <h1 className = "title">
           This is the search page
          </h1>
 

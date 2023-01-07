@@ -1,6 +1,7 @@
 import os
+import hashlib
 import jwt
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -53,11 +54,12 @@ class Exercises(db.Model):
     def __repr__(self):
         return '<username{}'.format(self.username)
 
+
 class Leistung(db.Model):
     __tablename__ = "leistung"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String())
-    kategorie = db.Column(db.String(),unique=True)
+    kategorie = db.Column(db.String(), unique=True)
     score = db.Column(db.Integer)
     done = db.Column(db.Integer)
     schwerigkeit = db.Column(db.Integer)
@@ -69,6 +71,7 @@ class Leistung(db.Model):
         self.done = done
         self.schwerigkeit = schwerigkeit
 
+
 class UserSchema(ma.Schema):
     class Meta:
         fields = ("id", "username", "password")
@@ -77,16 +80,20 @@ class UserSchema(ma.Schema):
 user_schema = UserSchema()
 user_schema = UserSchema(many=True)
 
+
 class AufgabeSchema(ma.Schema):
     class Meta:
         fields = ("id", "aufgabenstellung", "musterloesung", "kategorie", "schwerigkeit")
 
+
 aufgabe_schema = AufgabeSchema()
 aufgabe_schema = AufgabeSchema(many=True)
+
 
 class LeistungSchema(ma.Schema):
     class Meta:
         fields = ("id", "username", "kategorie", "score", "done", "schwerigkeit")
+
 
 leistung_schema = LeistungSchema()
 leistung_schema = LeistungSchema(many=True)
@@ -99,9 +106,9 @@ def get_users():
     return jsonify(results)
 
 
-@app.route("/get/<id>", methods=["GET"])
-def get_user_with_id(id):
-    user = Users.query.get(id)
+@app.route("/get/<username>", methods=["GET"])
+def get_user_with_id(username):
+    user = Users.query.get(username)
     return UserSchema().jsonify(user)
 
 
@@ -116,9 +123,9 @@ def add_users():
     return UserSchema().jsonify(users)
 
 
-@app.route("/update/<id>", methods=["PUT"])
-def update_user_with_id(id):
-    user = Users.query.get(id)
+@app.route("/update/<username>", methods=["PUT"])
+def update_user_with_name(username):
+    user = Users.query.filter(Users.username == username)
 
     username = request.json["username"]
     password = request.json["password"]
@@ -130,15 +137,17 @@ def update_user_with_id(id):
 
     return UserSchema().jsonify(user)
 
+
 @app.route("/getaufgabe", methods=["GET"])
 def get_aufgabe():
-#    all_aufgabe = Exercises.query.all()
-#    for x in range(3):
+    #    all_aufgabe = Exercises.query.all()
+    #    for x in range(3):
     all_aufgabe = Exercises.query.order_by(func.random()).limit(3).all()
-#    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
-#        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
+    #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
+    #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
     results = aufgabe_schema.dump(all_aufgabe)
     return jsonify(results)
+
 
 @app.route("/leistung", methods=['POST'])
 def update_leistung():
@@ -151,6 +160,7 @@ def update_leistung():
     db.session.add(leistung)
     db.session.commit()
     return LeistungSchema().jsonify(leistung)
+
 
 @app.route("/updateleistung/<username>", methods=["PUT"])
 def update_leistung_with_username(username):
@@ -168,27 +178,37 @@ def update_leistung_with_username(username):
 
     return LeistungSchema().jsonify(leistung)
 
+
 SECRET_KEY = 'i_love_u'
+app.config['SECRET_KEY'] = 'your-secret-key'
+
+
 @app.route('/api/login', methods=['POST'])
 def login():
-  data = request.get_json()
-  username = data['username']
-  password = data['password']
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
 
-  user = Users.query.filter_by(username=username, password=password).first()
-  # return UserSchema().jsonify(user)
-  # Login successful, generate a JWT token
-  if user is not None:
-      # Login successful, generate a JWT token
-      token = jwt.encode({'user_name': user.username}, SECRET_KEY, algorithm='HS256')
-      response = jsonify({'success': True, 'token': token})
-      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-      return response
-  else:
-      # Login failed
-      response = jsonify({'success': False, 'message': 'Invalid login credentials'})
-      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-      return response
+    user = Users.query.filter_by(username=username).first()
+    # return UserSchema().jsonify(user)
+    # Login successful, generate a JWT token
+    if not user:   # first to check if there is  such a username in db
+        response = jsonify({'success': False, 'message': 'User not found'})
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        return response
+
+    hashed_password = user.password   # password check
+    if check_password(password, hashed_password):
+        token = jwt.encode({'user_name': user.username}, SECRET_KEY, algorithm='HS256')
+        response = jsonify({'success': True, 'token': token, 'username': username, 'password': password})
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        return response
+    else:
+        # Login failed
+        response = jsonify({'success': False, 'message': 'Incorrect password'})
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        return response
+
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -200,12 +220,32 @@ def register():
         response = jsonify({'error': 'User already exists'})
         response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
         return response
-    new_user = Users(username=username, password=password)
+    new_user = Users(username=username, password=hash_password(password))
     db.session.add(new_user)
     db.session.commit()
     response = jsonify({'message': 'User created successfully'})
     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     return response
+
+
+def hash_password(password: str) -> str:
+    salt = os.urandom(12)  # generate a random salt
+    pwd_hash = hashlib.pbkdf2_hmac(
+        "sha256", password.encode(), salt, 100000
+    )
+    return f"{salt.hex()}:{pwd_hash.hex()}"
+
+
+def check_password(password: str, hashed_password: str) -> bool:
+    """Check a password against a hashed password."""
+    salt, pwd_hash = hashed_password.split(":")  # split the salt and hash
+    salt = bytes.fromhex(salt)  # convert the salt to bytes
+    pwd_hash = bytes.fromhex(pwd_hash)  # convert the hash to bytes
+    # hash the password using the same salt and algorithm as before
+    new_hash = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
+    # return True if the new hash matches the original hash, False otherwise
+    return pwd_hash == new_hash
+
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)

@@ -1,7 +1,17 @@
 import React from "react";
 export default ({changeToFalse})=>{
+  //const [editProfile, setEditProfile] = useState();
+
+  async function getSessionData() {
+  const response = await fetch('http://127.0.0.1:5000/api/session');
+  const data = await response.json();
+  return data; }
+
+
 
   return(
+
+
 
     <div>
        <input className = "search" placeholder = "firstname.." />

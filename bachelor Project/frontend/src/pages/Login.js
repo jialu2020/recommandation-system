@@ -31,9 +31,14 @@ export const Login = () => {
       .then((data) => {
         if (data.success) {
           // Login successful, store the token in local storage
-          localStorage.setItem('token', data.token);
+          localStorage.setItem('token', data.token );
+          localStorage.setItem('username', data.username );
+          localStorage.setItem('password', data.password );
+
+
           // Redirect the user to the home page
           alert('You have logged in successfully!');
+
           navigate('/homepage');
         } else {
           // Login failed, display an error message
