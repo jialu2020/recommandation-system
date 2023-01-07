@@ -107,8 +107,8 @@ def get_users():
 
 
 @app.route("/get/<username>", methods=["GET"])
-def get_user_with_id(username):
-    user = Users.query.get(username)
+def get_user_with_name(username):
+    user = Users.query.filter(Users.username == username)
     return UserSchema().jsonify(user)
 
 
@@ -124,18 +124,21 @@ def add_users():
 
 
 @app.route("/update/<username>", methods=["PUT"])
-def update_user_with_name(username):
-    user = Users.query.filter(Users.username == username)
-
-    username = request.json["username"]
+def update_pwd_with_name(username):
+    user = Users.query.filter(Users.username == username).first()
     password = request.json["password"]
+    # Add a check to make sure the password is not empty
+    if not password:
+        return jsonify({"error": "Password cannot be empty"}), 400
 
+    encodedpwd = hash_password(password)
     user.username = username
-    user.password = password
+    user.password = encodedpwd
 
     db.session.commit()
-
-    return UserSchema().jsonify(user)
+    response = jsonify({'username': username, 'password': password})
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    return response
 
 
 @app.route("/getaufgabe", methods=["GET"])
@@ -192,12 +195,12 @@ def login():
     user = Users.query.filter_by(username=username).first()
     # return UserSchema().jsonify(user)
     # Login successful, generate a JWT token
-    if not user:   # first to check if there is  such a username in db
+    if not user:  # first to check if there is  such a username in db
         response = jsonify({'success': False, 'message': 'User not found'})
         response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
         return response
 
-    hashed_password = user.password   # password check
+    hashed_password = user.password  # password check
     if check_password(password, hashed_password):
         token = jwt.encode({'user_name': user.username}, SECRET_KEY, algorithm='HS256')
         response = jsonify({'success': True, 'token': token, 'username': username, 'password': password})

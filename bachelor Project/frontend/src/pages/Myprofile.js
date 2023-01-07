@@ -43,7 +43,7 @@ function Myprofile(){
              <li id="listelement">password: {localStorage.getItem('password')}</li>
 
           </ul>
-              <button type = "submit" onClick={()=>setEditMode(true)}>Edit</button>
+              <button type = "submit" onClick={()=>setEditMode(true)}>Edit password</button>
          </form>
       </div> )}
   </div>
