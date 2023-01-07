@@ -59,7 +59,7 @@ class Leistung(db.Model):
     __tablename__ = "leistung"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String())
-    kategorie = db.Column(db.String(), unique=True)
+    kategorie = db.Column(db.String())
     score = db.Column(db.Integer)
     done = db.Column(db.Integer)
     schwerigkeit = db.Column(db.Integer)
@@ -152,22 +152,39 @@ def get_aufgabe():
     return jsonify(results)
 
 
+@app.route("/getleistung/<username>", methods=["GET"])
+def get_leistung(username):
+
+    all_leistung = Leistung.filter(Leistung.username == username).all()
+
+    results = aufgabe_schema.dump(all_leistung)
+    return jsonify(results)
+
+@app.route("/getkategories", methods=["GET"])
+def get_kategories():
+
+    all_kategories = Exercises.query.distinct(Exercises.kategorie).all()
+
+    results = aufgabe_schema.dump(all_kategories)
+    return jsonify(results)
+
 @app.route("/leistung", methods=['POST'])
-def update_leistung():
+def initial_leistung():
     username = request.json["username"]
     kategorie = request.json["kategorie"]
-    score = request.json["score"]
-    done = request.json["done"]
-    schwerigkeit = request.json["schwerigkeit"]
-    leistung = Leistung(username, kategorie, score, done, schwerigkeit)
+    leistung = Leistung(username, kategorie, 0, 0, 0)
+
+    app.logger.info(Leistung.id)
+
     db.session.add(leistung)
     db.session.commit()
     return LeistungSchema().jsonify(leistung)
 
 
+
 @app.route("/updateleistung/<username>", methods=["PUT"])
 def update_leistung_with_username(username):
-    leistung = Leistung.query.filter(Leistung.username == username).filter(Leistung.kategorie == 'Math').first()
+    leistung = Leistung.query.filter(Leistung.username == username).filter(Leistung.kategorie == request.json["kategorie"]).first()
     # request.json["kategorie"]
     score = request.json["score"]
     done = request.json["done"]
@@ -177,6 +194,7 @@ def update_leistung_with_username(username):
     leistung.done = done
     leistung.schwerigkeit = schwerigkeit
 
+    # db.session.bulk_save_objects(leistung)
     db.session.commit()
 
     return LeistungSchema().jsonify(leistung)
