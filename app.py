@@ -59,18 +59,19 @@ class Leistung(db.Model):
     __tablename__ = "leistung"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String())
+    aufgabestellung = db.Column(db.String())
+    score = db.Column(db.Boolean)
     kategorie = db.Column(db.String())
-    score = db.Column(db.Integer)
-    done = db.Column(db.Integer)
     schwerigkeit = db.Column(db.Integer)
+    zeitpunkt = db.Column(db.String())
 
-    def __init__(self, username, kategorie, score, done, schwerigkeit):
+    def __init__(self, username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt):
         self.username = username
-        self.kategorie = kategorie
+        self.aufgabestellung = aufgabestellung
         self.score = score
-        self.done = done
+        self.kategorie = kategorie
         self.schwerigkeit = schwerigkeit
-
+        self.zeitpunkt = zeitpunkt
 
 class UserSchema(ma.Schema):
     class Meta:
@@ -92,7 +93,7 @@ aufgabe_schema = AufgabeSchema(many=True)
 
 class LeistungSchema(ma.Schema):
     class Meta:
-        fields = ("id", "username", "kategorie", "score", "done", "schwerigkeit")
+        fields = ("id", "username", "aufgabestellung", "score", "kategorie", "schwerigkeit", "zeitpunkt")
 
 
 leistung_schema = LeistungSchema()
@@ -168,33 +169,39 @@ def get_kategories():
     results = aufgabe_schema.dump(all_kategories)
     return jsonify(results)
 
-@app.route("/leistung", methods=['POST'])
-def initial_leistung():
+# @app.route("/leistung", methods=['POST'])
+# def initial_leistung():
+#     username = request.json["username"]
+#     kategorie = request.json["kategorie"]
+#     leistung = Leistung(username, kategorie, 0, 0, 0)
+#
+#     app.logger.info(Leistung.id)
+#
+#     db.session.add(leistung)
+#     db.session.commit()
+#     return LeistungSchema().jsonify(leistung)
+
+
+
+@app.route("/addleistung", methods=["POST"])
+def add_leistung():
+    # leistung = Leistung.query.filter(Leistung.username == username).filter(Leistung.kategorie == request.json["kategorie"]).first()
+    # request.json["kategorie"]
+    # "id", "username", "aufgabestellung", "score", "kategorie", "schwerigkeit", "zeitpunkt"
+
     username = request.json["username"]
+    aufgabestellung = request.json["aufgabestellung"]
+    score = request.json["score"]
     kategorie = request.json["kategorie"]
-    leistung = Leistung(username, kategorie, 0, 0, 0)
+    schwerigkeit = request.json["schwerigkeit"]
+    zeitpunkt = request.json["zeitpunkt"]
+
+    leistung = Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt)
 
     app.logger.info(Leistung.id)
 
-    db.session.add(leistung)
-    db.session.commit()
-    return LeistungSchema().jsonify(leistung)
-
-
-
-@app.route("/updateleistung/<username>", methods=["PUT"])
-def update_leistung_with_username(username):
-    leistung = Leistung.query.filter(Leistung.username == username).filter(Leistung.kategorie == request.json["kategorie"]).first()
-    # request.json["kategorie"]
-    score = request.json["score"]
-    done = request.json["done"]
-    schwerigkeit = request.json["schwerigkeit"]
-
-    leistung.score = score
-    leistung.done = done
-    leistung.schwerigkeit = schwerigkeit
-
     # db.session.bulk_save_objects(leistung)
+    db.session.add(leistung)
     db.session.commit()
 
     return LeistungSchema().jsonify(leistung)
