@@ -141,11 +141,11 @@ def update_pwd_with_name(username):
     return response
 
 
-@app.route("/getaufgabe", methods=["GET"])
-def get_aufgabe():
+@app.route("/getaufgabe/<kategorie>", methods=["GET"])
+def get_aufgabe(kategorie):
     #    all_aufgabe = Exercises.query.all()
     #    for x in range(3):
-    all_aufgabe = Exercises.query.order_by(func.random()).limit(3).all()
+    all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
     #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
     #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
     results = aufgabe_schema.dump(all_aufgabe)

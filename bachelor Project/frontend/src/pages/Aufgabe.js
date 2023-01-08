@@ -28,7 +28,7 @@ function Aufgabe() {
 
 	const [done, setDone] = useState(0);
 
-	const [kategorie, setkategorie] = useState('');
+	const [kategorie, setkategorie] = useState(localStorage.getItem('kategorie'));
 
 	const [schwerigkeit, setschwerigkeit] = useState('');
 
@@ -38,8 +38,18 @@ function Aufgabe() {
     setMessage(event.target.value);
   };
 
+
+
 useEffect(()=>{
-    axios.get('http://localhost:5000/getaufgabe').then(response => {
+//setkategorie(localStorage.getItem('kategorie'))
+//
+//    fetch('http://127.0.0.1:5000/getaufgabe/' + kategorie)
+//        .then((response) => response.json())
+//        .then((data) => console.log(data));
+//    setkategorie(localStorage.getItem('kategorie'))
+
+
+    axios.get('http://localhost:5000/getaufgabe/' + kategorie).then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {

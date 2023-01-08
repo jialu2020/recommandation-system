@@ -11,6 +11,7 @@ export const Register = () => {
 
   function handleSubmit(event) {
 
+     event.preventDefault();
     //get kategories
      axios.get('http://localhost:5000/getkategories').then(response => {
       console.log("SUCCESS", response)
@@ -19,7 +20,7 @@ export const Register = () => {
       console.log(error)
     })
 
-
+    event.preventDefault();
     for(let i=0; i<KategorieSet.data.length; i++)
     {
     let init_leistung = {username: username, kategorie: KategorieSet.data[i].kategorie}
