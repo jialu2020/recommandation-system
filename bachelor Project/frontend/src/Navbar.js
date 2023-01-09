@@ -18,7 +18,7 @@ function Navbar(){
          <ul id ="navbar">
            <li><a href="/Homepage" title="Homepage">Home</a></li>
            <li><a href="/Course" title="meine Aufgaben">My Course</a></li>
-           <li><a href="/Search" title="Aufgabe suchen">Search</a></li>
+           <li><a href="/Search" title="Aufgabe suchen">Join course</a></li>
            <li><a href="/Like" title="gespeicherte Aufgaben">My like</a></li>
            <li><a href="/Myprofile" title="mein Konto">My Profile</a></li>
          </ul>

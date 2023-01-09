@@ -28,18 +28,30 @@ function Aufgabe() {
 
 	const [done, setDone] = useState(0);
 
-	const [kategorie, setkategorie] = useState('');
+	const [kategorie, setkategorie] = useState(localStorage.getItem('kategorie'));
 
 	const [schwerigkeit, setschwerigkeit] = useState('');
 
 	const [message, setMessage] = useState('');
 
+	const [DateTime, setDateTime] = useState('');
+
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
 
+
+
 useEffect(()=>{
-    axios.get('http://localhost:5000/getaufgabe').then(response => {
+//setkategorie(localStorage.getItem('kategorie'))
+//
+//    fetch('http://127.0.0.1:5000/getaufgabe/' + kategorie)
+//        .then((response) => response.json())
+//        .then((data) => console.log(data));
+//    setkategorie(localStorage.getItem('kategorie'))
+
+
+    axios.get('http://localhost:5000/getaufgabe/' + kategorie).then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {
@@ -71,6 +83,7 @@ useEffect(()=>{
 			setMessage('');
 
 		} else {
+    setDateTime(Date().toLocaleString())
 
 		setShowScore(true);
 
@@ -101,44 +114,30 @@ useEffect(()=>{
 
   const WeiterClick = () => {
 
-//axios.post('/add', {
-//    username: 'wzy2',
-//    password: '123456'
-//  })
-//  .then(function (response) {
-//    console.log(response);
-//  })
-//  .catch(function (error) {
-//    console.log(error);
-//  });
+//Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt)
 
-const data = {username: 'wzy3', kategorie : getMessage.data[0].kategorie , score : score, done : 3, schwerigkeit : getMessage.data[0].schwerigkeit};
+  for(let i=0; i<dataSource.length; i++){
 
-//fetch('http://127.0.0.1:5000/add', {
-//  method: 'POST',
-//  headers: {
-//    'Content-Type': 'application/json',
-//  },
-//  body: JSON.stringify(data),
-//})
-//  .then((response) => response.json())
-//  .then((data) => {
-//    console.log('Success:', data);
-//  })
-//  .catch((error) => {
-//    console.error('Error:', error);
-//  });
-const username = data.username
-const requestOptions = {
-        method: 'PUT',
+      let leistung = {username: localStorage.getItem('username'),
+              aufgabestellung: getMessage.data[i].aufgabenstellung,
+              score : dataSource[i].bewertung === 'richtig',
+              kategorie : localStorage.getItem('kategorie'),
+              schwerigkeit : getMessage.data[i].schwerigkeit,
+              zeitpunkt : DateTime};
+
+      const requestOptions = {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    };
-    fetch('http://127.0.0.1:5000/updateleistung/' + username, requestOptions)
+        body: JSON.stringify(leistung)
+      };
+      fetch('http://127.0.0.1:5000/addleistung', requestOptions)
         .then(response => response.json())
-        .then(data);
+        .then(leistung);
+  }
 
   window.location.reload(false);
+
+  setdataSource([]);
   }
 
 

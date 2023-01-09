@@ -42,6 +42,8 @@ function Myprofile(){
 
              <li id="listelement">password: {localStorage.getItem('password')}</li>
 
+             <li id="listelement">my subject: {null}</li>
+
           </ul>
               <button type = "submit" onClick={()=>setEditMode(true)}>Edit password</button>
          </form>
