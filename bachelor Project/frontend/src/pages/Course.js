@@ -9,7 +9,6 @@ export default function Course(){
 const navigate = useNavigate();
 const [Kategorie, setKategorie] = useState('')
 
-
 const handleChange = (event) => {
     setKategorie(event.target.value);
   };
