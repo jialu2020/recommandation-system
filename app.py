@@ -176,9 +176,11 @@ def get_aufgabe(kategorie):
 
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
-    all_leistung = Leistung.filter(Leistung.username == username).all()
 
-    results = aufgabe_schema.dump(all_leistung)
+    user_leistung = Leistung.query.filter(Leistung.username == username).all()
+        # with_entities(Leistung.score, Leistung.kategorie )
+
+    results = leistung_schema.dump(user_leistung)
     return jsonify(results)
 
 

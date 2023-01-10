@@ -22,7 +22,7 @@ body {
 
 .Aufgabe {
 
-  margin: 0px 60px;
+  margin: 0px 50px;
   min-height: 500px;
   height: min-content;
   border-radius: 15px;
@@ -51,7 +51,7 @@ margin-top: 200px;
 }
 
 .score-table{
-width: 300px;
+width: 500px;
 margin-bottom: 50px;
 }
 
