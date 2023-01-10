@@ -9,7 +9,7 @@ export default function Course(){
 const navigate = useNavigate();
 const [Kategorie, setKategorie] = useState('')
 const [options, setOptions] = useState([])
-
+const [username, setusername] = useState(localStorage.getItem('username'))
 
 
 const handleChange = (event) => {
@@ -17,8 +17,9 @@ const handleChange = (event) => {
   };
 
 
+
     useEffect(() => {
-    fetch('http://127.0.0.1:5000/getkategories/admin', {
+    fetch('http://127.0.0.1:5000/getkategories/' + username, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,6 +31,7 @@ const handleChange = (event) => {
        setOptions(data);
        console.log("setoption: "+ options)
     })
+
   }, []);
 
 
@@ -44,6 +46,7 @@ const handleChange = (event) => {
 
 
  function handleClick(){
+    console.log('kategorie:'+Kategorie)
     localStorage.setItem('kategorie', Kategorie );
     navigate("/aufgabe")
   }
@@ -55,7 +58,8 @@ const handleChange = (event) => {
       <h1 className= "title">this page shows which course you are lerning</h1>
       <form>
         <label id = "mycourse">please select a Course </label>
-        <select className = "select" name="languages" id="lang" onChange={handleChange} onChange={useEffect}   onChange={event => setKategorie(event.target.value)} >
+        <select className = "select" name="languages" id="lang" onChange={handleChange} >
+           <option>Select your course</option>
            {optionsMap.map((option) => (
           <option value={option.value}>{option.label}</option>
         ))}
