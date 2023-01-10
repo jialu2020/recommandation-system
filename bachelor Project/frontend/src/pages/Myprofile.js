@@ -78,11 +78,11 @@ function Myprofile(){
 
              <li id="listelement">password: {localStorage.getItem('password')}</li>
 
-             <li id="listelement">my subject:
+             <li id="listelement">my subjects:
 
              {scores && scores.map(item =>
                         <tr key={item.kategorie}>
-                            <td>{item.kategorie} : {item.score}</td>
+                            <td>{item.kategorie} : {item.score*100} / 100</td>
                         </tr>
                     )}
              </li>
