@@ -176,11 +176,9 @@ def get_aufgabe(kategorie):
 
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
+    all_leistung = Leistung.filter(Leistung.username == username).all()
 
-    user_leistung = Leistung.query.filter(Leistung.username == username).all()
-        # with_entities(Leistung.score, Leistung.kategorie )
-
-    results = leistung_schema.dump(user_leistung)
+    results = aufgabe_schema.dump(all_leistung)
     return jsonify(results)
 
 
@@ -197,8 +195,11 @@ def get_kategories():
 @app.route("/getkategories/<username>", methods=["GET"])
 def get_kategories_by_name(username):
     all_kategories = Subjects.query.filter(Subjects.username == username).distinct(Subjects.fachname).all()
-    results = sub_schema.dump(all_kategories)
-    return jsonify(results)
+    kategories = []
+    for kategorie in all_kategories:
+        kategories.append(kategorie.fachname)
+
+    return jsonify(kategories)
 
 
 @app.route("/addsubject", methods=['POST'])
@@ -208,7 +209,7 @@ def add_sub():
 
     subject = Subjects.query.filter_by(username=username, fachname=fachname).first()
     if subject:
-        response = jsonify({'error': 'you have already added this course'})
+        response = jsonify({'error': 'you have added this course already'})
         response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
         return response
 
