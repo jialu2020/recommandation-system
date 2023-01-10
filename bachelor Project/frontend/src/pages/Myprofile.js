@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios'
 import Navbar from "../Navbar";
+
 function Myprofile(){
 
   const [username, setUsername] = useState(localStorage.getItem('username'));
