@@ -176,9 +176,9 @@ def get_aufgabe(kategorie):
 
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
-    all_leistung = Leistung.filter(Leistung.username == username).all()
+    all_leistung = Leistung.query.filter(Leistung.username == username).all()
 
-    results = aufgabe_schema.dump(all_leistung)
+    results = leistung_schema.dump(all_leistung)
     return jsonify(results)
 
 
@@ -218,18 +218,6 @@ def add_sub():
     db.session.commit()
     return UserSchema().jsonify(newSubject)
 
-
-# @app.route("/leistung", methods=['POST'])
-# def initial_leistung():
-#     username = request.json["username"]
-#     kategorie = request.json["kategorie"]
-#     leistung = Leistung(username, kategorie, 0, 0, 0)
-#
-#     app.logger.info(Leistung.id)
-#
-#     db.session.add(leistung)
-#     db.session.commit()
-#     return LeistungSchema().jsonify(leistung)
 
 
 @app.route("/addleistung", methods=["POST"])
