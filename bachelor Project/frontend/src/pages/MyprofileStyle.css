@@ -1,13 +1,12 @@
 #userinfo{
   padding: 30px;
   list-style: none;
-  color: black;
   font-size: large;
   font-weight: bold;
-  color: #222222;
+  color: white;
+
 
 }
-
 #listelement{
   line-height: 2;
   text-align: left;
@@ -15,3 +14,10 @@
   margin-left: 2%;
 
 }
+#buttonclass{
+
+display:inline-block;
+
+
+}
+

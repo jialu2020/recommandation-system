@@ -30,7 +30,7 @@ function App() {
     return (
       <div className="App">
 
-        <div className="container">
+        <header>
 
           <Routes>
 
@@ -43,7 +43,7 @@ function App() {
             <Route  path="/register" element={<Register />}  />
             <Route  path="/aufgabe" element={<Aufgabe />}  />
           </Routes>
-        </div>
+        </header>
       </div>
 
 

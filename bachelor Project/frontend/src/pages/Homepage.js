@@ -6,8 +6,7 @@ export default function Homepage(){
        <Navbar/>
        <h1 class = "title">About us</h1>
        <p>
-         This webseit is a E-learning system for students to improve their learning efficiency
-         and to ease the teaching burden of parents and teachers.
+         This webseit is a E-learning system
        </p>
 
 

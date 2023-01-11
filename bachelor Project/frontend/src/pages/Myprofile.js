@@ -92,29 +92,45 @@ function Myprofile(){
        </div>
        ):(
        // falls editMode=true shows regular things(page), click button back, quit Edit mode
-
         <div>
-         <form onSubmit={handleSubmit} >
-          <ul id="userinfo">
-             <li id="listelement">username:  {localStorage.getItem('username')}</li>
+         <div id = "buttonclass">
+           <form onSubmit={handleSubmit} >
+            <ul id="userinfo">
+               <li id="listelement">username:  {localStorage.getItem('username')}</li>
 
-             <li id="listelement">password: {localStorage.getItem('password')}</li>
+               <li id="listelement">password: {localStorage.getItem('password')}</li>
 
-             <li id="listelement">my current courses: {mysubShow}</li>
 
-             <li id="listelement">my scores:
 
-             {scores && scores.map(item =>
+               <li id="listelement">my current courses: {mysubShow}</li>
+
+               <li id="listelement">my scores:
+
+                {scores && scores.map(item =>
                         <tr key={item.kategorie}>
                             <td>{item.kategorie} : {item.score*100} / 100</td>
                         </tr>
                     )}
-             </li>
+               </li>
           </ul>
-              <button type = "submit" onClick={()=>showscore()}>Show score</button>
-              <button type = "submit" onClick={()=>setEditMode(true)}>Edit password</button>
+
+
          </form>
-      </div> )}
+         </div>
+
+          <div id = "buttonclass">
+
+           <button className= "submit"type = "submit" onClick={()=>showscore()}>Show score</button>
+             <button className="link-btn" onClick={()=>setEditMode(true)}>Edit password</button>
+         </div>
+
+      </div>
+
+
+
+
+
+       )}
   </div>
 
 

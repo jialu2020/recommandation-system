@@ -55,7 +55,7 @@ const handleChange = (event) => {
 
     <div>
       <Navbar/>
-      <h1 className= "title">this page shows which course you are lerning</h1>
+      <h1 className= "title">this page shows which course you are learning</h1>
       <form>
         <label id = "mycourse">please select a Course </label>
         <select className = "select" name="languages" id="lang" onChange={handleChange} >

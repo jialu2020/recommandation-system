@@ -46,7 +46,8 @@ export default ({changeToFalse})=>{
     <div>
        <input className = "search" placeholder = "passwort.." value={password} onChange={event => setPassword(event.target.value)}/>
        <button className = "submit">submit</button>
-       <button className= "back" onClick={()=>changeToFalse()}>back</button>
+       <button className="link-btn" onClick={()=>changeToFalse()}>back</button>
+
     </div>
     </form>
 

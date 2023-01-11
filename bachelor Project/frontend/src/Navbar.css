@@ -1,6 +1,7 @@
 
 nav{
-  display: flex;
+
+
   align-content: center;
   justify-content: space-between;
   background: burlywood;
@@ -24,7 +25,7 @@ nav{
   text-decoration: none;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #222222;
+  color: #545454;
   transition: 0.3s ease-in-out;
 
 }
@@ -35,7 +36,7 @@ nav{
 }
 
 #navbar li a:active{
-  background-color: cornflowerblue;
+  background-color:#808080;
   padding: 35px 0px;
   color: white;
   transition: 0.1s

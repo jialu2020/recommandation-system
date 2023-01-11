@@ -23,15 +23,6 @@
   color: white;
   background: cornflowerblue;
 }
-.submit{
-  height:32px;
-  line-height:0px;
-  font-size:14px;
-  background: burlywood;
-  width:240px;
-  text-align:center;
-
-}
 
 .submit:hover{
   color: cornflowerblue;
