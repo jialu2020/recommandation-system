@@ -159,7 +159,7 @@ useEffect(()=>{
           <BaseTable dataSource={dataSource} columns={columns} />
         </div>
 		    <div>
-					<button type= "submit"  onClick={WeiterClick}>Weiter</button>
+					<button class= "button"  onClick={WeiterClick}>Weiter</button>
         </div>
 	    </div>
 			) : (
@@ -167,27 +167,27 @@ useEffect(()=>{
 			{getMessage.status === 200 ?(
 					<div className='question-section' >
 						<div className='question-count'>
-							<span>Question {currentQuestion + 1}</span>/{getMessage.data.length}
+							<span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
 						</div>
 						<div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
 					</div>
       )
 		:(<h3>No Response</h3>)}
-		<div>
-      <input
-        type="text"
+		  <div className='answer-section'>
+		   <div className= 'input-section'>
+       <input
+        class="input"
         id="message"
         name="message"
         onChange={handleChange}
         value={message}
-      />
-</div>
-      <h2>Message: {message}</h2>
-
-      <button type= "submit" disabled={!message} onClick={NextClick}>Next</button>
- {done!==0 &&
- <button type= "submit"  disabled={done===0} onClick={BackClick}> Back</button>
- }   </div>
+       />
+      </div>
+      <div id="buttons">
+      <button class= "next" disabled={!message} onClick={NextClick}>Next</button> {done!==0 && <button class = "back"  disabled={done===0} onClick={BackClick}> Back</button>}
+      </div>
+       </div>
+      </div>
 
 			)}
 
