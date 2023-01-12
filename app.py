@@ -313,6 +313,7 @@ def register():
 
 
 def hash_password(password: str) -> str:
+    # This function takes in a plaintext password as a string and returns a hashed and salted version of the password.
     salt = os.urandom(12)  # generate a random salt
     pwd_hash = hashlib.pbkdf2_hmac(
         "sha256", password.encode(), salt, 100000

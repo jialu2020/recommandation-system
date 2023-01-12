@@ -12,9 +12,12 @@
 .auth-form-container{
   display:flex;
   flex-direction: column;
-  margin: auto;
-  padding:17%;
+  margin-left: auto;
+  margin-right: auto;
+  padding:5%;
   width:30%;
+
+
 
 }
 
@@ -23,6 +26,8 @@
   flex-direction: column;
   margin: auto;
   width: 50%;
+
+
 
 
 }
@@ -61,7 +66,7 @@ button{
   border-radius: 10px;
   cursor: pointer;
   color: #888888;
-  
+
 }
 
 .link-btn{
