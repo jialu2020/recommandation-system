@@ -58,9 +58,11 @@ class Exercises(db.Model):
     kategorie = db.Column(db.String())
     schwerigkeit = db.Column(db.Integer)
 
-    def __init__(self, aufgabenstellung, musterloesung):  # constractor for the object
+    def __init__(self, aufgabenstellung, musterloesung, kategorie, schweigkeit):  # constractor for the object
         self.aufgabenstellung = aufgabenstellung
         self.musterloesung = musterloesung
+        self.kategorie = kategorie
+        self.schwerigkeit = schweigkeit
 
     def __repr__(self):
         return '<username{}'.format(self.username)
