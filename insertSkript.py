@@ -21,16 +21,19 @@ try:
     for i in range(1, 101):
 
         r = random.randint(1, 2)
+
         if r == 1:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 9)
             b = random.randint(0, 9)
             k = a + b
-            record_to_insert.append((str(a) + '+' + str(b), str(k), 'Mathematik', 1))
+            record_to_insert.append((str(a) + '+' + str(b), str(k), 'Mathematik', 1, dis))
         if r == 2:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 9)
             b = random.randint(0, a)
             k = a - b
-            record_to_insert.append((str(a) + '-' + str(b), str(k), 'Mathematik', 1))
+            record_to_insert.append((str(a) + '-' + str(b), str(k), 'Mathematik', 1, dis))
 
             # stufe 2 here  100 +-  10*
 
@@ -38,73 +41,82 @@ try:
 
         r = random.randint(1, 3)
         if r == 1:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(10, 99)
             b = random.randint(10, 99)
             k = a + b
-            record_to_insert.append((str(a) + '+' + str(b), str(k), 'Mathematik', 2))
+            record_to_insert.append((str(a) + '+' + str(b), str(k), 'Mathematik', 2, dis))
         if r == 2:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(10, 99)
             b = random.randint(0, a)
             k = a - b
-            record_to_insert.append((str(a) + '-' + str(b), str(k), 'Mathematik', 2))
+            record_to_insert.append((str(a) + '-' + str(b), str(k), 'Mathematik', 2, dis))
 
         if r == 3:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 9)
             b = random.randint(0, 9)
             k = a * b
-            record_to_insert.append((str(a) + 'x' + str(b), str(k), 'Mathematik', 2))
+            record_to_insert.append((str(a) + 'x' + str(b), str(k), 'Mathematik', 2, dis))
 
             # stufe 3 100 *
     for i in range(1, 101):
+        dis = round(random.uniform(1, 2), 1)
         a = random.randint(10, 99)
         b = random.randint(10, 99)
         k = a * b
-        record_to_insert.append((str(a) + 'x' + str(b), str(k), 'Mathematik', 3))
+        record_to_insert.append((str(a) + 'x' + str(b), str(k), 'Mathematik', 3, dis))
 
         # class 4 divi innerhalbs 100
 
     for i in range(0, 100):
+        dis = round(random.uniform(1, 2), 1)
         a = random.randint(0, 99)
         b = random.randint(1, 99)
         k = round(a / b, 2)
-        record_to_insert.append((str(a) + ' divide ' + str(b), str(k), 'Mathematik', 4))
+        record_to_insert.append((str(a) + ' divide ' + str(b), str(k), 'Mathematik', 4, dis))
 
     # class 5 mix operation add multi minus
 
     for i in range(0, 100):
         r = random.randint(1, 4)
         if r == 1:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 99)
             b = random.randint(0, 99)
             c = random.randint(0, 99)
             d = random.randint(0, min(99, a * b + c))
             k = a * b + c - d
-            record_to_insert.append((str(a) + 'x' + str(b) + '+' + str(c) + '-' + str(d), str(k), 'Mathematik', 5))
+            record_to_insert.append((str(a) + 'x' + str(b) + '+' + str(c) + '-' + str(d), str(k), 'Mathematik', 5, dis))
         if r == 2:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 99)
             b = random.randint(1, a)
             c = random.randint(0, a // b)
             d = random.randint(0, 99)
             k = a - b * c + d
-            record_to_insert.append((str(a) + '-' + str(b) + 'x' + str(c) + '+' + str(d), str(k), 'Mathematik', 5))
+            record_to_insert.append((str(a) + '-' + str(b) + 'x' + str(c) + '+' + str(d), str(k), 'Mathematik', 5, dis))
         if r == 3:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 99)
             b = random.randint(0, 99)
             c = random.randint(0, 99)
             d = random.randint(0, min(a, b, c))
             k = a + b * c - d
-            record_to_insert.append((str(a) + '+' + str(b) + 'x' + str(c) + '-' + str(d), str(k), 'Mathematik', 5))
+            record_to_insert.append((str(a) + '+' + str(b) + 'x' + str(c) + '-' + str(d), str(k), 'Mathematik', 5, dis))
         if r == 4:
+            dis = round(random.uniform(1, 2), 1)
             a = random.randint(0, 99)
             b = random.randint(0, 99)
             c = random.randint(0, min(99, a * b))
             d = random.randint(0, 99)
             k = a * b - c + d
-            record_to_insert.append((str(a) + 'x' + str(b) + '-' + str(c) + '+' + str(d), str(k), 'Mathematik', 5))
+            record_to_insert.append((str(a) + 'x' + str(b) + '-' + str(c) + '+' + str(d), str(k), 'Mathematik', 5, dis))
 
-    newaufgaben = ','.join(cursor.mogrify("(%s,%s,%s,%s)", x).decode('utf-8') for x in record_to_insert)
+    newaufgaben = ','.join(cursor.mogrify("(%s,%s,%s,%s,%s)", x).decode('utf-8') for x in record_to_insert)
     cursor.execute(
-        "INSERT INTO aufgaben (aufgabenstellung, musterloesung, kategorie, schwerigkeit) VALUES " + newaufgaben)
+        "INSERT INTO aufgaben (aufgabenstellung, musterloesung, kategorie, schwerigkeit, discrimination) VALUES " + newaufgaben)
 
     # 改上面
     connection.commit()

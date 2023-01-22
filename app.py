@@ -56,13 +56,16 @@ class Exercises(db.Model):
     aufgabenstellung = db.Column(db.String())
     musterloesung = db.Column(db.String())
     kategorie = db.Column(db.String())
-    schwerigkeit = db.Column(db.Integer)
+    schwerigkeit = db.Column(db.Float(precision=1))
+    discrimination = db.Column(db.Float(precision=1))
 
-    def __init__(self, aufgabenstellung, musterloesung, kategorie, schweigkeit):  # constractor for the object
+    def __init__(self, aufgabenstellung, musterloesung, kategorie, schweigkeit,
+                 discrimination):  # constractor for the object
         self.aufgabenstellung = aufgabenstellung
         self.musterloesung = musterloesung
         self.kategorie = kategorie
         self.schwerigkeit = schweigkeit
+        self.discrimination = discrimination
 
     def __repr__(self):
         return '<username{}'.format(self.username)
@@ -219,7 +222,6 @@ def add_sub():
     db.session.add(newSubject)
     db.session.commit()
     return UserSchema().jsonify(newSubject)
-
 
 
 @app.route("/addleistung", methods=["POST"])
