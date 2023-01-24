@@ -116,7 +116,7 @@ user_schema = UserSchema(many=True)
 
 class AufgabeSchema(ma.Schema):
     class Meta:
-        fields = ("id", "aufgabenstellung", "musterloesung", "kategorie", "schwerigkeit")
+        fields = ("id", "aufgabenstellung", "musterloesung", "kategorie", "schwerigkeit", "discrimination")
 
 
 aufgabe_schema = AufgabeSchema()
@@ -192,16 +192,22 @@ def update_pwd_with_name(username):
     return response
 
 
-@app.route("/getaufgabe/<kategorie>", methods=["GET"])
-def get_aufgabe(kategorie):
+@app.route("/getaufgabe/<username>/<kategorie>", methods=["GET"])
+def get_aufgabe(username, kategorie):
     #    all_aufgabe = Exercises.query.all()
     #    for x in range(3):
+    #    where f(a) >0,4 && f(a) < 0,7
+    #ability = Level.query.filter(Level.username == username).with_entities(Level.faehigkeit)
+    #Aufgaben_waehlen(ability)
     all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
     #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
     #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
     results = aufgabe_schema.dump(all_aufgabe)
     return jsonify(results)
 
+# def Aufgaben_waehlen(ability):
+#
+#     return 0
 
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
@@ -266,6 +272,16 @@ def add_leistung():
     db.session.commit()
 
     return LeistungSchema().jsonify(leistung)
+
+@app.route("/addlevel", methods=['POST'])
+def add_level():
+    username = request.json["username"]
+    faehigkeit = request.json["faehigkeit"]
+
+    newLevel = Level(username,faehigkeit)
+    db.session.add(newLevel)
+    db.session.commit()
+    return LevelSchema().jsonify(newLevel)
 
 
 SECRET_KEY = 'i_love_u'

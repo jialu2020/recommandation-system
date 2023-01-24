@@ -50,13 +50,16 @@ useEffect(()=>{
 //        .then((data) => console.log(data));
 //    setkategorie(localStorage.getItem('kategorie'))
 
+    let thisuser = localStorage.getItem('username')
 
-    axios.get('http://localhost:5000/getaufgabe/' + kategorie).then(response => {
+    axios.get('http://localhost:5000/getaufgabe/'+ thisuser + '/' +kategorie).then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {
       console.log(error)
     })
+
+
 
  }, [])
 
@@ -89,6 +92,7 @@ useEffect(()=>{
 
 		setMessage('');
 		}
+
   };
 
   const BackClick = () => {
@@ -118,6 +122,8 @@ useEffect(()=>{
 
   for(let i=0; i<dataSource.length; i++){
 
+      console.log(getMessage.data[i].schwerigkeit+"***")
+
       let leistung = {username: localStorage.getItem('username'),
               aufgabestellung: getMessage.data[i].aufgabenstellung,
               score : dataSource[i].bewertung === 'richtig',
@@ -135,11 +141,54 @@ useEffect(()=>{
         .then(leistung);
   }
 
-  window.location.reload(false);
+      let newlevel = {username: localStorage.getItem('username'),
+      faehigkeit: getnewlevel()}
 
-  setdataSource([]);
+       const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newlevel)
+      };
+      fetch('http://127.0.0.1:5000/addlevel', requestOptions)
+        .then(response => response.json())
+        .then(newlevel);
+
+
+//  window.location.reload(false);
+//
+//  setdataSource([]);
   }
 
+  function getnewlevel(){
+  let thislevel = 0.0
+
+  for(let i = 0; i<dataSource.length; i++){
+  //dataSource[i]
+    let thisschwerigkeit = getMessage.data[i].schwerigkeit
+    let thisdiscrimination = getMessage.data[i].discrimination
+    let thisbewertung = dataSource[i].bewertung
+    let gewicht = getGewicht(thisschwerigkeit)
+
+    thislevel += thisschwerigkeit * thisdiscrimination * (thisbewertung=="richtig"?1:0) * gewicht
+  }
+  console.log(thislevel)
+  return thislevel
+  }
+
+  function getGewicht(gotschwerigkeit){
+  switch(gotschwerigkeit){
+    case 1:
+        return 0.4
+    case 2:
+        return 0.25
+    case 3:
+        return 0.15
+    case 4:
+        return 0.1
+    case 5:
+        return 0.1
+  }
+  }
 
 
   return (
