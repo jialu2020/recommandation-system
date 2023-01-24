@@ -1,6 +1,7 @@
 import os
 import hashlib
 import jwt
+import datetime
 from flask import Flask, request, jsonify, session
 from flask_restful import Resource, Api
 from flask_cors import CORS
@@ -90,6 +91,20 @@ class Leistung(db.Model):
         self.zeitpunkt = zeitpunkt
 
 
+class Level(db.Model):  # student faehigkeit
+    __tablename__ = "level"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String())
+    faehigkeit = db.Column(db.Float(precision=1))
+    create_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    # "time" record the current UTC time when a new instance of the Level model is created.
+
+    def __init__(self, username, faehigkeit):
+        self.username = username
+        self.faehigkeit = faehigkeit
+
+
 class UserSchema(ma.Schema):
     class Meta:
         fields = ("id", "username", "password")
@@ -124,6 +139,15 @@ class SubjectSchema(ma.Schema):
 
 sub_schema = SubjectSchema()
 sub_schema = SubjectSchema(many=True)
+
+
+class LevelSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "username", "faehigkeit")
+
+
+level_schema = LevelSchema()
+level_schema = LevelSchema(many=True)
 
 
 @app.route("/get", methods=["GET"])
@@ -226,10 +250,6 @@ def add_sub():
 
 @app.route("/addleistung", methods=["POST"])
 def add_leistung():
-    # leistung = Leistung.query.filter(Leistung.username == username).filter(Leistung.kategorie == request.json["kategorie"]).first()
-    # request.json["kategorie"]
-    # "id", "username", "aufgabestellung", "score", "kategorie", "schwerigkeit", "zeitpunkt"
-
     username = request.json["username"]
     aufgabestellung = request.json["aufgabestellung"]
     score = request.json["score"]
