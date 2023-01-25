@@ -142,7 +142,8 @@ useEffect(()=>{
   }
 
       let newlevel = {username: localStorage.getItem('username'),
-      faehigkeit: getnewlevel()}
+      faehigkeit: getnewlevel(),
+      kategorie: localStorage.getItem('kategorie')}
 
        const requestOptions = {
         method: 'POST',
@@ -154,7 +155,7 @@ useEffect(()=>{
         .then(newlevel);
 
 
-//  window.location.reload(false);
+ window.location.reload(false);
 //
 //  setdataSource([]);
   }
@@ -174,7 +175,7 @@ useEffect(()=>{
   console.log(thislevel)
   return thislevel
   }
-
+  // gewichte aller schwerigkeiten. (0.4 , 0.25, 0.15, 0.1, 0.1)
   function getGewicht(gotschwerigkeit){
   switch(gotschwerigkeit){
     case 1:

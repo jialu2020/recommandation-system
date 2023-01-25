@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
-from sqlalchemy.sql.expression import func
+from sqlalchemy.sql.expression import func, desc
 import random
 import numpy as np
 import psycopg2
@@ -96,13 +96,15 @@ class Level(db.Model):  # student faehigkeit
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String())
     faehigkeit = db.Column(db.Float(precision=1))
+    kategorie = db.Column(db.String())
     create_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # "time" record the current UTC time when a new instance of the Level model is created.
 
-    def __init__(self, username, faehigkeit):
+    def __init__(self, username, faehigkeit, kategorie):
         self.username = username
         self.faehigkeit = faehigkeit
+        self.kategorie = kategorie
 
 
 class UserSchema(ma.Schema):
@@ -143,7 +145,7 @@ sub_schema = SubjectSchema(many=True)
 
 class LevelSchema(ma.Schema):
     class Meta:
-        fields = ("id", "username", "faehigkeit")
+        fields = ("id", "username", "faehigkeit", "kategorie")
 
 
 level_schema = LevelSchema()
@@ -197,13 +199,14 @@ def get_aufgabe(username, kategorie):
     #    all_aufgabe = Exercises.query.all()
     #    for x in range(3):
     #    where f(a) >0,4 && f(a) < 0,7
-    #ability = Level.query.filter(Level.username == username).with_entities(Level.faehigkeit)
-    #Aufgaben_waehlen(ability)
+    # ability = Level.query.filter(Level.username == username).with_entities(Level.faehigkeit)
+    # Aufgaben_waehlen(ability)
     all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
     #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
     #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
     results = aufgabe_schema.dump(all_aufgabe)
     return jsonify(results)
+
 
 # def Aufgaben_waehlen(ability):
 #
@@ -273,15 +276,18 @@ def add_leistung():
 
     return LeistungSchema().jsonify(leistung)
 
+
 @app.route("/addlevel", methods=['POST'])
 def add_level():
     username = request.json["username"]
     faehigkeit = request.json["faehigkeit"]
+    kategorie = request.json["kategorie"]
 
-    newLevel = Level(username,faehigkeit)
+    newLevel = Level(username, faehigkeit, kategorie)
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
+
 
 
 SECRET_KEY = 'i_love_u'
