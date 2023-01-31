@@ -8,6 +8,9 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
+import math
+import scipy.optimize as opt
+from scipy import optimize
 from sqlalchemy.sql.expression import func, desc
 import random
 import numpy as np
@@ -196,21 +199,18 @@ def update_pwd_with_name(username):
 
 @app.route("/getaufgabe/<username>/<kategorie>", methods=["GET"])
 def get_aufgabe(username, kategorie):
-    #    all_aufgabe = Exercises.query.all()
-    #    for x in range(3):
-    #    where f(a) >0,4 && f(a) < 0,7
-    # ability = Level.query.filter(Level.username == username).with_entities(Level.faehigkeit)
-    # Aufgaben_waehlen(ability)
-    all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
-    #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
-    #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
-    results = aufgabe_schema.dump(all_aufgabe)
-    return jsonify(results)
+    level = Level.query.filter_by(username=username, kategorie=kategorie).first()
+    if not level:
+        # check if its a new user and forcing a grading exam
+        all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(5).all()
+        results = aufgabe_schema.dump(all_aufgabe)
+        return jsonify(results)
+    if level:
+        # if its not a new user, use recommandation
+        all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
+        results = aufgabe_schema.dump(all_aufgabe)
+        return jsonify(results)
 
-
-# def Aufgaben_waehlen(ability):
-#
-#     return 0
 
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
@@ -287,7 +287,6 @@ def add_level():
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
-
 
 
 SECRET_KEY = 'i_love_u'
@@ -377,6 +376,28 @@ def check_password(password: str, hashed_password: str) -> bool:
     # return True if the new hash matches the original hash, False otherwise
     return pwd_hash == new_hash
 
+
+def irt_function(a, b, x):
+    """ b = discrimanation, a = item difiiculty"""
+    return (math.e ** (b * (x - a))) / (1 + math.e ** (b * (x - a)))
+
+
+def calculate_two(old_a, old_b, new_a, new_b, x):
+    """ calculate 2 diagramm """
+    old_irt = irt_function(old_a, old_b, x)
+    new_irt = irt_function(new_a, new_b, x)
+    return old_irt * (1 - old_irt) * new_irt * (1 - new_irt)
+
+
+def get_new_level(old_a, old_b, new_a, new_b):
+    """ to get the horizontal coordinate of the vertex of the equation """
+    result = opt.minimize_scalar(lambda x: -calculate_two(old_a, old_b, new_a, new_b, x))
+    x_max = result.x
+    return x_max
+
+
+x_max = get_new_level(1, 1, 2, 3)
+print("Maximum value of x:", x_max)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
