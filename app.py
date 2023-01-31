@@ -202,24 +202,23 @@ def calculateProbability(a, b, x):
     return math.exp((b * (x - a))) / (1 + math.exp((b * (x - a))))
 
 
-
 @app.route("/getaufgabe/<username>/<kategorie>", methods=["GET"])
 def get_aufgabe(username, kategorie):
-    #    all_aufgabe = Exercises.query.all()
-    #    for x in range(3):
-    #    where f(a) >0,4 && f(a) < 0,7
-    # ability = Level.query.filter(Level.username == username).with_entities(Level.faehigkeit)
-    # Aufgaben_waehlen(ability)
-
-    # all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
-    #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
-    #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
-
-    ability = 2
-    all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
-    filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
-                         0.1 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination, ability) < 0.7]
-    filtered_aufgaben = random.sample(filtered_aufgaben, 5)
+    level = Level.query.filter_by(username=username, kategorie=kategorie).first()
+    if not level:
+        # check if its a new user and forcing a grading exam
+        all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(5).all()
+        results = aufgabe_schema.dump(all_aufgabe)
+        return jsonify(results)
+    if level:
+        latest_record = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
+            Level.create_time.desc()).limit(1).first()
+        latest_ability = latest_record.faehigkeit
+        all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
+        filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
+                             0.1 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
+                                                        latest_ability) < 0.7]
+        filtered_aufgaben = random.sample(filtered_aufgaben, 4)
 
     results = aufgabe_schema.dump(filtered_aufgaben)
     return jsonify(results)
@@ -304,7 +303,6 @@ def add_level():
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
-
 
 
 SECRET_KEY = 'i_love_u'
