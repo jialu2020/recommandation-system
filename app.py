@@ -1,3 +1,4 @@
+import math
 import os
 import hashlib
 import jwt
@@ -194,6 +195,12 @@ def update_pwd_with_name(username):
     return response
 
 
+def calculateProbability(a, b, x):
+    print(math.exp((b * (x - a))) / (1 + math.exp((b * (x - a)))))
+    return math.exp((b * (x - a))) / (1 + math.exp((b * (x - a))))
+
+
+
 @app.route("/getaufgabe/<username>/<kategorie>", methods=["GET"])
 def get_aufgabe(username, kategorie):
     #    all_aufgabe = Exercises.query.all()
@@ -201,10 +208,18 @@ def get_aufgabe(username, kategorie):
     #    where f(a) >0,4 && f(a) < 0,7
     # ability = Level.query.filter(Level.username == username).with_entities(Level.faehigkeit)
     # Aufgaben_waehlen(ability)
-    all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
+
+    # all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(3).all()
     #    all_aufgabe = Exercises.query.filter(Exercises.id == random.randint(1,Exercises.query.count()))
     #        all_aufgabe = np.append(all_aufgabe, all_aufgabe)
-    results = aufgabe_schema.dump(all_aufgabe)
+
+    ability = 2
+    all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
+    filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
+                         0.1 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination, ability) < 0.7]
+    filtered_aufgaben = random.sample(filtered_aufgaben, 5)
+
+    results = aufgabe_schema.dump(filtered_aufgaben)
     return jsonify(results)
 
 
