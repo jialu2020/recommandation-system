@@ -197,6 +197,7 @@ def update_pwd_with_name(username):
 
 
 def calculateProbability(a, b, x):
+    # print(math.exp((b * (x - a))) / (1 + math.exp((b * (x - a)))))
     return math.exp((b * (x - a))) / (1 + math.exp((b * (x - a))))
 
 
@@ -210,12 +211,13 @@ def get_aufgabe(username, kategorie):
         return jsonify(results)
     if level:
         latest_record = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
-            Level.create_time.desc()).limit(1).first()
+            Level.create_time.desc()).limit(3).first()
         latest_ability = latest_record.faehigkeit
+
         all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
         filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
-                             0.4 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
-                                                        latest_ability) < 0.7]
+                             0.25 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
+                                                        latest_ability) < 0.75]
         filtered_aufgaben = random.sample(filtered_aufgaben, 4)
 
     results = aufgabe_schema.dump(filtered_aufgaben)
@@ -323,13 +325,35 @@ def add_level():
         print(zeit)
         Raufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,Exercises.discrimination).all()
         Parameter = [{},{}]
+        print(Raufgaben)
         if(len(Raufgaben) != 0):
             for i in range(len(Raufgaben)):
                 Parameter[0][i] = Raufgaben[i][0]
                 Parameter[1][i] = Raufgaben[i][1]
             faehigkeit = F(Parameter[1],Parameter[0])
+            print(Parameter[1])
+            print(Parameter[0])
             print(faehigkeit)
-        else: faehigkeit = 0;
+            faehigkeits = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
+                Level.create_time.desc()).with_entities(Level.faehigkeit).limit(4).all()
+            print(faehigkeits)
+            newest_faehig = faehigkeits[0][0]
+            print(newest_faehig)
+            current_faehig = 0
+            for i in range(len(faehigkeits)):
+                current_faehig += faehigkeits[i][0]
+            if(newest_faehig - faehigkeit > 0.3):
+                faehigkeit = newest_faehig - 0.3
+                print(faehigkeit)
+            if(faehigkeit - newest_faehig > 0.5):
+                faehigkeit = newest_faehig + 0.5
+            faehigkeit = (current_faehig + faehigkeit)/(len(faehigkeits)+1)
+
+        else:
+            faehigkeit = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
+                Level.create_time.desc()).with_entities(Level.faehigkeit).limit(1).all()
+            faehigkeit = faehigkeit[0][0] - 0.1
+
         newLevel = Level(username,faehigkeit, kategorie)
     db.session.add(newLevel)
     db.session.commit()

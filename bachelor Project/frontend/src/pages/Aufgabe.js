@@ -176,9 +176,9 @@ useEffect(()=>{
 
   setShowSubmit(false);
 
-  window.location.reload(false);
-
-  setdataSource([]);
+//  window.location.reload(false);
+//
+//  setdataSource([]);
   }
 
   function getnewlevel(){
