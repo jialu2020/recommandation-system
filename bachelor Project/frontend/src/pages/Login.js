@@ -60,7 +60,7 @@ export const Login = () => {
   return(
 
     <div className="auth-form-container">
-      <h2>Login</h2>
+      <h2>Welcome</h2>
 
       <form className= "login-form" onSubmit={handleSubmit}>
         <label htmlFor="username">username</label>
