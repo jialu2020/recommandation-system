@@ -24,6 +24,8 @@ function Aufgabe() {
 
 	const [showScore, setShowScore] = useState(false);
 
+	const [showSubmit, setShowSubmit] = useState(false);
+
 	const [score, setScore] = useState(0);
 
 	const [done, setDone] = useState(0);
@@ -59,7 +61,7 @@ useEffect(()=>{
       console.log(error)
     })
 
-
+    setShowSubmit(false);
 
  }, [])
 
@@ -86,14 +88,36 @@ useEffect(()=>{
 			setMessage('');
 
 		} else {
-    setDateTime(Date().toLocaleString())
+    setDateTime(Date().toLocaleString());
 
-		setShowScore(true);
+		setShowSubmit(true);
 
-		setMessage('');
 		}
 
   };
+
+  function updateLeistung(){
+  for(let i=0; i<dataSource.length; i++){
+
+//      console.log(getMessage.data[i].schwerigkeit+"***")
+
+      let leistung = {username: localStorage.getItem('username'),
+              aufgabestellung: getMessage.data[i].aufgabenstellung,
+              score : dataSource[i].bewertung === 'richtig',
+              kategorie : localStorage.getItem('kategorie'),
+              schwerigkeit : getMessage.data[i].schwerigkeit,
+              zeitpunkt : DateTime};
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leistung)
+      };
+      fetch('http://127.0.0.1:5000/addleistung', requestOptions)
+        .then(response => response.json())
+        .then(leistung);
+  }
+  }
 
   const BackClick = () => {
 
@@ -113,37 +137,33 @@ useEffect(()=>{
 
 		setMessage('');
 
+		setShowSubmit(false);
+
 		}
   };
+
+  const Submit = () =>{
+
+
+    updateLeistung();
+
+		setShowScore(true);
+
+		setMessage('');
+
+		setShowSubmit(false);
+  }
 
   const WeiterClick = () => {
 
 //Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt)
+//  updateLeistung();
 
-  for(let i=0; i<dataSource.length; i++){
-
-      console.log(getMessage.data[i].schwerigkeit+"***")
-
-      let leistung = {username: localStorage.getItem('username'),
-              aufgabestellung: getMessage.data[i].aufgabenstellung,
-              score : dataSource[i].bewertung === 'richtig',
-              kategorie : localStorage.getItem('kategorie'),
-              schwerigkeit : getMessage.data[i].schwerigkeit,
-              zeitpunkt : DateTime};
-
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leistung)
-      };
-      fetch('http://127.0.0.1:5000/addleistung', requestOptions)
-        .then(response => response.json())
-        .then(leistung);
-  }
 
       let newlevel = {username: localStorage.getItem('username'),
       faehigkeit: getnewlevel(),
-      kategorie: localStorage.getItem('kategorie')}
+      kategorie: localStorage.getItem('kategorie'),
+      zeit: DateTime}
 
        const requestOptions = {
         method: 'POST',
@@ -154,10 +174,11 @@ useEffect(()=>{
         .then(response => response.json())
         .then(newlevel);
 
+  setShowSubmit(false);
 
- window.location.reload(false);
-//
-//  setdataSource([]);
+  window.location.reload(false);
+
+  setdataSource([]);
   }
 
   function getnewlevel(){
@@ -175,7 +196,7 @@ useEffect(()=>{
   console.log(thislevel)
   return thislevel
   }
-  // gewichte aller schwerigkeiten. (0.4 , 0.25, 0.15, 0.1, 0.1)
+
   function getGewicht(gotschwerigkeit){
   switch(gotschwerigkeit){
     case 1:
@@ -234,7 +255,10 @@ useEffect(()=>{
        />
       </div>
       <div id="buttons">
-      <button class= "next" disabled={!message} onClick={NextClick}>Next</button> {done!==0 && <button class = "back"  disabled={done===0} onClick={BackClick}> Back</button>}
+      {!showSubmit?<button class= "next" disabled={!message} onClick={NextClick}>Next</button>
+      :<button class= "next" onClick={Submit}>Submit</button>}
+
+      {done!==0 && <button class = "back"  disabled={done===0} onClick={BackClick}> Back</button>}
       </div>
        </div>
       </div>

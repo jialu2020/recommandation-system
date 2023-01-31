@@ -9,9 +9,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 import math
-import scipy.optimize as opt
-from scipy import optimize
-from sqlalchemy.sql.expression import func, desc
+from scipy.optimize import minimize_scalar
+from sqlalchemy.sql.expression import func
 import random
 import numpy as np
 import psycopg2
@@ -198,7 +197,6 @@ def update_pwd_with_name(username):
 
 
 def calculateProbability(a, b, x):
-    print(math.exp((b * (x - a))) / (1 + math.exp((b * (x - a)))))
     return math.exp((b * (x - a))) / (1 + math.exp((b * (x - a))))
 
 
@@ -216,7 +214,7 @@ def get_aufgabe(username, kategorie):
         latest_ability = latest_record.faehigkeit
         all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
         filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
-                             0.1 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
+                             0.4 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
                                                         latest_ability) < 0.7]
         filtered_aufgaben = random.sample(filtered_aufgaben, 4)
 
@@ -273,6 +271,21 @@ def add_sub():
     return UserSchema().jsonify(newSubject)
 
 
+def F(A,B):
+    def f(x):
+        func = ""
+        for i in range(len(A)):
+            a=str(A[i])
+            b=str(B[i])
+            if i != len(A)-1:
+                func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp("+a+"*(x-"+b+"))))*(1-((math.exp("+a+"*(x-"+b+")))/(1+math.exp("+a+"*(x-"+b+")))))*"
+            else:
+                func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp("+a+"*(x-"+b+"))))*(1-((math.exp("+a+"*(x-"+b+")))/(1+math.exp("+a+"*(x-"+b+")))))"
+        return eval("-"+func)
+    res = minimize_scalar(f, method='brent')
+    return res.x
+
+
 @app.route("/addleistung", methods=["POST"])
 def add_leistung():
     username = request.json["username"]
@@ -300,6 +313,23 @@ def add_level():
     kategorie = request.json["kategorie"]
 
     newLevel = Level(username, faehigkeit, kategorie)
+    # faehigkeit = request.json["faehigkeit"]
+    zeit = request.json["zeit"]
+    print(zeit)
+    Raufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,Exercises.discrimination).all()
+    # print(len(Raufgaben))
+    # print(Raufgaben)
+    # print(Raufgaben[0])
+    # print (Raufgaben[0][0])
+    Parameter = [{},{}]
+    if(len(Raufgaben) != 0):
+       for i in range(len(Raufgaben)):
+         Parameter[0][i] = Raufgaben[i][0]
+         Parameter[1][i] = Raufgaben[i][1]
+       faehigkeit = F(Parameter[1],Parameter[0])
+       print(faehigkeit)
+    else: faehigkeit = 0;
+    newLevel = Level(username,faehigkeit, kategorie)
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
@@ -392,28 +422,6 @@ def check_password(password: str, hashed_password: str) -> bool:
     # return True if the new hash matches the original hash, False otherwise
     return pwd_hash == new_hash
 
-
-def irt_function(a, b, x):
-    """ b = discrimanation, a = item difiiculty"""
-    return (math.e ** (b * (x - a))) / (1 + math.e ** (b * (x - a)))
-
-
-def calculate_two(old_a, old_b, new_a, new_b, x):
-    """ calculate 2 diagramm """
-    old_irt = irt_function(old_a, old_b, x)
-    new_irt = irt_function(new_a, new_b, x)
-    return old_irt * (1 - old_irt) * new_irt * (1 - new_irt)
-
-
-def get_new_level(old_a, old_b, new_a, new_b):
-    """ to get the horizontal coordinate of the vertex of the equation """
-    result = opt.minimize_scalar(lambda x: -calculate_two(old_a, old_b, new_a, new_b, x))
-    x_max = result.x
-    return x_max
-
-
-x_max = get_new_level(1, 1, 2, 3)
-print("Maximum value of x:", x_max)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)

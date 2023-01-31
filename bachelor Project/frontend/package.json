@@ -9,9 +9,11 @@
     "ali-react-table": "^2.6.1",
     "axios": "^1.2.1",
     "react": "^18.2.0",
+    "react-confirm-dialog": "^1.0.5",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
     "react-scripts": "^5.0.1",
+    "react-toastify": "^9.1.1",
     "web-vitals": "^2.1.4"
   },
   "proxy": "http://localhost:5000",
