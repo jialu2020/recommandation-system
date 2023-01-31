@@ -312,24 +312,25 @@ def add_level():
     faehigkeit = request.json["faehigkeit"]
     kategorie = request.json["kategorie"]
 
-    newLevel = Level(username, faehigkeit, kategorie)
+    Init_Level = Level.query.filter(Level.username == username).filter(Level.kategorie == kategorie).all()
+
+    if(len(Init_Level)==0):
+       newLevel = Level(username, faehigkeit, kategorie)
+
     # faehigkeit = request.json["faehigkeit"]
-    zeit = request.json["zeit"]
-    print(zeit)
-    Raufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,Exercises.discrimination).all()
-    # print(len(Raufgaben))
-    # print(Raufgaben)
-    # print(Raufgaben[0])
-    # print (Raufgaben[0][0])
-    Parameter = [{},{}]
-    if(len(Raufgaben) != 0):
-       for i in range(len(Raufgaben)):
-         Parameter[0][i] = Raufgaben[i][0]
-         Parameter[1][i] = Raufgaben[i][1]
-       faehigkeit = F(Parameter[1],Parameter[0])
-       print(faehigkeit)
-    else: faehigkeit = 0;
-    newLevel = Level(username,faehigkeit, kategorie)
+    else:
+        zeit = request.json["zeit"]
+        print(zeit)
+        Raufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,Exercises.discrimination).all()
+        Parameter = [{},{}]
+        if(len(Raufgaben) != 0):
+            for i in range(len(Raufgaben)):
+                Parameter[0][i] = Raufgaben[i][0]
+                Parameter[1][i] = Raufgaben[i][1]
+            faehigkeit = F(Parameter[1],Parameter[0])
+            print(faehigkeit)
+        else: faehigkeit = 0;
+        newLevel = Level(username,faehigkeit, kategorie)
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)

@@ -200,7 +200,7 @@ useEffect(()=>{
   function getGewicht(gotschwerigkeit){
   switch(gotschwerigkeit){
     case 1:
-        return 0.4
+        return 0.45
     case 2:
         return 0.25
     case 3:
@@ -208,7 +208,7 @@ useEffect(()=>{
     case 4:
         return 0.1
     case 5:
-        return 0.1
+        return 0.05
   }
   }
 
