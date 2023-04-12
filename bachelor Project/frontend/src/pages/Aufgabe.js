@@ -176,9 +176,9 @@ useEffect(()=>{
 
   setShowSubmit(false);
 
-//  window.location.reload(false);
-//
-//  setdataSource([]);
+  window.location.reload(false);
+
+  setdataSource([]);
   }
 
   function getnewlevel(){
@@ -198,18 +198,18 @@ useEffect(()=>{
   }
 
   function getGewicht(gotschwerigkeit){
-  switch(gotschwerigkeit){
-    case 1:
-        return 0.45
-    case 2:
-        return 0.25
-    case 3:
-        return 0.15
-    case 4:
-        return 0.1
-    case 5:
-        return 0.05
-  }
+      if (gotschwerigkeit<-1){
+      return 0.45}
+      else if(gotschwerigkeit<0){
+      return 0.35}
+      else if(gotschwerigkeit<1){
+      return 0.25}
+      else if(gotschwerigkeit<2){
+      return 0.15}
+      else if(gotschwerigkeit<3){
+      return 0.05}
+      else{ return 0.02}
+
   }
 
 
