@@ -1,0 +1,23 @@
+.second_title{
+    margin-left: 50px;
+    margin-right: 50px;
+
+}
+.box{
+         width:350px;
+
+		    background-color: grey;
+		    display: block;
+		    margin:50px auto;
+
+}
+.box span{
+
+
+    color: white;
+    padding : 10px;
+
+
+
+}
+
