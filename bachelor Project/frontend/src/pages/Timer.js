@@ -22,7 +22,7 @@ function Timer() {
 
   return (
     <div>
-      <h2>Time left: {timeLeft} s</h2>
+      <h2 style={{ color: '#00BFFF'}}>Time left: {timeLeft} s</h2>
     </div>
   );
 }

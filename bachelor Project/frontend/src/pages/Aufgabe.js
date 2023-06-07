@@ -216,59 +216,61 @@ useEffect(()=>{
 
   return (
 <div>
- <Navbar/>
+  <Navbar />
 
-    <div className='Aufgabe'>
-			{showScore? (
-			<div className = 'score-section'>
-				{getMessage.status === 200 ?(
-				<div className='score-text'>
-					You scored {dataSource.filter(item => item.antwort === item.musterloesung).length} out of {getMessage.data.length}
-        </div>
-                )
-       :(<h3>No Response</h3>)}
+  <div className='Aufgabe'>
+    {showScore ? (
+      <div className='score-section'>
+        {getMessage.status === 200 ? (
+          <div className='score-text'>
+            You scored {dataSource.filter(item => item.antwort === item.musterloesung).length} out of {getMessage.data.length}
+          </div>
+        ) : (<h3>No Response</h3>)}
         <div className='score-table'>
           <BaseTable dataSource={dataSource} columns={columns} />
         </div>
-		    <div>
-					<button class= "button"  onClick={WeiterClick}>Weiter</button>
+        <div>
+          <button className="button" onClick={WeiterClick}>Weiter</button>
         </div>
-	    </div>
-			) : (
-			<div>
-			{getMessage.status === 200 ?(
-					<div className='question-section' >
-					 <div><Timer/></div>
-						<div className='question-count'>
-							<span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
-						</div>
-						<div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
-					</div>
-      )
-		:(<h3>No Response</h3>)}
-		  <div className='answer-section'>
-		   <div className= 'input-section'>
-       <input
-        class="input"
-        id="message"
-        name="message"
-        onChange={handleChange}
-        value={message}
-       />
       </div>
-      <div id="buttons">
-      {!showSubmit?<button class= "next" disabled={!message} onClick={NextClick}>Next</button>
-      :<button class= "next" onClick={Submit}>Submit</button>}
-
-      {done!==0 && <button class = "back"  disabled={done===0} onClick={BackClick}> Back</button>}
+    ) : (
+      <div>
+        {getMessage.status === 200 ? (
+          <div className='question-section' >
+            <div><Timer /></div>
+            <div className='question-count'>
+              <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
+            </div>
+            <div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
+          </div>
+        ) : (<h3>No Response</h3>)}
+        <div className='answer-section'>
+          <div className='input-section'>
+            <input
+              className="input"
+              id="message"
+              name="message"
+              onChange={handleChange}
+              value={message}
+            />
+          </div>
+          <div className="buttons-container">
+            <div>
+              {done !== 0 && <button className="back" disabled={done === 0} onClick={BackClick}> Back</button>}
+            </div>
+            <div>
+              {!showSubmit ? (
+                <button className="next" disabled={!message} onClick={NextClick}>Next</button>
+              ) : (
+                <button className="next" onClick={Submit}>Submit</button>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-       </div>
-      </div>
-
-			)}
-
-		</div>
-		</div>
+    )}
+  </div>
+</div>
   );
 }
 

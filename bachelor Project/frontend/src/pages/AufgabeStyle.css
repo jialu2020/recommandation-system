@@ -6,12 +6,10 @@
   margin-bottom: 150px;
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+
   display: flex;
 
-    background-color: #8aa1ab;
-/*   background-color: hsl(170,30%,50%);
-*/
+  background-color: transparent;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -41,11 +39,11 @@ margin-bottom: 50px;
   height: 400px;
   justify-content: center;
   align-items: center;
-  background-color: #d9c6b0;
+  background-color: white;
   border-radius: 15px;
   padding: 20px;
 
-  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+
   margin-bottom: 20px;
 }
 
@@ -121,10 +119,11 @@ buttons
 }
 
 .button {
+height: 40px;
   display:inline-block;
   margin: auto;
   width: auto;
-  font-size: 16px;
+  font-size: 15px;
   color: #fbd26f;
   background-color: #003153;
   border-radius: 15px;
@@ -132,9 +131,9 @@ buttons
   padding: 5px;
   justify-content: flex-start;
   align-items: center;
-  border: 5px solid #234668;
+
   cursor: pointer;
-  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+
 }
 
 .correct {
@@ -161,7 +160,7 @@ buttons
   float: left;
   margin: auto;
   width: auto;
-  height: 50px;
+  height: 40px;
   font-size: 16px;
   color: #ffffff;
   background-color: #003153;
@@ -170,7 +169,7 @@ buttons
   padding: 5px;
   justify-content: flex-start;
   align-items: center;
-  border: 5px solid #234668;
+
   cursor: pointer;
   box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
 }
@@ -199,7 +198,7 @@ buttons
   float: right;
   margin: auto;
   width: auto;
-  height: 50px;
+  height: 40px;
   font-size: 16px;
   color: #ffffff;
   background-color: #003153;
@@ -208,9 +207,9 @@ buttons
   padding: 5px;
   justify-content: flex-start;
   align-items: center;
-  border: 5px solid #234668;
+
   cursor: pointer;
-  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+
 }
 
 .correct {
@@ -233,3 +232,7 @@ buttons
   margin-right: 5px;
 }
 
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
