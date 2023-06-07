@@ -1,10 +1,11 @@
-//import logo from './logo.svg';
+
 import './AufgabeStyle.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { BaseTable } from "ali-react-table";
 //import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
+import Timer from './Timer';
 
 function Aufgabe() {
 
@@ -216,8 +217,8 @@ useEffect(()=>{
   return (
 <div>
  <Navbar/>
-    <div className='Aufgabe'>
 
+    <div className='Aufgabe'>
 			{showScore? (
 			<div className = 'score-section'>
 				{getMessage.status === 200 ?(
@@ -237,6 +238,7 @@ useEffect(()=>{
 			<div>
 			{getMessage.status === 200 ?(
 					<div className='question-section' >
+					 <div><Timer/></div>
 						<div className='question-count'>
 							<span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
 						</div>

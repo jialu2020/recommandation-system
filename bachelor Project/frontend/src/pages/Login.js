@@ -37,7 +37,7 @@ export const Login = () => {
 
 
           // Redirect the user to the home page
-          alert('You have logged in successfully!');
+
 
           navigate('/homepage');
         } else {

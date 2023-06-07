@@ -59,7 +59,9 @@ const handleChange = (event) => {
       <form>
         <label id = "mycourse">please select a Course </label>
         <select className = "select" name="languages" id="lang" onChange={handleChange} >
-           <option>Select your course</option>
+            <option disabled value="">
+        Select your course
+      </option>
            {optionsMap.map((option) => (
           <option value={option.value}>{option.label}</option>
         ))}
