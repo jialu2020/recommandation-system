@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 
-import homepageImage1 from "./e-learning-1280x720.png";
+import homepageImage1 from "./Indilearn-logo.png";
 import homepageImage2 from "./puuhgigjgon283.png";
 import homepageImage3 from "./WechatIMG4031.jpeg";
 
@@ -46,7 +46,12 @@ export default function Homepage() {
           </div>
           <div className="right">
             <p className="description">
-              "IndiLearn" aims to develop a learning system that uses a recommendation system as a tool to provide customized exercises in different subjects based on each student’s performance. The system evaluates the difficulty of the practice questions and the user’s performance and automatically recommends more challenging tasks to reinforce their performance in a particular subject. The goal is to improve the quality of teaching and learning, reduce the teacher’s workload, and increase students’ interest in learning.
+              "IndiLearn" is a learning system that uses a recommendation system
+              to provide customized exercises in a subject based on each student’s performance.
+              The system evaluates the difficulty of the practice questions and the user’s performance and
+              automatically recommends more challenging tasks to reinforce their performance in a particular subject.
+              The goal is to improve the quality of teaching and learning, reduce the teacher’s workload,
+              and increase students’ interest in learning.
             </p>
           </div>
         </div>

@@ -237,7 +237,7 @@ useEffect(()=>{
       <div>
         {getMessage.status === 200 ? (
           <div className='question-section' >
-            <div><Timer /></div>
+
             <div className='question-count'>
               <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
             </div>
