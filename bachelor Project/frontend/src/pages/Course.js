@@ -49,6 +49,9 @@ const handleChange = (event) => {
     console.log('kategorie:'+Kategorie)
     localStorage.setItem('kategorie', Kategorie );
     navigate("/aufgabe")
+      if (Kategorie === "") {
+    // 如果没有选择课程，则阻止默认的表单提交行为
+    return;}
   }
 
   return(
@@ -58,18 +61,18 @@ const handleChange = (event) => {
       <h1 className= "title">this page shows which course you are learning</h1>
       <form>
         <label id = "mycourse">please select a Course </label>
-        <select className = "select" name="languages" id="lang" onChange={handleChange} >
-            <option disabled value="">
-        Select your course
-      </option>
-           {optionsMap.map((option) => (
-          <option value={option.value}>{option.label}</option>
-        ))}
-        </select>
+      <select className="select" name="languages" id="lang" onChange={handleChange}>
+      <option value="">Select your course</option>
+         {optionsMap.map((option) => (
+         <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+          </select>
+
         <div>
-        <button className = "submit" onClick= {handleClick} type="submit" >submit</button>
+        <button className = "submit" onClick= {handleClick} type="submit"   disabled={Kategorie === "" }>submit</button>
         </div>
       </form>
+      {Kategorie === "" && <p>Please select a course!</p>}
     </div>
 
   )

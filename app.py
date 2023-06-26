@@ -20,9 +20,14 @@ app = Flask(__name__, static_folder='frontend/build/static')
 
 api = Api(app)
 
-CORS(app)
+# CORS(app)
+cors = CORS(app, resources={r"*": {"origins": "http://localhost:3000"}})
+# to avoid CORS policy: No 'Access-Control-Allow-Origin'
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin123:12345@92.205.10.92:3306/indilearn"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -217,7 +222,7 @@ def get_aufgabe(username, kategorie):
         all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
         filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
                              0.25 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
-                                                        latest_ability) < 0.75]
+                                                         latest_ability) < 0.75]
         filtered_aufgaben = random.sample(filtered_aufgaben, 4)
 
     results = aufgabe_schema.dump(filtered_aufgaben)
@@ -272,32 +277,36 @@ def add_sub():
     db.session.commit()
     return UserSchema().jsonify(newSubject)
 
-def G(A,B,C,D):
+
+def G(A, B, C, D):
     def g(x):
-        def right(A,B):
+        def right(A, B):
             func = ""
             for i in range(len(A)):
-                a=str(A[i])
-                b=str(B[i])
-                if i != len(A)-1:
-                    func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp("+a+"*(x-"+b+"))))*"
+                a = str(A[i])
+                b = str(B[i])
+                if i != len(A) - 1:
+                    func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp(" + a + "*(x-" + b + "))))*"
                 else:
-                    func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp("+a+"*(x-"+b+"))))"
+                    func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp(" + a + "*(x-" + b + "))))"
             return func
-        def wrong(C,D):
+
+        def wrong(C, D):
 
             func = ""
             for i in range(len(C)):
-                c=str(C[i])
-                d=str(D[i])
-                func = func + "*(1-((math.exp("+c+"*(x-"+d+")))/(1+math.exp("+c+"*(x-"+d+")))))"
+                c = str(C[i])
+                d = str(D[i])
+                func = func + "*(1-((math.exp(" + c + "*(x-" + d + ")))/(1+math.exp(" + c + "*(x-" + d + ")))))"
             return func
 
-        return eval("-" + right(A,B) + wrong(C,D))
+        return eval("-" + right(A, B) + wrong(C, D))
+
     res = minimize_scalar(g, method='brent')
     return res.x
 
-def R(A,B): #All Right
+
+def R(A, B):  # All Right
     def r(x):
         func = ""
         for i in range(len(A)):
@@ -308,12 +317,14 @@ def R(A,B): #All Right
             else:
                 func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp(" + a + "*(x-" + b + "))))"
         Tfunc = "1-" + func
-        R_func = "-(" +func + ")*(" +Tfunc+ ")"
+        R_func = "-(" + func + ")*(" + Tfunc + ")"
         return eval(R_func)
+
     res = minimize_scalar(r, method='brent')
     return res.x
 
-def W(C,D): #All Wrong
+
+def W(C, D):  # All Wrong
     def w(x):
         func = ""
         for i in range(len(C)):
@@ -324,10 +335,12 @@ def W(C,D): #All Wrong
             else:
                 func = func + "(1-(math.exp(" + c + "*(x-" + d + ")))/(1+math.exp(" + c + "*(x-" + d + "))))"
         Tfunc = "1-" + func
-        W_func = "-(" +func + ")*(" +Tfunc+ ")"
+        W_func = "-(" + func + ")*(" + Tfunc + ")"
         return eval(W_func)
+
     res = minimize_scalar(w, method='brent')
     return res.x
+
 
 # def F(A,B):
 #     def f(x):
@@ -372,21 +385,24 @@ def add_level():
 
     Init_Level = Level.query.filter(Level.username == username).filter(Level.kategorie == kategorie).all()
 
-    if(len(Init_Level)==0):
-       newLevel = Level(username, faehigkeit, kategorie)
+    if (len(Init_Level) == 0):
+        newLevel = Level(username, faehigkeit, kategorie)
 
     # faehigkeit = request.json["faehigkeit"]
     else:
         zeit = request.json["zeit"]
         print(zeit)
-        R_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,Exercises.discrimination).all()
-        R_Parameter = [{},{}]
+        R_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
+            Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,
+                                                                                     Exercises.discrimination).all()
+        R_Parameter = [{}, {}]
         W_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
-            Leistung.zeitpunkt == zeit).filter(Leistung.score == False).with_entities(Exercises.schwerigkeit,Exercises.discrimination).all()
+            Leistung.zeitpunkt == zeit).filter(Leistung.score == False).with_entities(Exercises.schwerigkeit,
+                                                                                      Exercises.discrimination).all()
         W_Parameter = [{}, {}]
         print(R_Aufgaben, W_Aufgaben)
 
-        if(len(R_Aufgaben) != 0 and len(W_Aufgaben) !=0):
+        if (len(R_Aufgaben) != 0 and len(W_Aufgaben) != 0):
 
             for i in range(len(R_Aufgaben)):
                 R_Parameter[0][i] = R_Aufgaben[i][0]
@@ -396,22 +412,22 @@ def add_level():
                 W_Parameter[0][j] = W_Aufgaben[j][0]
                 W_Parameter[1][j] = W_Aufgaben[j][1]
 
-            faehigkeit = G(R_Parameter[1],R_Parameter[0],W_Parameter[1],W_Parameter[0])
+            faehigkeit = G(R_Parameter[1], R_Parameter[0], W_Parameter[1], W_Parameter[0])
 
-            print("right disc:",R_Parameter[1])
-            print("right dif:",R_Parameter[0])
-            print("wrong disc:",W_Parameter[1])
-            print("wrong dif:",W_Parameter[0])
+            print("right disc:", R_Parameter[1])
+            print("right dif:", R_Parameter[0])
+            print("wrong disc:", W_Parameter[1])
+            print("wrong dif:", W_Parameter[0])
             print(faehigkeit)
 
-        if(len(R_Aufgaben) == 0):
+        if (len(R_Aufgaben) == 0):
 
             for j in range(len(W_Aufgaben)):
                 W_Parameter[0][j] = W_Aufgaben[j][0]
                 W_Parameter[1][j] = W_Aufgaben[j][1]
 
-            faehigkeit = W(W_Parameter[1],W_Parameter[0])
-            print("all wrong",faehigkeit)
+            faehigkeit = W(W_Parameter[1], W_Parameter[0])
+            print("all wrong", faehigkeit)
 
         if (len(W_Aufgaben) == 0):
 
@@ -420,26 +436,26 @@ def add_level():
                 R_Parameter[1][j] = R_Aufgaben[j][1]
 
             faehigkeit = R(R_Parameter[1], R_Parameter[0])
-            print("all right",faehigkeit)
+            print("all right", faehigkeit)
         faehigkeits = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
             Level.create_time.desc()).with_entities(Level.faehigkeit).limit(4).all()
-        print("recently 4 faehigkeit:",faehigkeits)
+        print("recently 4 faehigkeit:", faehigkeits)
         newest_faehig = faehigkeits[0][0]
         current_faehig = 0
         for i in range(len(faehigkeits)):
             current_faehig += faehigkeits[i][0]
-        if(newest_faehig - faehigkeit > 0.3):
+        if (newest_faehig - faehigkeit > 0.3):
             faehigkeit = newest_faehig - 0.3
-            print("newest",faehigkeit)
-        if(faehigkeit - newest_faehig > 0.5):
+            print("newest", faehigkeit)
+        if (faehigkeit - newest_faehig > 0.5):
             faehigkeit = newest_faehig + 0.5
-        faehigkeit = (current_faehig + faehigkeit)/(len(faehigkeits)+1)
+        faehigkeit = (current_faehig + faehigkeit) / (len(faehigkeits) + 1)
         # else:
         #     faehigkeit = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
         #         Level.create_time.desc()).with_entities(Level.faehigkeit).limit(1).all()
         #     faehigkeit = faehigkeit[0][0] - 0.1
 
-        newLevel = Level(username,faehigkeit, kategorie)
+        newLevel = Level(username, faehigkeit, kategorie)
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
