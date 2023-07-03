@@ -48,10 +48,10 @@ const handleChange = (event) => {
  function handleClick(){
     console.log('kategorie:'+Kategorie)
     localStorage.setItem('kategorie', Kategorie );
-    navigate("/aufgabe")
-      if (Kategorie === "") {
-    // 如果没有选择课程，则阻止默认的表单提交行为
-    return;}
+    navigate("/course/aufgabe")
+      if (Kategorie === "English") {
+        navigate("/course/game")
+      }
   }
 
   return(

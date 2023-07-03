@@ -1,0 +1,59 @@
+.word-learning-page {
+  width: 600px;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 150px;
+}
+
+#title{
+  background-color: black;
+}
+
+#hint{
+  color: black;
+}
+.word-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+.letter-button {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #00BFFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.answer-section {
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.answer-input {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+}
+
+
+
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

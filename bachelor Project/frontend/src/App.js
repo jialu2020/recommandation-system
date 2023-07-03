@@ -11,6 +11,7 @@ import Like from "./pages/Like";
 import {Login} from "./pages/Login";
 import {Register} from "./pages/Register";
 import Aufgabe from "./pages/Aufgabe";
+import WordLearningPage from "./pages/WordLearningPage";
 
 
 function App() {
@@ -41,7 +42,9 @@ function App() {
             <Route path= "/myprofile" element= {<Myprofile/>} />
             <Route  path="/" element={<Login />}  />
             <Route  path="/register" element={<Register />}  />
-            <Route  path="/aufgabe" element={<Aufgabe />}  />
+            <Route  path="/course/aufgabe" element={<Aufgabe />}  />
+            <Route  path="/course/game" element={<WordLearningPage />}  />
+
           </Routes>
         </header>
       </div>
