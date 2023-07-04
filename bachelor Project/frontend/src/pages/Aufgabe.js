@@ -3,9 +3,8 @@ import './AufgabeStyle.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { BaseTable } from "ali-react-table";
-//import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
-import Timer from './Timer';
+
 
 function Aufgabe() {
 
