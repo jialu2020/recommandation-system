@@ -6,9 +6,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 
-import homepageImage1 from "./Indilearn-logo.png";
-import homepageImage2 from "./puuhgigjgon283.png";
-import homepageImage3 from "./WechatIMG4031.jpeg";
+import homepageImage1 from "../icons/Indilearn-logo.png";
+import homepageImage2 from "../icons/puuhgigjgon283.png";
+import homepageImage3 from "../icons/WechatIMG4031.jpeg";
 
 
 export default function Homepage() {

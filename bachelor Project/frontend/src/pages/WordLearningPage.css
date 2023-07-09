@@ -11,25 +11,28 @@
   margin-bottom: 150px;
 }
 
-#title{
-  color: cornflowerblue;
+.title{
+  color: #3498db;
+   margin-top: -10px;
 }
 
-#hint{
+.hint{
   color: black;
+
+  margin-bottom:30px;
 }
 .word-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 20px;
+
 }
 
 
 .letter-button {
   margin: 5px;
   padding: 10px 20px;
-  background-color: #00BFFF;
+  background-color: #25CCF7;
   color: white;
   border: none;
   cursor: pointer;
@@ -40,15 +43,18 @@
   /* Your existing hover styles */
 
   /* Add background color change */
-  background-color: darkslateblue;
+  background-color: #1B9CFC;
 }
 
 .letter-button:active {
   /* Your existing active styles */
 
   /* Add background color change */
-  background-color: navy;
+  background-color: #1abc9c;
 }
+
+
+
 .button.clicked {
   background-color: gray;
   color: white;
@@ -75,7 +81,7 @@
 
 .submit-button {
   padding: 10px 20px;
-  background-color: #2f8ccc;
+  background-color: #fdcb6e;
   color: white;
   border: none;
   cursor: pointer;
@@ -84,21 +90,21 @@
   /* Your existing hover styles */
 
   /* Add background color change */
-  background-color: lightseagreen;
+  background-color: #f39c12;
 }
 
 .submit-button:active {
   /* Your existing active styles */
 
   /* Add background color change */
-  background-color: slategrey;
+  background-color: #e67e22;
 }
 
 .submit-button:disabled{
-  background-color: #555e7d;
+  background-color: #bdc3c7;
 }
 .scoreboard{
-  margin-top: 60px;
+
   color: cornflowerblue;
 }
 .progress-bar-container {
@@ -116,14 +122,22 @@
   transition: width 0.2s ease-in-out;
 }
 
+.word-learning-page {
+  position: relative;
+}
+
+.heart-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 .hearts {
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
-
 .heart-icon {
-  color: red;
-}
-
-.gray-heart {
-  color: #ccc;
+  width: 20px;
+  height: 20px;
 }
