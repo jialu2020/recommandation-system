@@ -5,6 +5,8 @@ import axios from 'axios'
 import imageGif from "../icons/icons8-heart-64.png"
 
 
+
+
   const WordLearningPage = ({  hint }) => {
 
 
@@ -13,11 +15,9 @@ import imageGif from "../icons/icons8-heart-64.png"
 
     const [currentAnswer, setCurrentAnswer] = useState('');
 
-    const [dataSource, setdataSource] = useState([]);
+    const [dataSource, setDataSource] = useState([]);
 
     const [getMessage, setGetMessage] = useState({})
-
-    const [currentQuestion, setCurrentQuestion] = useState(0);
 
     const [showScore, setShowScore] = useState(false);
 
@@ -36,8 +36,6 @@ import imageGif from "../icons/icons8-heart-64.png"
     const [DateTime, setDateTime] = useState('');
 
     const [currentObjectIndex, setCurrentObjectIndex] = useState(0);
-
-    const [clickedButtons, setClickedButtons] = useState([]);
 
     const [hearts, setHearts] = useState(3); // the number of hearts are 3
 
@@ -83,15 +81,17 @@ const handleButtonClick = (letter) => {
   const isCorrect = checkAnswer(currentAnswer, currentObject.musterloesung);
 
   if (currentObjectIndex < getMessage.data.length - 1) {
+    //逻辑是 先判断下一道题是否存在
     if (isCorrect) {
-      setdataSource([
-        ...dataSource,
+      setDataSource((prevDataSource) => [
+        ...prevDataSource,
         {
           num: done + 1,
           aufgabe: currentObject.aufgabenstellung,
           antwort: currentAnswer,
           musterloesung: currentObject.musterloesung,
-          bewertung: message === currentObject.musterloesung ? 'richtig' : 'falsch',
+          bewertung: true,
+
         },
       ]);
       setHearts(3);
@@ -105,6 +105,17 @@ const handleButtonClick = (letter) => {
       setCurrentAnswer('');
 
       if (hearts === 1) {
+        setDataSource((prevDataSource) => [
+          ...prevDataSource,
+          {
+            num: done + 1,
+            aufgabe: currentObject.aufgabenstellung,
+            antwort: currentAnswer,
+            musterloesung: currentObject.musterloesung,
+            bewertung: false,
+
+          },
+        ]);
         setHearts(3);
         setCurrentObjectIndex((currentObjectIndex) => currentObjectIndex + 1);
         setDone((prevDone) => prevDone + 1);
@@ -113,14 +124,15 @@ const handleButtonClick = (letter) => {
     }
   } else {
     if (isCorrect) {
-      setdataSource([
-        ...dataSource,
+      setDataSource((prevDataSource) => [
+        ...prevDataSource,
         {
           num: done + 1,
           aufgabe: currentObject.aufgabenstellung,
           antwort: currentAnswer,
           musterloesung: currentObject.musterloesung,
-          bewertung: message === currentObject.musterloesung ? 'richtig' : 'falsch',
+          bewertung: true,
+
         },
       ]);
 
@@ -131,12 +143,24 @@ const handleButtonClick = (letter) => {
       setHearts((prevHearts) => prevHearts - 1);
       console.log('your chances left:' + hearts);
       if (hearts === 1) {
+        setDataSource((prevDataSource) => [
+          ...prevDataSource,
+          {
+            num: done + 1,
+            aufgabe: currentObject.aufgabenstellung,
+            antwort: currentAnswer,
+            musterloesung: currentObject.musterloesung,
+            bewertung: false,
+
+          },
+        ]);
         setShowScore(true);
       }
     }
   }
 
   setCurrentAnswer('');
+
 };
 
 
@@ -203,16 +227,83 @@ const handleContinue = () => {
     .catch(error => {
       console.log(error);
     });
+  console.log("datasource")
+  console.log(dataSource)
+  updateLeistung();
+
+
+  let newlevel = {username: localStorage.getItem('username'),
+    faehigkeit: getnewlevel(),
+    kategorie: localStorage.getItem('kategorie'),
+    zeit: DateTime}
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newlevel)
+  };
+  fetch('http://127.0.0.1:5000/addlevel', requestOptions)
+    .then(response => response.json())
+    .then(newlevel);
 
   // 重置状态
   setCurrentAnswer('');
-  setdataSource([]);
+  setDataSource([]);
   setDone(0);
   setScore(0);
   setHearts(3);
   setCurrentObjectIndex(0);
   setShowScore(false);
 };
+
+
+
+    function getnewlevel(){
+      let thislevel = 0.0
+
+      for(let i = 0; i<dataSource.length; i++){
+        //dataSource[i]
+        let thisschwerigkeit = getMessage.data[i].schwerigkeit
+        let thisdiscrimination = getMessage.data[i].discrimination
+        let thisbewertung = dataSource[i].bewertung
+        let gewicht = getGewicht(thisschwerigkeit)
+
+        thislevel += thisschwerigkeit * thisdiscrimination * (thisbewertung=="richtig"?1:0) * gewicht
+      }
+      console.log(thislevel)
+      return thislevel
+    }
+
+
+
+    function updateLeistung(){
+
+      const currentDate = new Date();
+      const formattedDateTime = currentDate.toISOString();
+      for(let i=0; i<dataSource.length; i++){
+        setDateTime(Date().toLocaleString());
+
+//      console.log(getMessage.data[i].schwerigkeit+"***")
+
+        let leistung = {username: localStorage.getItem('username'),
+          aufgabestellung: getMessage.data[i].aufgabenstellung,
+          score : dataSource[i].bewertung,
+          kategorie : localStorage.getItem('kategorie'),
+          schwerigkeit : getMessage.data[i].schwerigkeit,
+          zeitpunkt : formattedDateTime};
+
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(leistung)
+        };
+        fetch('http://127.0.0.1:5000/addleistung', requestOptions)
+          .then(response => response.json())
+          .then(leistung);
+      }
+    }
+
+
 
       return (
         <div>
