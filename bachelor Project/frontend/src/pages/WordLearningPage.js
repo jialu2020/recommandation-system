@@ -3,6 +3,10 @@ import './WordLearningPage.css';
 import Navbar from "../Navbar";
 import axios from 'axios'
 import imageGif from "../icons/icons8-heart-64.png"
+import sadGif from "../icons/X5Na.gif"
+import wowGif from "../icons/bfX.gif"
+import goodGif from "../icons/5de.gif"
+
 
 
 
@@ -215,91 +219,99 @@ const handleButtonClick = (letter) => {
 
     }
 
-const handleContinue = () => {
-  let thisuser = localStorage.getItem('username');
-  axios.get('http://localhost:5000/getaufgabe/' + thisuser + '/' + kategorie)
-    .then(response => {
-      console.log("SUCCESS", response);
-      setGetMessage(response);
-      const aufgabenstellungen = response.data.map(item => item.aufgabenstellung);
-      setWord(aufgabenstellungen[0]); // 设置初始的题目
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  console.log("datasource")
-  console.log(dataSource)
-  updateLeistung();
+    const handleContinue = async () => {
+      let thisuser = localStorage.getItem('username');
+      try {
+        const response = await axios.get('http://localhost:5000/getaufgabe/' + thisuser + '/' + kategorie);
+        console.log("SUCCESS", response);
+        setGetMessage(response);
+        const aufgabenstellungen = response.data.map(item => item.aufgabenstellung);
+        setWord(aufgabenstellungen[0]); // 设置初始的题目
 
+        console.log("datasource");
+        console.log(dataSource);
+        updateLeistung();
 
-  let newlevel = {username: localStorage.getItem('username'),
-    faehigkeit: getnewlevel(),
-    kategorie: localStorage.getItem('kategorie'),
-    zeit: DateTime}
+        let newLevel = {
+          username: localStorage.getItem('username'),
+          faehigkeit: calculateLevel(),
+          kategorie: localStorage.getItem('kategorie'),
+          zeit: DateTime
+        };
 
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newlevel)
-  };
-  fetch('http://127.0.0.1:5000/addlevel', requestOptions)
-    .then(response => response.json())
-    .then(newlevel);
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newLevel)
+        };
 
-  // 重置状态
-  setCurrentAnswer('');
-  setDataSource([]);
-  setDone(0);
-  setScore(0);
-  setHearts(3);
-  setCurrentObjectIndex(0);
-  setShowScore(false);
-};
+        const levelResponse = await fetch('http://127.0.0.1:5000/addlevel', requestOptions);
+        const levelData = await levelResponse.json();
+        console.log(levelData);
 
-
-
-    function getnewlevel(){
-      let thislevel = 0.0
-
-      for(let i = 0; i<dataSource.length; i++){
-        //dataSource[i]
-        let thisschwerigkeit = getMessage.data[i].schwerigkeit
-        let thisdiscrimination = getMessage.data[i].discrimination
-        let thisbewertung = dataSource[i].bewertung
-        let gewicht = getGewicht(thisschwerigkeit)
-
-        thislevel += thisschwerigkeit * thisdiscrimination * (thisbewertung=="richtig"?1:0) * gewicht
+        // 重置状态
+        setCurrentAnswer('');
+        setDataSource([]);
+        setDone(0);
+        setScore(0);
+        setHearts(3);
+        setCurrentObjectIndex(0);
+        setShowScore(false);
+      } catch (error) {
+        console.log(error);
       }
-      console.log(thislevel)
-      return thislevel
+    };
+
+
+
+    function calculateLevel() {
+      let level = 0.0;
+
+      for (let i = 0; i < dataSource.length; i++) {
+        let schwerigkeit = getMessage.data[i].schwerigkeit;
+        let discrimination = getMessage.data[i].discrimination;
+        let bewertung = dataSource[i].bewertung;
+        let gewicht = getGewicht(schwerigkeit);
+
+        level += schwerigkeit * discrimination * (bewertung === "richtig" ? 1 : 0) * gewicht;
+      }
+
+      console.log(level);
+      return level;
     }
 
 
 
-    function updateLeistung(){
 
+    function updateLeistung() {
       const currentDate = new Date();
       const formattedDateTime = currentDate.toISOString();
-      for(let i=0; i<dataSource.length; i++){
-        setDateTime(Date().toLocaleString());
+      setDateTime(formattedDateTime);
 
-//      console.log(getMessage.data[i].schwerigkeit+"***")
-
-        let leistung = {username: localStorage.getItem('username'),
+      for (let i = 0; i < dataSource.length; i++) {
+        let leistung = {
+          username: localStorage.getItem('username'),
           aufgabestellung: getMessage.data[i].aufgabenstellung,
-          score : dataSource[i].bewertung,
-          kategorie : localStorage.getItem('kategorie'),
-          schwerigkeit : getMessage.data[i].schwerigkeit,
-          zeitpunkt : formattedDateTime};
+          score: dataSource[i].bewertung,
+          kategorie: localStorage.getItem('kategorie'),
+          schwerigkeit: getMessage.data[i].schwerigkeit,
+          zeitpunkt: formattedDateTime
+        };
 
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(leistung)
         };
+
         fetch('http://127.0.0.1:5000/addleistung', requestOptions)
           .then(response => response.json())
-          .then(leistung);
+          .then(leistungData => {
+            console.log(leistungData);
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
     }
 
@@ -312,14 +324,27 @@ const handleContinue = () => {
         {showScore ? (
       <div className="Aufgabe">
         <div className="word-learning-page">
-           {score >= 4 && <h2 className = "title">Excelent!</h2>}
-          {score >2 && score < 4 && <h2 className = "title">Good job!</h2>}
+          {score >= 4 && (
+            <React.Fragment>
+              <h2 className="title">Excellent!</h2>
+              <p className="hint">you got all the qusetions right!</p>
+              <img src={wowGif} alt="Excellent" className="score-gif" />
+            </React.Fragment>
+          )}
+          {score > 2 && score < 4 && (
+            <React.Fragment>
+              <h2 className="title">Good job!</h2>
+              <p className="hint">Not bad. Keep it up!</p>
+              <img src={goodGif} alt="Good Job" className="score-gif" />
+            </React.Fragment>
+          )}
           {score < 2 && (
-            <div>
-              <h2 className="title">Ops</h2>
+            <React.Fragment>
+              <h2 className="title">Oops</h2>
               <p className="hint">You need more practice!</p>
-            </div>
-          ) }
+              <img src={sadGif} alt="Oops" className="score-gif" />
+            </React.Fragment>
+          )}
           <p className="hint">your score is: {score}</p>
 
           <button onClick={handleContinue}>Continue</button>
