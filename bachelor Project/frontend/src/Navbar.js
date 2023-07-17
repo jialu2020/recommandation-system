@@ -52,16 +52,6 @@ function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/Like"
-                className={activeLink === '/Like' ? 'active' : ''}
-                onClick={() => handleLinkClick('/Like')}
-                title="gespeicherte Aufgaben"
-              >
-                My like
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 to="/Myprofile"
                 className={activeLink === '/Myprofile' ? 'active' : ''}
                 onClick={() => handleLinkClick('/Myprofile')}

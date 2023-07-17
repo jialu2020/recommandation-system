@@ -11,8 +11,8 @@ from flask_marshmallow import Marshmallow
 import math
 from scipy.optimize import minimize_scalar
 import random
-
 from sqlalchemy import func
+
 
 app = Flask(__name__, static_folder='frontend/build/static')
 
@@ -21,7 +21,6 @@ api = Api(app)
 # CORS(app)
 cors = CORS(app, resources={r"*": {"origins": "http://localhost:3000"}})
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
-
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin123:12345@92.205.10.92:3306/indilearn"
@@ -340,21 +339,6 @@ def W(C, D):  # All Wrong
     return res.x
 
 
-# def F(A,B):
-#     def f(x):
-#         func = ""
-#         for i in range(len(A)):
-#             a=str(A[i])
-#             b=str(B[i])
-#             if i != len(A)-1:
-#                 func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp("+a+"*(x-"+b+"))))*(1-((math.exp("+a+"*(x-"+b+")))/(1+math.exp("+a+"*(x-"+b+")))))*"
-#             else:
-#                 func = func + "((math.exp(" + a + "*(x-" + b + ")))/(1+math.exp("+a+"*(x-"+b+"))))*(1-((math.exp("+a+"*(x-"+b+")))/(1+math.exp("+a+"*(x-"+b+")))))"
-#         return eval("-"+func)
-#     res = minimize_scalar(f, method='brent')
-#     return res.x
-
-
 @app.route("/addleistung", methods=["POST"])
 def add_leistung():
     username = request.json["username"]
@@ -457,6 +441,21 @@ def add_level():
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
+
+
+
+
+
+@app.route("/getlevel/<username>", methods=['GET'])
+def get_level_by_username(username):
+    subquery = db.session.query(func.max(Level.create_time).label('max_create_time')).filter(
+        Level.username == username).group_by(Level.kategorie).subquery()
+    levels = db.session.query(Level).join(subquery, Level.create_time == subquery.c.max_create_time).filter(
+        Level.username == username).all()
+    if levels:
+        return LevelSchema(many=True).jsonify(levels)
+    else:
+        return jsonify({'message': 'Levels not found'})
 
 
 SECRET_KEY = 'i_love_u'

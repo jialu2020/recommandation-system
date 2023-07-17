@@ -1,0 +1,45 @@
+.option-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+
+
+}
+
+.option {
+  width: 200px;
+  height: 200px;
+  background-color: #eaeaea;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.option:hover {
+  background-color: #d6d6d6;
+}
+
+.option img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.option p {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.title2{
+  margin-top: 10px;
+  color: #4f799c;
+
+}

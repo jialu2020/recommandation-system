@@ -11,11 +11,11 @@ import goodGif from "../icons/5de.gif"
 
 
 
-  const WordLearningPage = ({  hint }) => {
+  const WordLearningPage = () => {
 
+     const [hint, setHint] = useState('');
 
-
-    const [word, setWord] = useState([]);
+     const [word, setWord] = useState('');
 
     const [currentAnswer, setCurrentAnswer] = useState('');
 
@@ -54,8 +54,10 @@ useEffect(() => {
     .then(response => {
       console.log("SUCCESS", response);
       setGetMessage(response);
-      const aufgabenstellungen = response.data.map(item => item.aufgabenstellung);
-      setWord(aufgabenstellungen[0]); // 设置初始的题目
+      const hint= response.data.map(item => item.aufgabenstellung);
+      const answer= response.data.map(item => item.musterloesung);
+      setHint(hint[0]);
+      setWord(answer[0]); // 设置初始的题目
     })
     .catch(error => {
       console.log(error);
@@ -102,10 +104,10 @@ const handleButtonClick = (letter) => {
       setCurrentObjectIndex((currentObjectIndex) => currentObjectIndex + 1);
       setScore((prevScore) => prevScore + 1);
       setDone((prevDone) => prevDone + 1);
-      setWord(getMessage.data[currentObjectIndex + 1]?.aufgabenstellung);
+      setWord(getMessage.data[currentObjectIndex + 1]?.musterloesung);
+      setHint(getMessage.data[currentObjectIndex + 1]?.aufgabenstellung);
     } else {
       setHearts((prevHearts) => prevHearts - 1);
-      console.log('your chances left:' + hearts);
       setCurrentAnswer('');
 
       if (hearts === 1) {
@@ -123,7 +125,8 @@ const handleButtonClick = (letter) => {
         setHearts(3);
         setCurrentObjectIndex((currentObjectIndex) => currentObjectIndex + 1);
         setDone((prevDone) => prevDone + 1);
-        setWord(getMessage.data[currentObjectIndex + 1]?.aufgabenstellung);
+        setWord(getMessage.data[currentObjectIndex + 1]?.musterloesung);
+        setHint(getMessage.data[currentObjectIndex + 1]?.aufgabenstellung);
       }
     }
   } else {
@@ -226,7 +229,9 @@ const handleButtonClick = (letter) => {
         console.log("SUCCESS", response);
         setGetMessage(response);
         const aufgabenstellungen = response.data.map(item => item.aufgabenstellung);
-        setWord(aufgabenstellungen[0]); // 设置初始的题目
+        const musterloesungen = response.data.map(item => item.musterloesung);
+        setWord(musterloesungen[0]);
+        setHint(aufgabenstellungen[0]);// 设置初始的题目
 
         console.log("datasource");
         console.log(dataSource);
@@ -347,14 +352,14 @@ const handleButtonClick = (letter) => {
           )}
           <p className="hint">your score is: {score}</p>
 
-          <button onClick={handleContinue}>Continue</button>
+          <button className='continue' onClick={handleContinue}>save and continue</button>
         </div>
       </div>
       ) :
           (<div className="Aufgabe">
             <div className="word-learning-page">
               <h2 className="title">Word Learning Page</h2>
-              <p className="hint">Hint: {word}</p>
+              <p className="hint">Hint: {hint}</p>
               <div className="heart-container">
                 <div className="hearts">
                   {Array(hearts)

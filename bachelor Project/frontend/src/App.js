@@ -12,6 +12,7 @@ import {Login} from "./pages/Login";
 import {Register} from "./pages/Register";
 import Aufgabe from "./pages/Aufgabe";
 import WordLearningPage from "./pages/WordLearningPage";
+import OptionPage from "./pages/Course-option";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path= "/myprofile" element= {<Myprofile/>} />
             <Route  path="/" element={<Login />}  />
             <Route  path="/register" element={<Register />}  />
+              <Route path= "/course/english-options" element= {<OptionPage/>} />
             <Route  path="/course/aufgabe" element={<Aufgabe />}  />
             <Route  path="/course/game" element={<WordLearningPage />}  />
 

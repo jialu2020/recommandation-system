@@ -60,6 +60,13 @@
   color: white;
 }
 
+.continue:hover{
+  color: #2f8ccc;
+}
+
+.continue:active{
+  color: steelblue;
+}
 
 .answer-section {
 

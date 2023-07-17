@@ -81,8 +81,8 @@ return (
     <form  onSubmit={handleSubmit}>
       <label id = "mycourse">select a course and add it to my course</label>
       <select className = "show" name="languages" id="lang" size = "5" onChange={useEffect}  onChange={event => setFachname(event.target.value)}>
-        {optionsMap.map((option) => (
-          <option value={option.value}>{option.label}</option>
+        {optionsMap.map((option , index) => (
+          <option key={index} value={option.value}>{option.label}</option>
         ))}
       </select>
       <div>

@@ -1,145 +1,207 @@
-import "./MyprofileStyle.css"
+import "./MyprofileStyle.css";
 import EditProfile from "./EditProfile";
-import {useEffect, useState} from "react";
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import axios from 'axios';
 import Navbar from "../Navbar";
-function Myprofile(){
+import star from "../icons/star.png"
+import moon from "../icons/crescent-moon.png"
+import sun from "../icons/sun.png"
 
+
+function Myprofile() {
   const [username, setUsername] = useState(localStorage.getItem('username'));
-   // The empty array as the second argument causes this effect to run only once when the component mounts
   const [editMode, setEditMode] = useState(false);
-  // useState 的用法是，需要传入一个参数作为状态的初始值，当函数执行后会返回两个值，一个是当前状态的属性，一个是修改状态的方法。
-  //The usage of useState is to pass a parameter as the initial value of the state,
-  // and when the function is executed it will return two values,
-  // a property of the current state and a method to modify the state.
-  const [UserLeistung, setUserLeistung] = useState({});
+  const [mysub, setmysub] = useState([]);
+  const [levels, setLevels] = useState([]);
+  const [showExplanation, setShowExplanation] = useState(false);
 
-  const [mysub, setmysub] = useState('');
-
-  const [scores, setscores] = useState([]);
-
-  useEffect(()=>{
-    axios.get('http://localhost:5000/getleistung/' + username).then(response => {
-      console.log("SUCCESS", response)
-      setUserLeistung(response.data)
-    }).catch(error => {
-      console.log(error)
-    })
-
-    fetch('http://127.0.0.1:5000/getkategories/' + username, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/getlevel/${username}`)
+      .then(response => {
+        console.log("SUCCESS", response);
+        const levelData = response.data;
+        if (Array.isArray(levelData)) {
+          setLevels(levelData);
+        } else {
+          console.error("Level data is not a valid array:", levelData);
+        }
       })
-      .then((response) => response.json())
-      .then((data) => {
-       console.log("data is: "+ data);
-       setmysub(data)
-        console.log("mysub: "+ mysub);
-    })
+      .catch(error => {
+        console.log(error);
+      });
 
- }, [])
+  }, [username]);
 
 
- function showscore(){
 
-    let UserKategorie= [... new Set(UserLeistung.map((leistung)=>leistung.kategorie))];
-
-    let newscore = [];
-
-    for(let i = 0; i<UserKategorie.length; i++)
-    {
-
-       newscore =
-       [...newscore,
-       {kategorie: UserKategorie[i],
-       score: (UserLeistung.filter( item => item.kategorie == UserKategorie[i]).filter(item => item.score == true).length/UserLeistung.filter( item => item.kategorie == UserKategorie[i]).length).toFixed(2)
-       }
-       ]
-       ;
-       setscores(newscore)
-       console.log(scores)
-        console.log(newscore)
-        console.log(UserLeistung.filter( item => item.kategorie == UserKategorie[i]).length)
-        console.log(UserLeistung.filter( item => item.kategorie == UserKategorie[i]).filter(item => item.score == true).length)//.filter( item => item.kategorie == UserKategorie[i]).length)
-    }
-
- }
-
-  const mysubShow = [];
- for (let i = 0; i < mysub.length; i++) {
-   mysubShow[i] = mysub[i] + '  '
-  }
-   console.log("mysubShow: "+ mysubShow)
-
-
-  function changeToFalse(){
-    setEditMode(false)
+  function changeToFalse() {
+    setEditMode(false);
   }
 
- function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
   }
 
-  return(
+  function getLevelIcon(level) {
+    switch (true) {
+      case level < 0.5:
+        return <img src={star} alt="Star" />;
+      case level >= 0.5 && level < 1:
+        return (
+          <>
+            <img src={star} alt="Star" />
+            <img src={star} alt="Star" />
+          </>
+        );
+      case level >= 1 && level < 1.5:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
 
+          </>
+        );
+      case level >= 1.5 && level < 2:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
+            <img src={star} alt="Star" />
+
+          </>
+        );
+      case level >= 2 && level < 2.5:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
+            <img src={star} alt="Star" />
+            <img src={star} alt="Star" />
+
+          </>
+        );
+      case level >= 2.5 && level < 3:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
+            <img src={moon} alt="Moon" />
+
+
+          </>
+        );
+      case level >= 3 && level < 3.5:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
+            <img src={moon} alt="Moon" />
+            <img src={star} alt="Star" />
+
+          </>
+        );
+
+        case level >= 3.5 && level < 4:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
+            <img src={moon} alt="Moon" />
+            <img src={star} alt="Star" />
+            <img src={star} alt="Star" />
+
+          </>
+        );
+      case level >= 4 && level < 4.5:
+        return (
+          <>
+            <img src={moon} alt="Moon" />
+            <img src={moon} alt="Moon" />
+            <img src={moon} alt="Moon" />
+
+          </>
+        );
+      case level >= 4.5:
+        return (
+          <>
+            <img src={sun} alt="Sun" />
+
+
+          </>
+        );
+
+
+
+
+
+      default:
+        return null;
+    }
+  }
+
+
+
+
+
+return (
   <div>
-    <Navbar/>
-     {editMode ? (
-       <div>
-         <EditProfile changeToFalse  = {changeToFalse} />
-       </div>
-       ):(
-       // falls editMode=true shows regular things(page), click button back, quit Edit mode
-        <div>
-         <div id = "buttonclass">
-           <form onSubmit={handleSubmit} >
-            <ul id="userinfo">
-               <li id="listelement">username:  {localStorage.getItem('username')}</li>
-
-               <li id="listelement">password: {localStorage.getItem('password')}</li>
-
-
-
-               <li id="listelement">my current courses: {mysubShow}</li>
-
-               <li id="listelement">my scores:
-
-                {scores && scores.map(item =>
-                        <tr key={item.kategorie}>
-                            <td>{item.kategorie} : {item.score*100} / 100</td>
-                        </tr>
-                    )}
-               </li>
-          </ul>
-
-
-         </form>
-         </div>
-
-          <div id = "buttonclass">
-
-           <button className= "submit"type = "submit" onClick={()=>showscore()}>Show score</button>
-             <button className="link-btn" onClick={()=>setEditMode(true)}>Edit password</button>
-         </div>
-
+    <Navbar />
+    {editMode ? (
+      <div>
+        <EditProfile changeToFalse={changeToFalse} />
       </div>
+    ) : (
+      <div className="container">
+        <div className="user-info-container">
+          <form onSubmit={handleSubmit}>
+            <div className="username-password">
+              <h3>My Account:</h3>
+              <span>Username:</span> {localStorage.getItem('username')}
+            </div>
+            <div className="username-password">
+              <span>Password:</span> {localStorage.getItem('password')}
+            </div>
+            <div id="buttonclass">
+              <button className="link-btn" onClick={() => setEditMode(true)}>
+                Edit password
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className="level-list">
+          <h3>My Levels:</h3>
+          <ul>
+            {levels.map(level => (
+              <li key={level.id}>
+                {level.kategorie} : <span>{getLevelIcon(level.faehigkeit)}</span>
+              </li>
+            ))}
+          </ul>
+          <p>
+            <a  className="infolink" href="#" onClick={() => setShowExplanation(!showExplanation)}>
+              To view the level icon explanations, click here.
+            </a>
+          </p>
+          {showExplanation && (
+            <div className="explanation-box">
+              <h3>Explanation for level icons:</h3>
+              <p>You get a star every time you upgrade.</p>
+              <p>for example :</p>
+              <ul>
+                <li>0 - 0.5: One star</li>
+                <li>0.5 - 1: Two stars</li>
+                <li>...</li>
+                <p>Embrace the journey of growth and leveling up! With each step, you'll unlock new icons that symbolize your progress and achievements!!</p>
+                {/* Add more explanations for other levels */}
+              </ul>
+            </div>
+          )}
 
 
 
 
-
-       )}
+        </div>
+      </div>
+    )}
   </div>
-
-
-
-)
+);
 
 
 }
 
-
-export default Myprofile
-
+export default Myprofile;

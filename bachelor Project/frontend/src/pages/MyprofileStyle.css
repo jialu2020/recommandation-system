@@ -1,22 +1,82 @@
-#userinfo{
-  padding: 30px;
-  list-style: none;
-  font-size: large;
+/* MyprofileStyle.css */
+
+/* 根容器样式 */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 用户信息容器样式 */
+.user-info-container {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  text-align: left; /* 左对齐 */
+  background-color: white;
+}
+
+/* 用户名和密码样式 */
+.username-password {
+  margin-bottom: 10px;
+  color: black;
+}
+
+.username-password span {
+  font-weight: normal;
+  color:black;
+}
+
+/* 级别列表样式 */
+.level-list {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 40px;
+  text-align: left; /* 左对齐 */
+  background-color: white;
+  color: #1B1C1E;
+}
+
+.level-list span {
   font-weight: bold;
-  color: white;
+}
+
+.level-list ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.level-list li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+
 
 
 }
-#listelement{
-  line-height: 2;
-  text-align: left;
-  margin-left: -10%;
 
-}
-#buttonclass{
-
-display:inline-block;
-
-
+.level-list img {
+  max-width: 30px;
+  max-height: 30px;
+  margin-left: 5px;
 }
 
+/* 编辑密码按钮样式 */
+.link-btn {
+  margin-top: 20px;
+  color: #1B1C1E;
+}
+.explanation-box {
+
+  top: 40px;
+  left: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.infolink{
+  color: #2f8ccc;
+}
