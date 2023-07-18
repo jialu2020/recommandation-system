@@ -74,7 +74,7 @@ export const Register = () => {
 
   return(
     <div >
-      <Navbar />
+
 
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 

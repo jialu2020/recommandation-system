@@ -62,7 +62,7 @@ export const Login = () => {
   return(
 
     <div >
-      <Navbar />
+
 
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <div className="auth-form-container">
