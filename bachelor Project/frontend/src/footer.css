@@ -1,0 +1,39 @@
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 让内容水平居中 */
+  background-color: white;
+}
+
+.footer-content a {
+  margin-right: 10px;
+  color: grey;
+  text-decoration: none;
+  display: flex; /* 让链接内的内容以flex布局 */
+  align-items: center; /* 让链接内的内容垂直居中 */
+}
+
+.footer-content a:last-child {
+  margin-right: 0; /* 最后一个链接不需要右边距 */
+}
+
+.footer-content a::after {
+  content: "|"; /* 添加竖线内容 */
+  margin-left: 10px;
+  color: grey; /* 设置竖线颜色 */
+}
+
+.footer-content a:last-child::after {
+  content: none; /* 最后一个链接不需要竖线 */
+}
+
+.footer-content a:hover {
+  color: #2f8ccc;
+}
+.footer {
+  margin-top: auto;
+  padding: 20px;
+  background-color:white;
+  text-align: center;
+  font-size: 16px;
+}

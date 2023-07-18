@@ -1,6 +1,8 @@
 //抓取用户的输入需要使用到new state hook from react
 import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../footer";
+import Navbar from "../Navbar";
 
 
 //props形参 父组件发送一些函数或值给他们的children,
@@ -59,17 +61,28 @@ export const Login = () => {
 
   return(
 
-    <div className="auth-form-container">
-      <h2>Welcome</h2>
+    <div >
+      <Navbar />
 
-      <form className= "login-form" onSubmit={handleSubmit}>
-        <label htmlFor="username">username</label>
-        <input value= {username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="your username" id="username" name= "username"/>
-        <label htmlFor="password">password</label>
-        <input value= {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name= "password"/>
-        <button type="submit">Log In</button>
-      </form>
-      <button className="link-btn" onClick= {handleRedirect} >Don't have an account? Register here.</button>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div className="auth-form-container">
+          <h2>Welcome</h2>
+
+          <form className= "login-form" onSubmit={handleSubmit}>
+            <label htmlFor="username">username</label>
+            <input value= {username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="your username" id="username" name= "username"/>
+            <label htmlFor="password">password</label>
+            <input value= {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name= "password"/>
+            <button type="submit">Log In</button>
+          </form>
+          <button className="link-btn" onClick= {handleRedirect} >Don't have an account? Register here.</button>
+        </div>
+        </div>
+
+
+      <div>
+        <Footer />
+      </div>
     </div>
   )
 }

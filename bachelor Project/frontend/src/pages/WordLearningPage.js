@@ -6,6 +6,7 @@ import imageGif from "../icons/icons8-heart-64.png"
 import sadGif from "../icons/X5Na.gif"
 import wowGif from "../icons/bfX.gif"
 import goodGif from "../icons/5de.gif"
+import Footer from "../footer";
 
 
 
@@ -327,7 +328,7 @@ const handleButtonClick = (letter) => {
           <Navbar/>
 
         {showScore ? (
-      <div className="Aufgabe">
+      <div className="Aufgabe" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <div className="word-learning-page">
           {score >= 4 && (
             <React.Fragment>
@@ -408,6 +409,9 @@ const handleButtonClick = (letter) => {
 
 
           </div>)}
+          <div>
+            <Footer />
+          </div>
         </div>
       );
     };

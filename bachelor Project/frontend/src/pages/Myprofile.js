@@ -1,11 +1,12 @@
 import "./MyprofileStyle.css";
 import EditProfile from "./EditProfile";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Navbar from "../Navbar";
 import star from "../icons/star.png"
 import moon from "../icons/crescent-moon.png"
 import sun from "../icons/sun.png"
+import Footer from "../footer";
 
 
 function Myprofile() {
@@ -146,7 +147,7 @@ return (
         <EditProfile changeToFalse={changeToFalse} />
       </div>
     ) : (
-      <div className="container">
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <div className="user-info-container">
           <form onSubmit={handleSubmit}>
             <div className="username-password">
@@ -198,6 +199,11 @@ return (
         </div>
       </div>
     )}
+
+    <div>
+      <Footer />
+    </div>
+
   </div>
 );
 

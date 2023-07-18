@@ -13,6 +13,10 @@ import {Register} from "./pages/Register";
 import Aufgabe from "./pages/Aufgabe";
 import WordLearningPage from "./pages/WordLearningPage";
 import OptionPage from "./pages/Course-option";
+import Imprint from "./footerPage/imprint";
+import CookiePolicy from "./footerPage/CookiePolicy";
+import PrivacyPolicy from "./footerPage/PrivacyPolicy";
+import Contact from "./footerPage/contact";
 
 
 function App() {
@@ -46,6 +50,12 @@ function App() {
               <Route path= "/course/english-options" element= {<OptionPage/>} />
             <Route  path="/course/aufgabe" element={<Aufgabe />}  />
             <Route  path="/course/game" element={<WordLearningPage />}  />
+
+            <Route path="/imprint" element={<Imprint />} />
+
+            <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+            <Route path="/contact" element={<Contact/>} />
 
           </Routes>
         </header>

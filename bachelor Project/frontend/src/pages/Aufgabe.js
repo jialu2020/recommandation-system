@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { BaseTable } from "ali-react-table";
 import Navbar from "../Navbar";
+import Footer from "../footer";
+import {ArtColumn} from "ali-react-table";
 
 
 function Aufgabe() {
@@ -216,10 +218,10 @@ useEffect(()=>{
 
 
   return (
-<div>
+<div  >
   <Navbar />
 
-  <div className='Aufgabe'>
+  <div className='Aufgabe' style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
     {showScore ? (
       <div className='score-section'>
         {getMessage.status === 200 ? (
@@ -271,7 +273,14 @@ useEffect(()=>{
       </div>
     )}
   </div>
+
+  <div>
+    <Footer />
+  </div>
+
+
 </div>
+
   );
 }
 

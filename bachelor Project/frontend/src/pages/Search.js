@@ -1,6 +1,7 @@
 import "./SearchStyle.css"
 import Navbar from "../Navbar";
 import React, { useState, useEffect} from "react";
+import Footer from "../footer";
 export default function Search(){
 
 
@@ -77,18 +78,26 @@ function handleClick(){
 return (
   <div>
     <Navbar/>
-    <h1 className= "title">this page shows our current course</h1>
-    <form  onSubmit={handleSubmit}>
-      <label id = "mycourse">select a course and add it to my course</label>
-      <select className = "show" name="languages" id="lang" size = "5" onChange={useEffect}  onChange={event => setFachname(event.target.value)}>
-        {optionsMap.map((option , index) => (
-          <option key={index} value={option.value}>{option.label}</option>
-        ))}
-      </select>
-      <div>
-        <button className = "submit" onClick= {handleClick} type="submit" >add to my course</button>
-      </div>
-    </form>
+
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+
+      <h1 className= "title">this page shows our current course</h1>
+      <form  onSubmit={handleSubmit}>
+        <label id = "mycourse">select a course and add it to my course</label>
+        <select className = "show" name="languages" id="lang" size = "5" onChange={useEffect}  onChange={event => setFachname(event.target.value)}>
+          {optionsMap.map((option , index) => (
+            <option key={index} value={option.value}>{option.label}</option>
+          ))}
+        </select>
+        <div>
+          <button className = "submit" onClick= {handleClick} type="submit" >add to my course</button>
+        </div>
+      </form>
+    </div>
+
+    <div>
+      <Footer />
+    </div>
   </div>
 );
 

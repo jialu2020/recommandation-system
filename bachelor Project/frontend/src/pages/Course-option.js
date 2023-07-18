@@ -4,6 +4,7 @@ import './OptionPage.css';
 import Navbar from "../Navbar";
 import spellingPic from "../icons/spell-check.png"
 import gamePic from "../icons/choice.png"
+import Footer from "../footer";
 
 const OptionPage = () => {
   const navigate = useNavigate();
@@ -22,16 +23,26 @@ const OptionPage = () => {
     <div>
 
       <Navbar />
-      <h1>What do you want?</h1>
-      <div className="option-container">
-        <div className="option" onClick={handleAufgabeClick}>
-          <img src={spellingPic} alt="Spelling" />
-          <p className="title2">1.Spelling</p>
-        </div>
-        <div className="option" onClick={handleGameClick}>
-          <img src={gamePic} alt="game" />
-          <p className="title2">2. Game</p>
-        </div>
+       <div  style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+
+         <h1>What do you want?</h1>
+         <div className="option-container">
+           <div className="option" onClick={handleAufgabeClick}>
+             <img src={spellingPic} alt="Spelling" />
+             <p className="title2">1.Spelling</p>
+           </div>
+           <div className="option" onClick={handleGameClick}>
+             <img src={gamePic} alt="game" />
+             <p className="title2">2. Game</p>
+           </div>
+         </div>
+
+       </div>
+
+
+
+      <div>
+        <Footer />
       </div>
     </div>
   );
