@@ -69,7 +69,7 @@ export const Login = () => {
 
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'  }}>
         <div className="auth-form-container">
-          <h2>Welcome</h2>
+          <h2>Welcome to Indilearn!</h2>
 
           <form className= "login-form" onSubmit={handleSubmit}>
             <label htmlFor="username">username</label>
