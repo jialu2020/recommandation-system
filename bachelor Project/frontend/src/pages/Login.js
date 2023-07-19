@@ -64,10 +64,10 @@ export const Login = () => {
 
   return(
 
-    <div >
+    <div>
 
 
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'  }}>
         <div className="auth-form-container">
           <h2>Welcome</h2>
 

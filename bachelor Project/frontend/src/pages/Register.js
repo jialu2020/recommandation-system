@@ -12,33 +12,6 @@ export const Register = () => {
   const [KategorieSet, setKategorieSet] = useState({});
 
   function handleSubmit(event) {
-
-//     event.preventDefault();
-//    //get kategories
-//     axios.get('http://localhost:5000/getkategories').then(response => {
-//      console.log("SUCCESS", response)
-//      setKategorieSet(response)
-//    }).catch(error => {
-//      console.log(error)
-//    })
-//
-//    event.preventDefault();
-//    for(let i=0; i<KategorieSet.data.length; i++)
-//    {
-//    let init_leistung = {username: username, kategorie: KategorieSet.data[i].kategorie}
-//
-//    const requestOptions = {
-//        method: 'POST',
-//        headers: { 'Content-Type': 'application/json' },
-//        body: JSON.stringify(init_leistung)
-//    };
-//    fetch('http://localhost:5000/leistung', requestOptions)
-//        .then(response => response.json())
-//        .then(init_leistung);
-//    }
-
-
-
     event.preventDefault();
     fetch('http://localhost:5000/api/register', {
       method: 'POST',
@@ -76,7 +49,7 @@ export const Register = () => {
     <div >
 
 
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'  }}>
 
         <div  className="auth-form-container">
 

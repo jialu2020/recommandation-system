@@ -184,7 +184,7 @@ return (
               </button>
             </div>
             <div id="buttonclass">
-          <button className="delete-button" onClick={handleDeleteAccount}>
+          <button className="delete-button1" onClick={handleDeleteAccount}>
             Delete my account
           </button>
 

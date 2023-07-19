@@ -92,7 +92,7 @@
 .infolink:hover{
   color: goldenrod;
 }
-.delete-button {
+.delete-button1 {
   background-color: gray;
   color: #fff;
   border: none;
@@ -102,10 +102,10 @@
   font-size: 14px;
 }
 
-.delete-button:hover {
+.delete-button1:hover {
   background-color: #c0392b;
 }
 
-.delete-button:focus {
+.delete-button1:focus {
   outline: none;
 }

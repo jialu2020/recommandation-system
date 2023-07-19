@@ -5,7 +5,7 @@ nav{
   align-content: center;
   justify-content: space-between;
   background: #00BFFF;
-  padding: 20px 80px;
+  padding: 10px 40px;
 
 }
 
@@ -13,6 +13,8 @@ nav{
   display: flex;
   background-color: transparent;
   justify-content: center;
+
+
 
 }
 #navbar .active {
