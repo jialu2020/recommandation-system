@@ -13,7 +13,6 @@ from scipy.optimize import minimize_scalar
 import random
 from sqlalchemy import func
 
-
 app = Flask(__name__, static_folder='frontend/build/static')
 
 api = Api(app)
@@ -42,7 +41,6 @@ class Users(db.Model):
     def __init__(self, username, password):  # constractor for the object
         self.username = username
         self.password = password
-
 
 class Subjects(db.Model):  # to connect user with his selected subject
     __tablename__ = "mysubject"
@@ -443,9 +441,6 @@ def add_level():
     return LevelSchema().jsonify(newLevel)
 
 
-
-
-
 @app.route("/getlevel/<username>", methods=['GET'])
 def get_level_by_username(username):
     subquery = db.session.query(func.max(Level.create_time).label('max_create_time')).filter(
@@ -524,6 +519,26 @@ def register():
     response = jsonify({'message': 'User created successfully'})
     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     return response
+
+
+@app.route("/delete-user/<username>", methods=['DELETE'])
+def delete_user(username):
+    try:
+        # 查找要删除的用户数据
+        user = Users.query.filter_by(username=username).first()
+
+        if not user:
+            return jsonify({"message": f"User with username {username} not found."}), 404
+
+        # 删除用户数据
+        db.session.delete(user)
+        db.session.commit()
+
+        return jsonify({"message": f"User with username {username} has been deleted successfully."}), 200
+    except Exception as e:
+        # 处理异常情况
+        db.session.rollback()
+        return jsonify({"error": "An error occurred while deleting the user.", "details": str(e)}), 500
 
 
 def hash_password(password: str) -> str:

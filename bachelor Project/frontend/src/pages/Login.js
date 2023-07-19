@@ -1,18 +1,14 @@
-//抓取用户的输入需要使用到new state hook from react
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../footer";
-import Navbar from "../Navbar";
-
 
 //props形参 父组件发送一些函数或值给他们的children,
 export const Login = () => {
   //创建状态 email是状态的名字 然后setEmailHook是一个函数来修改状态 最开始都是null所以使用''
- // const API_URL = 'http://localhost:5000';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   //用户提交表单  handleSubmit函数负责
   function handleSubmit(event) {
@@ -39,9 +35,12 @@ export const Login = () => {
 
 
           // Redirect the user to the home page
+          setIsLoggedIn(true); // 登录成功时设置为true
+          setTimeout(() => {
+            navigate('/homepage');
+          }, 1000);
+          console.log('isLoggedIn1:', isLoggedIn);
 
-
-          navigate('/homepage');
         } else {
           // Login failed, display an error message
           alert(data.message);
@@ -51,6 +50,10 @@ export const Login = () => {
         alert('An error occurred while logging in');
       });
   }
+
+  useEffect(() => {
+    console.log('isLoggedIn2: useEffect triggered. isLoggedIn value:', isLoggedIn);
+  }, [isLoggedIn]);
 
 
 

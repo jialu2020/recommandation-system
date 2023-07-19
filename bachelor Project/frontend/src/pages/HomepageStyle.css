@@ -24,8 +24,10 @@
         background-color: transparent;
         margin-left: 310px;
         height: 300px;
+       flex: 1;
+       padding: 0 20px;
 
-      }
+}
 
 .title {
   font-size: 32px;
@@ -45,6 +47,7 @@
   font-size: 18px;
   text-align: justify;
   margin-top: 20px;
+  word-wrap: break-word;
 }
 
 .slick-slider {

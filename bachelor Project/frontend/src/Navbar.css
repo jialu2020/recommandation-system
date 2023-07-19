@@ -48,3 +48,32 @@ nav{
 
 }
 
+#navbar li:last-child {
+  margin-right: 30px;
+  margin-left: auto; /* 将最后一个元素推到最右边 */
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 70;
+  color: white;
+  transition: 0.3s ease-in-out;
+
+
+}
+#navbar li:last-child:hover {
+  cursor: pointer;
+  color: black; /* 修改悬浮时的文本颜色 */
+}
+.logout-link {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.logout-link img {
+  /* Add any initial styles for the icon here */
+  width: 20px;
+  height: 20px;
+  margin-left: 5px; /* Add some left margin between icon and text */
+  margin-right: 5px; /* Add some right margin between icon and text */
+}

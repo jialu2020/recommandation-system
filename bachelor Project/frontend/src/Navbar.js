@@ -1,14 +1,27 @@
 import React from 'react';
 import "./Navbar.css"
 import { useState } from 'react';
-import {NavLink, useLocation} from 'react-router-dom';
+import {NavLink, useLocation, useNavigate} from 'react-router-dom';
+import logoutIcon from "./icons/logout.png"
 
-function Navbar() {
+function Navbar({ isLoggedIn }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState(location.pathname);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
 
   const handleLinkClick = (path) => {
     setActiveLink(path);
+  };
+
+  const handleLogout = () => {
+    // 执行退出账号操作
+    setLoggedIn(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+    setLoggedIn(false);
+    navigate('/'); // 退出账号后跳转回登录页面或其他适当的页面
   };
 
   return (
@@ -60,6 +73,14 @@ function Navbar() {
                 My Profile
               </NavLink>
             </li>
+
+            <li>
+              <span className="logout-link" onClick={handleLogout}>Logout
+                <img src={logoutIcon} alt="Logout" />
+              </span>
+            </li>
+
+
           </ul>
         </div>
       </nav>

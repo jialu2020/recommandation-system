@@ -41,15 +41,18 @@ export default ({changeToFalse})=>{
 
   return(
 
-
+  <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
     <form onSubmit={handleSubmit}>
-    <div>
-       <input className = "search" placeholder = "passwort.." value={password} onChange={event => setPassword(event.target.value)}/>
-       <button className = "submit">submit</button>
-       <button className="link-btn" onClick={()=>changeToFalse()}>back</button>
+      <div>
+        <input className = "search" placeholder = "passwort.." value={password} onChange={event => setPassword(event.target.value)}/>
+        <button className = "submit">submit</button>
+        <button className="link-btn" onClick={()=>changeToFalse()}>back</button>
 
-    </div>
+      </div>
     </form>
+
+
+  </div>
 
   )
 
