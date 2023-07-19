@@ -48,6 +48,7 @@ class Subjects(db.Model):  # to connect user with his selected subject
     fachname = db.Column(db.String())
     username = db.Column(db.String())
 
+
     def __init__(self, fachname, username):  # constractor for the object
         self.fachname = fachname
         self.username = username
@@ -531,6 +532,14 @@ def delete_user(username):
             return jsonify({"message": f"User with username {username} not found."}), 404
 
         # 删除用户数据
+        Subjects.query.filter_by(username=username).delete()
+
+        # 删除与用户相关的 Leistung 数据
+        Leistung.query.filter_by(username=username).delete()
+
+        # 删除与用户相关的 Level 数据
+        Level.query.filter_by(username=username).delete()
+
         db.session.delete(user)
         db.session.commit()
 

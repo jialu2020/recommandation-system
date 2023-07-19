@@ -9,7 +9,7 @@ function PrivacyPolicy() {
       </p>
       <h2 style={subHeadingStyle}>Information We Collect</h2>
       <p style={paragraphStyle}>
-        We may collect personal information, such as your name, email address, and username when you register an account with us. We also collect non-personal information, such as your IP address and browser type, for analytical purposes.
+        We may collect personal information, such as  username when you register an account with us. We also collect non-personal information, such as your IP address and browser type, for analytical purposes.
       </p>
       <h2 style={subHeadingStyle}>How We Use Your Information</h2>
       <p style={paragraphStyle}>

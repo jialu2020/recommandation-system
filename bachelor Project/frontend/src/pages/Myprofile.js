@@ -36,6 +36,27 @@ function Myprofile() {
 
 
 
+    function handleDeleteAccount() {
+    const shouldDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+    if (shouldDelete) {
+      // 向服务器发送 DELETE 请求删除用户账号
+      axios.delete(`http://localhost:5000/delete-user/${username}`)
+        .then(response => {
+          console.log("SUCCESS", response);
+          // 处理删除成功的情况，例如显示成功消息，并执行注销操作
+          alert("Your account has been deleted successfully.");
+          // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
+        })
+        .catch(error => {
+          console.log(error);
+          // 处理删除失败的情况，例如显示错误消息
+          alert("An error occurred while deleting your account. Please try again later.");
+        });
+    }
+  }
+
+
   function changeToFalse() {
     setEditMode(false);
   }
@@ -149,19 +170,27 @@ return (
     ) : (
       <div className="container" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <div className="user-info-container">
+
           <form onSubmit={handleSubmit}>
+
+            <div>
+                <h3 className= "title2">My Account:</h3>
             <div className="username-password">
-              <h3>My Account:</h3>
               <span>Username:</span> {localStorage.getItem('username')}
             </div>
             <div className="username-password">
-              <span>Password:</span> {localStorage.getItem('password')}
-            </div>
-            <div id="buttonclass">
-              <button className="link-btn" onClick={() => setEditMode(true)}>
+              <span>Password:</span> {localStorage.getItem('password')}  <button className="link-btn" onClick={() => setEditMode(true)}>
                 Edit password
               </button>
             </div>
+            <div id="buttonclass">
+          <button className="delete-button" onClick={handleDeleteAccount}>
+            Delete my account
+          </button>
+
+            </div>
+            </div>
+
           </form>
         </div>
         <div className="level-list">

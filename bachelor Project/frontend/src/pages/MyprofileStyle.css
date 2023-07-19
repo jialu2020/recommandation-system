@@ -22,7 +22,7 @@
 
 /* 用户名和密码样式 */
 .username-password {
-  margin-bottom: 10px;
+
   color: black;
 }
 
@@ -67,9 +67,15 @@
 
 /* 编辑密码按钮样式 */
 .link-btn {
-  margin-top: 20px;
-  color: #1B1C1E;
+
+  color: #3498db;
 }
+
+.link-btn:hover {
+
+  color: darkturquoise;
+}
+
 .explanation-box {
 
   top: 40px;
@@ -81,5 +87,25 @@
 }
 
 .infolink{
-  color: #2f8ccc;
+  color: grey;
+}
+.infolink:hover{
+  color: goldenrod;
+}
+.delete-button {
+  background-color: gray;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.delete-button:focus {
+  outline: none;
 }
