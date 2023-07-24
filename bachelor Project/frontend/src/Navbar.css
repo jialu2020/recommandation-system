@@ -43,7 +43,7 @@ nav{
 }
 
 #navbar li a:active{
-  background-color:#808080;
+
   padding: 35px 0px;
   color: white;
   transition: 0.1s

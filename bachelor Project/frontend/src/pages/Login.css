@@ -7,3 +7,12 @@
 .footer {
   margin-top: auto;
 }
+
+/* MyComponent.css */
+.my-component {
+  color: red;
+  background-color: yellow;
+  font-size: 20px;
+  padding: 10px;
+  /* 添加其他样式 */
+}

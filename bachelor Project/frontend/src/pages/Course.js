@@ -6,9 +6,9 @@ import Footer from "../footer";
 
 export default function Course() {
   const navigate = useNavigate();
-  const [Kategorie, setKategorie] = useState('')
-  const [options, setOptions] = useState([])
-  const [username, setusername] = useState(localStorage.getItem('username'))
+  const [Kategorie, setKategorie] = useState('English'); // default value "English"
+  const [options, setOptions] = useState([]);
+  const [username, setusername] = useState(localStorage.getItem('username'));
 
   const handleChange = (event) => {
     setKategorie(event.target.value);
@@ -25,9 +25,15 @@ export default function Course() {
     .then((data) => {
       console.log("data is: " + data);
       setOptions(data);
-      console.log("setoption: " + options)
+      console.log("setoption: " + options);
     })
   }, []);
+
+  useEffect(() => {
+    if (options.length === 0) {
+      navigate("/course/english-options");
+    }
+  }, [options]);
 
   const optionsMap = options.map((option) => ({
     value: option,
@@ -54,7 +60,7 @@ export default function Course() {
         <form>
           <label id="mycourse">Please select a course:</label>
           <select className="select" name="languages" id="lang" onChange={handleChange}>
-            <option value="">Select your course</option>
+            {/* Remove the default option */}
             {optionsMap.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
@@ -64,17 +70,12 @@ export default function Course() {
           </div>
         </form>
         {Kategorie === "" && <p>Please select a course!</p>}
-
-
       </div>
-
 
       <div>
         <Footer />
       </div>
 
     </div>
-
-
   )
 }

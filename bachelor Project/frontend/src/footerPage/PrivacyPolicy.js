@@ -9,11 +9,11 @@ function PrivacyPolicy() {
       </p>
       <h2 style={subHeadingStyle}>Information We Collect</h2>
       <p style={paragraphStyle}>
-        We may collect personal information, such as  username when you register an account with us. We also collect non-personal information, such as your IP address and browser type, for analytical purposes.
+        We may collect personal information, such as  username when you register an account with us.
       </p>
       <h2 style={subHeadingStyle}>How We Use Your Information</h2>
       <p style={paragraphStyle}>
-        We use your personal information to provide and improve our services, customize your user experience, and communicate with you about our products and updates. We may also use non-personal information for analytical purposes to understand how users interact with our website.
+        We use your personal information to provide and improve our services, customize your user experience, and communicate with you about our products and updates.
       </p>
       <h2 style={subHeadingStyle}>Data Security</h2>
       <p style={paragraphStyle}>
@@ -21,11 +21,11 @@ function PrivacyPolicy() {
       </p>
       <h2 style={subHeadingStyle}>Third-Party Services</h2>
       <p style={paragraphStyle}>
-        We may use third-party services, such as analytics and advertising providers, to enhance our website's functionality. These third parties may collect information about your use of our website through cookies and similar technologies.
+        We may use third-party services, such as analytics and advertising providers, to enhance our website's functionality.
       </p>
       <h2 style={subHeadingStyle}>Your Choices</h2>
       <p style={paragraphStyle}>
-        You can update your account information and communication preferences by accessing your account settings. You may also delete your account and personal information from our database at any time.
+        You may also delete your account and personal information from our database at any time.
       </p>
       <h2 style={subHeadingStyle}>Changes to the Privacy Policy</h2>
       <p style={paragraphStyle}>

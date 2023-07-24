@@ -1,0 +1,83 @@
+/* Register.css */
+
+/* 定义注册页面的背景颜色和字体样式 */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* 将页面内容居中显示 */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 注册表单容器 */
+.auth-form-container {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 输入字段的样式 */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 用户类型选项样式 */
+.user-type-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* 注册按钮样式 */
+button[type="submit"] {
+  margin-top: 100px;
+  background-color: #1877f2;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  background-color: #1054ad;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* 链接按钮样式 */
+.link-btn {
+  background-color: transparent;
+  border: none;
+  color: #1877f2;
+  cursor: pointer;
+}

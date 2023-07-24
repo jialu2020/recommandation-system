@@ -62,31 +62,24 @@ export const Login = () => {
     navigate("/register");
   };
 
-  return(
-
+ return (
     <div>
-
-
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'  }}>
-        <div className="auth-form-container">
+      <div className="container"> {/* 外部容器，用于居中显示 */}
+        <div className="auth-form-container"> {/* 登录表单容器 */}
           <h2>Welcome to Indilearn!</h2>
-
-          <form className= "login-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">username</label>
-            <input value= {username} onChange={(e) => setUsername(e.target.value)} type="username" placeholder="your username" id="username" name= "username"/>
-            <label htmlFor="password">password</label>
-            <input value= {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name= "password"/>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <label htmlFor="username">Username</label>
+            <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Your username" id="username" name="username" />
+            <label htmlFor="password">Password</label>
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name="password" />
             <button type="submit">Log In</button>
           </form>
-          <button className="link-btn" onClick= {handleRedirect} >Don't have an account? Register here.</button>
+          <button className="link-btn" onClick={handleRedirect}>
+            Don't have an account? Register here.
+          </button>
         </div>
-        </div>
-
-
-      <div>
-        <Footer />
       </div>
+      <Footer />
     </div>
-  )
+  );
 }
-

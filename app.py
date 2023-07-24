@@ -35,19 +35,21 @@ flask_migrate = Migrate(app, db)
 class Users(db.Model):
     __tablename__ = "studentUsers"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(), unique=True, )
+    username = db.Column(db.String(), unique=True)
     password = db.Column(db.String())
+    userTyp = db.Column(db.String())
 
-    def __init__(self, username, password):  # constractor for the object
+    def __init__(self, username, password, userTyp):  # 注意参数名修改为 userTyp
         self.username = username
         self.password = password
+        self.userTyp = userTyp  # 确保参数名称与字段名称一致
+
 
 class Subjects(db.Model):  # to connect user with his selected subject
     __tablename__ = "mysubject"
     id = db.Column(db.Integer, primary_key=True)
     fachname = db.Column(db.String())
     username = db.Column(db.String())
-
 
     def __init__(self, fachname, username):  # constractor for the object
         self.fachname = fachname
@@ -112,7 +114,7 @@ class Level(db.Model):  # student faehigkeit
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ("id", "username", "password")
+        fields = ("id", "username", "password", "userTyp")
 
 
 user_schema = UserSchema()
@@ -509,14 +511,19 @@ def register():
     data = request.get_json()
     username = data['username']
     password = data['password']
+    userTyp = data['userType']  # Added userType field
+
     user = Users.query.filter_by(username=username).first()
     if user:
         response = jsonify({'error': 'User already exists'})
         response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
         return response
-    new_user = Users(username=username, password=hash_password(password))
+
+    new_user = Users(username=username, password=hash_password(password),
+                     userTyp=userTyp)  # Store userType in the database
     db.session.add(new_user)
     db.session.commit()
+
     response = jsonify({'message': 'User created successfully'})
     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     return response

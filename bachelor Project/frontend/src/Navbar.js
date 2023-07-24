@@ -53,16 +53,16 @@ function Navbar({ isLoggedIn }) {
                 My Course
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/Search"
-                className={activeLink === '/Search' ? 'active' : ''}
-                onClick={() => handleLinkClick('/Search')}
-                title="Aufgabe suchen"
-              >
-                Join course
-              </NavLink>
-            </li>
+            {/*<li>*/}
+            {/*  <NavLink*/}
+            {/*    to="/Search"*/}
+            {/*    className={activeLink === '/Search' ? 'active' : ''}*/}
+            {/*    onClick={() => handleLinkClick('/Search')}*/}
+            {/*    title="Aufgabe suchen"*/}
+            {/*  >*/}
+            {/*    Join course*/}
+            {/*  </NavLink>*/}
+            {/*</li>*/}
             <li>
               <NavLink
                 to="/Myprofile"
