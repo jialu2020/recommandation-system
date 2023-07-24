@@ -18,7 +18,9 @@ export const Register = () => {
     event.preventDefault();
 
     if (!privacyPolicyConfirmed || !cookiePolicyConfirmed) {
+       console.log('2222')
       alert("Please confirm both Privacy Policy and Cookie Policy.");
+
       return;
     }
 
@@ -41,57 +43,67 @@ export const Register = () => {
         alert(error.toString());
       });
   };
-
-    return (
+  return (
     <div>
-      <div className="container"> {/* 外部容器，用于居中显示 */}
-        <div className="auth-form-container"> {/* 注册表单容器 */}
-          <h2 style={{ textAlign: 'left' }}>Register</h2>
-          <p style={{ fontWeight: 'bold' }}>It's quick and easy.</p>
+      <div className="container">
+        <div className="auth-form-container">
+          <h2 style={{textAlign: 'left', marginBottom: '10px'}}>Register</h2>
+          <p style={{fontWeight: '500', marginBottom: '20px'}}>quickly and easy.</p>
           <form className="register-form" onSubmit={handleSubmit}>
-            {/* 输入字段 */}
-           <input
-      type="name"
-      name="username"
-      value={username}
-      onChange={event => setUsername(event.target.value)}
-      placeholder="Username" // Placeholder for Username
-    />
-    <input
-      type="password"
-      name="password"
-      value={password}
-      onChange={event => setPassword(event.target.value)}
-      placeholder="Password" // Placeholder for Password
-    />
-
-            {/* 用户类型选项 */}
-            <div className="user-type-container">
-              <label>
-                <input type="radio" name="userType" value="normal" checked={userType === 'normal'} onChange={() => setUserType('normal')} />
-                Normal User
-              </label>
-              <label>
-                <input type="radio" name="userType" value="recommendation" checked={userType === 'recommendation'} onChange={() => setUserType('recommendation')} />
-                Recommendation System User
-              </label>
+            <div className="input-container">
+              {/* Username input */}
+              <input
+                type="text"
+                name="username"
+                value={username}
+                onChange={event => setUsername(event.target.value)}
+                placeholder="Username"
+              />
+              {/* Password input */}
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={event => setPassword(event.target.value)}
+                placeholder="Password"
+              />
             </div>
+            <div className="user-type-container">
 
-            {/* 注册按钮 */}
-            <button type="submit">Register</button>
+            </div>
+            <button type="submit" >
+              Register
+            </button>
           </form>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-            {/* 隐私政策和 Cookie 政策链接按钮 */}
-            <button className="link-btn" onClick={() => setPrivacyPolicyConfirmed(window.confirm("Are you sure you want to confirm the Privacy Policy?"))}>
-              Privacy Policy
-            </button>
-            <button className="link-btn" onClick={() => setCookiePolicyConfirmed(window.confirm("Are you sure you want to confirm the Cookie Policy?"))}>
-              Cookie Policy
-            </button>
+          <div className="policy-checkbox">
+            <label>
+              <span>I have read  </span>{" "}
+              <a className="link-btn" href="/privacy-policy">
+                Privacy Policy
+              </a>
+              <input
+                type="checkbox"
+                checked={privacyPolicyConfirmed}
+                onChange={() => setPrivacyPolicyConfirmed(!privacyPolicyConfirmed)}
+              />
+            </label>
+          </div>
+
+          <div className="policy-checkbox">
+            <label>
+              <span>I have read  </span>{" "}<a className="link-btn" href="/cookie-policy">
+                 Cookie Policy
+              </a>
+              <input
+                type="checkbox"
+                checked={cookiePolicyConfirmed}
+                onChange={() => setCookiePolicyConfirmed(!cookiePolicyConfirmed)}
+              />
+            </label>
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 }

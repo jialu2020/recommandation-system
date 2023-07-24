@@ -1,6 +1,9 @@
 import React from 'react';
-
 function PrivacyPolicy() {
+
+
+
+
   return (
     <div style={containerStyle}>
       <h1 style={headingStyle}>Privacy Policy</h1>

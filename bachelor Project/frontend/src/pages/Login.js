@@ -68,10 +68,10 @@ export const Login = () => {
         <div className="auth-form-container"> {/* 登录表单容器 */}
           <h2>Welcome to Indilearn!</h2>
           <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">Username</label>
-            <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Your username" id="username" name="username" />
-            <label htmlFor="password">Password</label>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*********" id="password" name="password" />
+
+            <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" id="username" name="username" />
+
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" id="password" name="password" />
             <button type="submit">Log In</button>
           </form>
           <button className="link-btn" onClick={handleRedirect}>
