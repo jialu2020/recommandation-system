@@ -410,10 +410,9 @@ const generateWrongAnswer = (correctAnswer) => {
               </div>
               <div className="answer-section">
 
-                <input type="text" value={currentAnswer} disabled className="answer-input"/>
-                <button className="delete-button" onClick={handleDelete}>Delete</button>
-
-                <button className="submit-button" onClick={handleSubmit} disabled={!currentAnswer}>Submit</button>
+                <input type="" value={currentAnswer} disabled className="answer-input"/>
+                <button className="infolink" onClick={handleDelete}>Delete</button>
+                <button className="" onClick={handleSubmit} disabled={!currentAnswer}>Submit</button>
 
               </div>
 

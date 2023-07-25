@@ -13,7 +13,7 @@ function CookiePolicy() {
       </p>
       <h2 style={subHeadingStyle}>How We Use Cookies</h2>
       <p style={paragraphStyle}>
-        We use cookies to store some of the user's login information.==
+        We use cookies to store some of the user's login information.
       </p>
       <h2 style={subHeadingStyle}>Types of Cookies We Use</h2>
       <p style={paragraphStyle}>
