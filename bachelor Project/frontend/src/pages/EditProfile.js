@@ -40,19 +40,55 @@ export default ({changeToFalse})=>{
 
 
   return(
+<div style={{  flexDirection: 'column', minHeight: '90vh', alignItems: 'center', justifyContent: 'center', marginTop: '50px' }}>
+  <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
+    <div className="login-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <input
+        className="username-password"
+        type="password"
+        placeholder="New password..."
+        value={password}
+        onChange={event => setPassword(event.target.value)}
+        style={{
+          border: '1px solid #ccc',
+          borderRadius: '5px',
+          padding: '10px',
+          width: '300px',
+          marginBottom: '10px',
+        }}
+      />
+      <button
+        className="submit"
+        type="submit"
+        style={{
+          backgroundColor: '#1877f2',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px',
+          padding: '10px 20px',
+          cursor: 'pointer',
+          width : "200px"
+        }}
+      >
+        Submit
+      </button>
+      <button
+        className="link-btn"
+        onClick={() => changeToFalse()}
+        style={{
+          backgroundColor: 'transparent',
+          color: '#1877f2',
+          border: 'none',
+          cursor: 'pointer',
+          textDecoration: 'underline',
+        }}
+      >
+        Back
+      </button>
+    </div>
+  </form>
+</div>
 
-  <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input className = "search" placeholder = "passwort.." value={password} onChange={event => setPassword(event.target.value)}/>
-        <button className = "submit">submit</button>
-        <button className="link-btn" onClick={()=>changeToFalse()}>back</button>
-
-      </div>
-    </form>
-
-
-  </div>
 
   )
 

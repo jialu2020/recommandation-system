@@ -168,7 +168,7 @@ return (
         <EditProfile changeToFalse={changeToFalse} />
       </div>
     ) : (
-      <div className="container" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+      <div className="profile-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <div className="user-info-container">
 
           <form onSubmit={handleSubmit}>
@@ -194,7 +194,7 @@ return (
           </form>
         </div>
         <div className="level-list">
-          <h3>My Levels:</h3>
+          <h3 className= "title2">My Levels:</h3>
           <ul>
             {levels.map(level => (
               <li key={level.id}>

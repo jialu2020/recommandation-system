@@ -48,6 +48,10 @@ import Footer from "../footer";
 
     const [clickedLetters, setClickedLetters] = useState([]); // 存储已点击的字母
 
+    const [level, setLevel] = useState(null);
+
+
+
 
 useEffect(() => {
   let thisuser = localStorage.getItem('username');
@@ -190,24 +194,6 @@ const handleButtonClick = (letter) => {
 
       const letters = shuffledWord.split('');
       const progress = (done / (getMessage?.data?.length || 1)) * 100; // Calculate progress percentage
-
-
-    function getNewLevel(){
-      let thislevel = 0.0
-
-      for(let i = 0; i<dataSource.length; i++){
-        //dataSource[i]
-        let thisschwerigkeit = getMessage.data[i].schwerigkeit
-        let thisdiscrimination = getMessage.data[i].discrimination
-        let thisbewertung = dataSource[i].bewertung
-        let gewicht = getGewicht(thisschwerigkeit)
-
-        thislevel += thisschwerigkeit * thisdiscrimination * (thisbewertung=="richtig"?1:0) * gewicht
-      }
-
-      return thislevel
-    }
-
     function getGewicht(gotschwerigkeit){
       if (gotschwerigkeit<-1){
         return 0.45}
@@ -249,11 +235,16 @@ const handleButtonClick = (letter) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newLevel)
+
         };
+        console.log("new level is : " +newLevel)
+         console.log(newLevel.faehigkeit)
 
         const levelResponse = await fetch('http://127.0.0.1:5000/addlevel', requestOptions);
         const levelData = await levelResponse.json();
         console.log(levelData);
+
+         setLevel(levelData);
 
         // 重置状态
         setCurrentAnswer('');
@@ -266,6 +257,7 @@ const handleButtonClick = (letter) => {
       } catch (error) {
         console.log(error);
       }
+
     };
 
 
@@ -323,6 +315,36 @@ const handleButtonClick = (letter) => {
 
 
 
+// this is for multiple choice
+
+    const generateMultipleChoiceOptions = (correctAnswer) => {
+  const wrongAnswer1 = generateWrongAnswer(correctAnswer); // 生成错误答案1
+  const wrongAnswer2 = generateWrongAnswer(correctAnswer); // 生成错误答案2
+  return [correctAnswer, wrongAnswer1, wrongAnswer2];
+};
+
+
+const generateWrongAnswer = (correctAnswer) => {
+  // 将正确答案转换为字符数组
+  const answerArray = correctAnswer.split('');
+
+  // 生成两个不同的随机索引
+  const index1 = Math.floor(Math.random() * answerArray.length);
+  let index2 = Math.floor(Math.random() * answerArray.length);
+  while (index2 === index1) {
+    index2 = Math.floor(Math.random() * answerArray.length);
+  }
+
+  // 交换两个索引位置上的字母
+  [answerArray[index1], answerArray[index2]] = [answerArray[index2], answerArray[index1]];
+
+  // 将交换后的字符数组转换回字符串并返回
+  return answerArray.join('');
+};
+
+
+
+
       return (
         <div>
           <Navbar/>
@@ -344,7 +366,7 @@ const handleButtonClick = (letter) => {
               <img src={goodGif} alt="Good Job" className="score-gif" />
             </React.Fragment>
           )}
-          {score < 2 && (
+          {score <= 2 && (
             <React.Fragment>
               <h2 className="title">Oops</h2>
               <p className="hint">You need more practice!</p>

@@ -20,6 +20,7 @@ function Navbar({ isLoggedIn }) {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('password');
+     localStorage.removeItem('userType');
     setLoggedIn(false);
     navigate('/'); // 退出账号后跳转回登录页面或其他适当的页面
   };
@@ -50,7 +51,7 @@ function Navbar({ isLoggedIn }) {
                 onClick={() => handleLinkClick('/Course')}
                 title="meine Aufgaben"
               >
-                My Course
+                Learn
               </NavLink>
             </li>
             {/*<li>*/}

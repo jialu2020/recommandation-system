@@ -88,12 +88,14 @@ margin-bottom: 50px;
 }
 
 .submit{
-  height:32px;
-  line-height:0px;
-  font-size:14px;
-  background: burlywood;
-  width:150px;
-  text-align:center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  background-color: #2064bd;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
 
 }
 

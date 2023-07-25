@@ -25,15 +25,15 @@ const OptionPage = () => {
       <Navbar />
        <div  style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
 
-         <h1>What do you want?</h1>
+         <h1 className="title">Start learning English vocabulary</h1>
          <div className="option-container">
-           <div className="option" onClick={handleAufgabeClick}>
-             <img src={spellingPic} alt="Spelling" />
-             <p className="title2">1.Spelling</p>
-           </div>
+           {/*<div className="option" onClick={handleAufgabeClick}>*/}
+           {/*  <img src={spellingPic} alt="Spelling" />*/}
+           {/*  <p className="title2">1.Spelling</p>*/}
+           {/*</div>*/}
            <div className="option" onClick={handleGameClick}>
              <img src={gamePic} alt="game" />
-             <p className="title2">2. Game</p>
+             <p className="title2">Start Learning</p>
            </div>
          </div>
 

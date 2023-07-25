@@ -84,7 +84,7 @@ class Leistung(db.Model):
     aufgabestellung = db.Column(db.String())
     score = db.Column(db.Boolean)
     kategorie = db.Column(db.String())
-    schwerigkeit = db.Column(db.Integer)
+    schwerigkeit = db.Column(db.Float(precision=1))
     zeitpunkt = db.Column(db.String())
 
     def __init__(self, username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt):
@@ -200,7 +200,6 @@ def update_pwd_with_name(username):
 
 
 def calculateProbability(a, b, x):
-    # print(math.exp((b * (x - a))) / (1 + math.exp((b * (x - a)))))
     return math.exp((b * (x - a))) / (1 + math.exp((b * (x - a))))
 
 
@@ -226,10 +225,6 @@ def get_aufgabe(username, kategorie):
     results = aufgabe_schema.dump(filtered_aufgaben)
     return jsonify(results)
 
-
-# def Aufgaben_waehlen(ability):
-#
-#     return 0
 
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
@@ -476,8 +471,10 @@ def login():
 
     hashed_password = user.password  # password check
     if check_password(password, hashed_password):
+        usertype = user.userTyp
         token = jwt.encode({'user_name': user.username}, SECRET_KEY, algorithm='HS256')
-        response = jsonify({'success': True, 'token': token, 'username': username, 'password': password})
+        response = jsonify(
+            {'success': True, 'token': token, 'username': username, 'password': password, 'usertype': usertype})
         response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
         return response
     else:

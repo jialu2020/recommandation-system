@@ -1,7 +1,7 @@
 /* MyprofileStyle.css */
 
 /* 根容器样式 */
-.container {
+.profile-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -12,37 +12,44 @@
 
 /* 用户信息容器样式 */
 .user-info-container {
-  border: 1px solid #ccc;
+  border-radius: 8px;
   padding: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  text-align: left; /* 左对齐 */
+  background-color: white;
+   height: 200px;
+  width: 400px;
+}
+
+
+/* 级别列表样式 */
+.level-list {
+  border-radius: 8px;
+  padding: 20px;
   margin-top: 40px;
   text-align: left; /* 左对齐 */
   background-color: white;
+   height: 120px;
+  width: 400px;
+
 }
 
 /* 用户名和密码样式 */
 .username-password {
-
+  margin-bottom: 15px;
   color: black;
 }
 
 .username-password span {
   font-weight: normal;
   color:black;
+
 }
 
-/* 级别列表样式 */
-.level-list {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-top: 40px;
-  text-align: left; /* 左对齐 */
-  background-color: white;
-  color: #1B1C1E;
-}
 
 .level-list span {
   font-weight: bold;
+
 }
 
 .level-list ul {
@@ -68,22 +75,19 @@
 /* 编辑密码按钮样式 */
 .link-btn {
 
-  color: #3498db;
+  color: green;
 }
 
 .link-btn:hover {
 
-  color: darkturquoise;
+  color: green;
 }
 
 .explanation-box {
-
-  top: 40px;
-  left: 10px;
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: transparent;
   border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
 }
 
 .infolink{
@@ -93,6 +97,7 @@
   color: goldenrod;
 }
 .delete-button1 {
+  margin-top: 40px;
   background-color: gray;
   color: #fff;
   border: none;
@@ -103,7 +108,7 @@
 }
 
 .delete-button1:hover {
-  background-color: #c0392b;
+  background-color: darkred;
 }
 
 .delete-button1:focus {

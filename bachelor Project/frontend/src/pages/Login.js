@@ -7,6 +7,8 @@ export const Login = () => {
   //创建状态 email是状态的名字 然后setEmailHook是一个函数来修改状态 最开始都是null所以使用''
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -28,10 +30,15 @@ export const Login = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
+
           // Login successful, store the token in local storage
           localStorage.setItem('token', data.token );
           localStorage.setItem('username', data.username );
           localStorage.setItem('password', data.password );
+          localStorage.setItem('userType', data.usertype);
+          localStorage.setItem('kategorie', 'English');
+          console.log(data)
+
 
 
           // Redirect the user to the home page
