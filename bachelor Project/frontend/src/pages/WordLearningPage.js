@@ -61,8 +61,17 @@ useEffect(() => {
       setGetMessage(response);
       const hint= response.data.map(item => item.aufgabenstellung);
       const answer= response.data.map(item => item.musterloesung);
+
       setHint(hint[0]);
-      setWord(answer[0]); // 设置初始的题目
+      setWord(answer[0]);
+      console.log("answer")
+      console.log(answer)
+      console.log(answer[0])
+      const options = generateMultipleChoiceOptions(answer[0], 3);
+      setMultiOptions(options);
+      console.log("multioptions");
+      console.log(options);
+      // 设置初始的题目
     })
     .catch(error => {
       console.log(error);
@@ -317,31 +326,28 @@ const handleButtonClick = (letter) => {
 
 // this is for multiple choice
 
-    const generateMultipleChoiceOptions = (correctAnswer) => {
-  const wrongAnswer1 = generateWrongAnswer(correctAnswer); // 生成错误答案1
-  const wrongAnswer2 = generateWrongAnswer(correctAnswer); // 生成错误答案2
-  return [correctAnswer, wrongAnswer1, wrongAnswer2];
-};
+  const [isMultipleChoice, setIsMultipleChoice] = useState(false)
+   const [multiOptions, setMultiOptions] = useState([]);
 
 
-const generateWrongAnswer = (correctAnswer) => {
-  // 将正确答案转换为字符数组
-  const answerArray = correctAnswer.split('');
-
-  // 生成两个不同的随机索引
-  const index1 = Math.floor(Math.random() * answerArray.length);
-  let index2 = Math.floor(Math.random() * answerArray.length);
-  while (index2 === index1) {
-    index2 = Math.floor(Math.random() * answerArray.length);
-  }
-
-  // 交换两个索引位置上的字母
-  [answerArray[index1], answerArray[index2]] = [answerArray[index2], answerArray[index1]];
-
-  // 将交换后的字符数组转换回字符串并返回
-  return answerArray.join('');
-};
-
+  const generateMultipleChoiceOptions = (correctAnswer, numOptions = 3) => {
+    const options = [correctAnswer];
+    // Generate wrong options by shuffling the letters of the correct answer
+    for (let i = 1; i < numOptions; i++) {
+      let wrongOption = correctAnswer.split('');
+      for (let j = wrongOption.length - 1; j > 0; j--) {
+        const k = Math.floor(Math.random() * (j + 1));
+        [wrongOption[j], wrongOption[k]] = [wrongOption[k], wrongOption[j]];
+      }
+      options.push(wrongOption.join(''));
+    }
+    // Shuffle the options array to randomize the order
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    return options;
+  };
 
 
 

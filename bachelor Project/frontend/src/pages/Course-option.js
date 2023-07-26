@@ -19,6 +19,11 @@ const OptionPage = () => {
     navigate('/course/aufgabe');
   };
 
+    const handleChoiceClick = () => {
+    // 处理进入Aufgabe页面的逻辑
+    navigate('/course/multiple-choice');
+  };
+
   return (
     <div>
 
@@ -27,13 +32,17 @@ const OptionPage = () => {
 
          <h1 className="title">Start learning English vocabulary</h1>
          <div className="option-container">
-           {/*<div className="option" onClick={handleAufgabeClick}>*/}
-           {/*  <img src={spellingPic} alt="Spelling" />*/}
-           {/*  <p className="title2">1.Spelling</p>*/}
-           {/*</div>*/}
+           <div className="option" onClick={handleAufgabeClick}>
+             <img src={spellingPic} alt="Spelling" />
+             <p className="title2">spelling</p>
+           </div>
            <div className="option" onClick={handleGameClick}>
              <img src={gamePic} alt="game" />
              <p className="title2">Start Learning</p>
+           </div>
+               <div className="option" onClick={handleChoiceClick}>
+             <img src={gamePic} alt="game" />
+             <p className="title2">Multi Chioce</p>
            </div>
          </div>
 

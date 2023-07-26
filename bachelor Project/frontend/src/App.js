@@ -17,6 +17,7 @@ import Imprint from "./footerPage/imprint";
 import CookiePolicy from "./footerPage/CookiePolicy";
 import PrivacyPolicy from "./footerPage/PrivacyPolicy";
 import Contact from "./footerPage/contact";
+import MultipleChoiceQuestion from "./pages/MultipleChoicePage";
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
               <Route path= "/course/english-options" element= {<OptionPage/>} />
             <Route  path="/course/aufgabe" element={<Aufgabe />}  />
             <Route  path="/course/game" element={<WordLearningPage />}  />
+             <Route  path="/course/multiple-choice" element={<MultipleChoiceQuestion/>}  />
 
             <Route path="/imprint" element={<Imprint />} />
 
