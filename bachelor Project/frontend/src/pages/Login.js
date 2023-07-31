@@ -73,7 +73,7 @@ export const Login = () => {
     <div>
       <div className="container"> {/* 外部容器，用于居中显示 */}
         <div className="auth-form-container"> {/* 登录表单容器 */}
-          <h2>Welcome to Indilearn!</h2>
+          <h2>Willkommen bei Indilearn!</h2>
           <form className="login-form" onSubmit={handleSubmit}>
 
             <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" id="username" name="username" />
@@ -82,7 +82,7 @@ export const Login = () => {
             <button type="submit">Log In</button>
           </form>
           <button className="link-btn" onClick={handleRedirect}>
-            Don't have an account? Register here.
+           Sie haben noch kein Konto? Registrieren Sie sich hier.
           </button>
         </div>
       </div>

@@ -39,7 +39,7 @@ function Navbar({ isLoggedIn }) {
                 to="/Homepage"
                 className={activeLink === '/Homepage' ? 'active' : ''}
                 onClick={() => handleLinkClick('/Homepage')}
-                title="Homepage"
+                title="Meine Startseite"
               >
                 Home
               </NavLink>
@@ -49,11 +49,23 @@ function Navbar({ isLoggedIn }) {
                 to="/Course"
                 className={activeLink === '/Course' ? 'active' : ''}
                 onClick={() => handleLinkClick('/Course')}
-                title="meine Aufgaben"
+                title="Mein Lernen"
               >
-                Learn
+                Lernen
               </NavLink>
             </li>
+
+              <li>
+              <NavLink
+                to="/"
+                className={activeLink === '/Course' ? 'active' : ''}
+                onClick={() => handleLinkClick('/Course')}
+                title="Rangliste"
+              >
+                Rangliste
+              </NavLink>
+            </li>
+
             {/*<li>*/}
             {/*  <NavLink*/}
             {/*    to="/Search"*/}
@@ -71,7 +83,7 @@ function Navbar({ isLoggedIn }) {
                 onClick={() => handleLinkClick('/Myprofile')}
                 title="mein Konto"
               >
-                My Profile
+                Mein Profil
               </NavLink>
             </li>
 

@@ -28,7 +28,7 @@ export default function Homepage() {
       <Navbar />
 
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-        <h1 className="title">About us:</h1>
+        <h1 className="title">Über uns:</h1>
         <div>
           <h2 className="second_title">
             IndiLearn: Individualized Exercise Selection in a Web-based Learning Platform using an IRT-based Recommender System
@@ -49,12 +49,7 @@ export default function Homepage() {
             </div>
             <div className="right">
               <p className="description">
-                "IndiLearn" is a learning system that uses a recommendation system
-                to provide customized exercises in a subject based on each student’s performance.
-                The system evaluates the difficulty of the practice questions and the user’s performance and
-                automatically recommends more challenging tasks to reinforce their performance in a particular subject.
-                The goal is to improve the quality of teaching and learning, reduce the teacher’s workload,
-                and increase students’ interest in learning.
+              "IndiLearn" ist ein Lernsystem, das ein Empfehlungssystem verwendet, um maßgeschneiderte Übungen in einem Fach auf der Grundlage der Leistung jedes Schülers bereitzustellen. Das System bewertet die Schwierigkeit der Übungsaufgaben und die Leistung des Benutzers und empfiehlt automatisch anspruchsvollere Aufgaben, um ihre Leistung in einem bestimmten Fach zu stärken. Das Ziel besteht darin, die Qualität von Unterricht und Lernen zu verbessern, die Arbeitsbelastung der Lehrer zu reduzieren und das Interesse der Schüler am Lernen zu steigern.
               </p>
             </div>
           </div>

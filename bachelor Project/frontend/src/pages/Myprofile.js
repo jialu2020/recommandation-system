@@ -37,7 +37,9 @@ function Myprofile() {
 
 
     function handleDeleteAccount() {
-    const shouldDelete = window.confirm("Are you sure you want to delete your account? This will delete all information about the account and cannot be undone.");
+    const shouldDelete =
+      window.confirm
+      ("Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Dadurch werden alle Informationen über das Konto gelöscht und können nicht rückgängig gemacht werden.");
 
     if (shouldDelete) {
       // 向服务器发送 DELETE 请求删除用户账号
@@ -45,19 +47,21 @@ function Myprofile() {
         .then(response => {
           console.log("SUCCESS", response);
           // 处理删除成功的情况，例如显示成功消息，并执行注销操作
-          alert("Your account has been deleted successfully.");
+          alert("Ihr Konto Info wurde erfolgreich gelöscht.");
           // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
         })
         .catch(error => {
           console.log(error);
           // 处理删除失败的情况，例如显示错误消息
-          alert("An error occurred while deleting your account. Please try again later.");
+          alert("Bei der Löschung Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.");
         });
     }
   }
 
   function handleDeleteUserName() {
-    const shouldDelete = window.confirm("Are you sure you want to quit this programme? We will collect existing account information and delete the account. This action cannot be undone.");
+    const shouldDelete =
+      window.confirm
+      ("Sind Sie sicher, dass Sie dieses Programm abbrechen möchten? Wir werden die bestehenden Kontodaten erfassen und das Konto löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.");
 
     if (shouldDelete) {
       // 向服务器发送 DELETE 请求删除用户账号
@@ -65,13 +69,13 @@ function Myprofile() {
         .then(response => {
           console.log("SUCCESS", response);
           // 处理删除成功的情况，例如显示成功消息，并执行注销操作
-          alert("Your account has been deleted successfully.");
+          alert("Ihr Konto wurde erfolgreich gelöscht.");
           // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
         })
         .catch(error => {
           console.log(error);
           // 处理删除失败的情况，例如显示错误消息
-          alert("An error occurred while deleting your account. Please try again later.");
+          alert("Bei der Löschung Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.");
         });
     }
   }
@@ -195,22 +199,22 @@ return (
           <form onSubmit={handleSubmit}>
 
             <div>
-                <h3 className= "title2">My Account:</h3>
+                <h3 className= "title2">Mein Konto:</h3>
             <div className="username-password">
               <span>Username:</span> {localStorage.getItem('username')}
             </div>
             <div className="username-password">
               <span>Password:</span> {localStorage.getItem('password')}  <button className="link-btn" onClick={() => setEditMode(true)}>
-                Edit password
+                Passwort ändern
               </button>
             </div>
             <div id="buttonclass">
           <button className="delete-button1" onClick={handleDeleteAccount}>
-            Delete my account
+            Mein Konto löschen
           </button>
 
               <button className="delete-button1" onClick={handleDeleteUserName}>
-                Quit the programme
+                Das Programm abbrechen
               </button>
 
             </div>
@@ -219,7 +223,8 @@ return (
           </form>
         </div>
         <div className="level-list">
-          <h3 className= "title2">My Levels:</h3>
+          <h3 className= "title2">Level:</h3>
+
           <ul>
             {levels.map(level => (
               <li key={level.id}>
@@ -229,19 +234,17 @@ return (
           </ul>
           <p>
             <a  className="infolink" href="#" onClick={() => setShowExplanation(!showExplanation)}>
-              To view the level icon explanations, click here.
+              Um die Erklärungen zu den Symbolen zu sehen, klicken Sie hier.
             </a>
           </p>
           {showExplanation && (
             <div className="explanation-box">
-              <h3>Explanation for level icons:</h3>
-              <p>You get a star every time you upgrade.</p>
-              <p>for example :</p>
+              <h3>Erläuterung der Level-Symbole:</h3>
+              <p>Je mehr Fragen Sie richtig beantworten, desto höher ist Ihr Fähigkeitswert. </p>
+
+              <p>Jedes Mal, wenn Sie aufsteigen, erhalten Sie einen Stern.</p>
               <ul>
-                <li>0 - 0.5: One star</li>
-                <li>0.5 - 1: Two stars</li>
-                <li>...</li>
-                <p>Embrace the journey of growth and leveling up! With each step, you'll unlock new icons that symbolize your progress and achievements!!</p>
+                <p>Lass dich auf die Reise des Wachstums und des Aufsteigens ein! Mit jedem Schritt schaltest du neue Symbole frei, die deinen Fortschritt und deine Erfolge symbolisieren!!!</p>
                 {/* Add more explanations for other levels */}
               </ul>
             </div>

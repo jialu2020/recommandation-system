@@ -48,7 +48,7 @@ export const Register = () => {
       <div className="container">
         <div className="auth-form-container">
           <h2 style={{textAlign: 'left', marginBottom: '10px'}}>Register</h2>
-          <p style={{fontWeight: '500', marginBottom: '20px'}}>quickly and easy.</p>
+          <p style={{fontWeight: '500', marginBottom: '20px'}}>einfach und schnell.</p>
           <form className="register-form" onSubmit={handleSubmit}>
             <div className="input-container">
               {/* Username input */}
@@ -80,12 +80,12 @@ export const Register = () => {
             {/*  </label>*/}
             {/*</div>*/}
             <button type="submit" >
-              Register
+              Anmelden
             </button>
           </form>
           <div className="policy-checkbox">
             <label>
-              <span>I have read  </span>{" "}
+              <span>Ich akzeptiere die </span>{" "}
               <a className="link-btn" href="/privacy-policy">
                 Privacy Policy
               </a>
@@ -99,7 +99,7 @@ export const Register = () => {
 
           <div className="policy-checkbox">
             <label>
-              <span>I have read  </span>{" "}<a className="link-btn" href="/cookie-policy">
+              <span>Ich akzeptiere die </span>{" "}<a className="link-btn" href="/cookie-policy">
                  Cookie Policy
               </a>
               <input

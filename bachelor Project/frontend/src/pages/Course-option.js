@@ -30,7 +30,7 @@ const OptionPage = () => {
       <Navbar />
        <div  style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
 
-         <h1 className="title">Start learning English vocabulary</h1>
+         <h1 className="title">Beginnen, englische Vokabeln zu lernen</h1>
          <div className="option-container">
            <div className="option" onClick={handleAufgabeClick}>
              <img src={spellingPic} alt="Spelling" />
