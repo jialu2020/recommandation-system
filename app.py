@@ -474,7 +474,11 @@ def add_rank(username, rank):
     db.session.commit()
     return jsonify({'message': 'Rank updated successfully'})
 
-
+@app.route("/getallranks", methods=['GET'])
+def get_all_ranks():
+    all_ranks = UserRanks.query.all()
+    ranks_data = [{'username': rank.username, 'rank': rank.rank} for rank in all_ranks]
+    return jsonify(ranks_data)
 
 @app.route("/getlevel/<username>", methods=['GET'])
 def get_level_by_username(username):
