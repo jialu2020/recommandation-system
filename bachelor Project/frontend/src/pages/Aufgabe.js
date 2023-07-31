@@ -218,10 +218,12 @@ useEffect(()=>{
 
 
   return (
-<div  >
+<div>
   <Navbar />
 
-  <div className='Aufgabe' style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+  <div  style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+
+
     {showScore ? (
       <div className='score-section'>
         {getMessage.status === 200 ? (
@@ -238,38 +240,43 @@ useEffect(()=>{
       </div>
     ) : (
       <div>
-        {getMessage.status === 200 ? (
-          <div className='question-section' >
 
-            <div className='question-count'>
-              <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
+        <div style={{  width: '500px', margin :'30px',backgroundColor: 'white'}}>
+          {getMessage.status === 200 ? (
+            <div className='question-section' >
+
+              <div className='question-count'>
+                <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
+              </div>
+              <div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
             </div>
-            <div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
-          </div>
-        ) : (<h3>No Response</h3>)}
-        <div className='answer-section'>
-          <div className='input-section'>
-            <input
-              className="input"
-              id="message"
-              name="message"
-              onChange={handleChange}
-              value={message}
-            />
-          </div>
-          <div className="buttons-container">
-            <div>
-              {done !== 0 && <button className="back" disabled={done === 0} onClick={BackClick}> Back</button>}
+          ) : (<h3>No Response</h3>)}
+          <div className='answer-section'>
+            <div className='input-section'>
+              <input
+                className="input"
+                id="message"
+                name="message"
+                onChange={handleChange}
+                value={message}
+              />
             </div>
-            <div>
-              {!showSubmit ? (
-                <button className="next" disabled={!message} onClick={NextClick}>Next</button>
-              ) : (
-                <button className="next" onClick={Submit}>Submit</button>
-              )}
+            <div className="buttons-container">
+              <div>
+                {done !== 0 && <button className="back" disabled={done === 0} onClick={BackClick}> Back</button>}
+              </div>
+              <div>
+                {!showSubmit ? (
+                  <button className="next" disabled={!message} onClick={NextClick}>Next</button>
+                ) : (
+                  <button className="next" onClick={Submit}>Submit</button>
+                )}
+              </div>
             </div>
           </div>
+
         </div>
+
       </div>
     )}
   </div>

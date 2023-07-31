@@ -432,6 +432,7 @@ def add_level():
         print("recently 4 faehigkeit:", faehigkeits)
         newest_faehig = faehigkeits[0][0]
         current_faehig = 0
+
         for i in range(len(faehigkeits)):
             current_faehig += faehigkeits[i][0]
         if (newest_faehig - faehigkeit > 0.3):
@@ -449,6 +450,30 @@ def add_level():
     db.session.add(newLevel)
     db.session.commit()
     return LevelSchema().jsonify(newLevel)
+
+
+
+# getrank API
+@app.route("/getrank/<username>", methods=['GET'])
+def get_rank_by_username(username):
+    user_ranks = UserRanks.query.filter_by(username=username).first()
+    if user_ranks:
+        return jsonify({'username': user_ranks.username, 'rank': user_ranks.rank})
+    else:
+        return jsonify({'message': 'Rank not found'})
+
+# addrank API
+@app.route("/addrank/<username>/<int:rank>", methods=['POST'])
+def add_rank(username, rank):
+    user_ranks = UserRanks.query.filter_by(username=username).first()
+    if user_ranks:
+        user_ranks.rank += rank
+    else:
+        user_ranks = UserRanks(username=username, rank=rank)
+        db.session.add(user_ranks)
+    db.session.commit()
+    return jsonify({'message': 'Rank updated successfully'})
+
 
 
 @app.route("/getlevel/<username>", methods=['GET'])

@@ -132,12 +132,9 @@ const WordLearningPage2 = () => {
     console.log(wordData);
   }, [dataSource]); // useEffect 钩子会在 dataSource 更新时执行
 
-  const handleSubmitAnswers = () => {
-    console.log("update1")
+ const handleSubmitAnswers = () => {
     updateLeistung();
-    console.log("update2")
-
-
+    addRank();
 
 
     let newlevel = {
@@ -147,8 +144,6 @@ const WordLearningPage2 = () => {
       kategorie: localStorage.getItem('kategorie'),
       zeit: Date().toLocaleString()
     }
-
-    console.log("update3")
 
     const requestOptions = {
       method: 'POST',
@@ -224,8 +219,34 @@ const WordLearningPage2 = () => {
         .then(leistung);
     }
   }
+  async function addRank() {
+    const username = localStorage.getItem('username');
+  try {
+    // 要增加的 rank 值，这里设置为 10
+    const rankToAdd = 10;
 
+    // 构建请求体，传递 rank 参数
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rank: rankToAdd }),
+    };
 
+    // 发起 POST 请求调用 addrank 方法
+    const response = await fetch(`http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error('请求失败');
+    }
+
+    const data = await response.json();
+    console.log(data.message); // 可选：打印服务器返回的消息
+    // 处理请求成功的逻辑，如果需要的话
+  } catch (error) {
+    console.error('出现错误：', error);
+    // 处理错误情况，如果需要的话
+  }
+}
 
 
   // 渲染页面
