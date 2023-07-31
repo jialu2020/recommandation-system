@@ -98,6 +98,19 @@
 }
 .delete-button1 {
   margin-top: 40px;
+  margin-right: 10px;
+  background-color: gray;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-button2 {
+  margin-top: 40px;
+  margin-right: 10px;
   background-color: gray;
   color: #fff;
   border: none;

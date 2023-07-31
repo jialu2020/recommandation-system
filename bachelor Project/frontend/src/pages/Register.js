@@ -69,16 +69,16 @@ export const Register = () => {
               />
             </div>
              {/* 用户类型选项 */}
-            <div className="user-type-container">
-              <label>
-                <input type="radio" name="userType" value="normal" checked={userType === 'normal'} onChange={() => setUserType('normal')} />
-                Normal User
-              </label>
-              <label>
-                <input type="radio" name="userType" value="recommendation" checked={userType === 'recommendation'} onChange={() => setUserType('recommendation')} />
-                Recommendation System User
-              </label>
-            </div>
+            {/*<div className="user-type-container">*/}
+            {/*  <label>*/}
+            {/*    <input type="radio" name="userType" value="normal" checked={userType === 'normal'} onChange={() => setUserType('normal')} />*/}
+            {/*    Normal User*/}
+            {/*  </label>*/}
+            {/*  <label>*/}
+            {/*    <input type="radio" name="userType" value="recommendation" checked={userType === 'recommendation'} onChange={() => setUserType('recommendation')} />*/}
+            {/*    Recommendation System User*/}
+            {/*  </label>*/}
+            {/*</div>*/}
             <button type="submit" >
               Register
             </button>

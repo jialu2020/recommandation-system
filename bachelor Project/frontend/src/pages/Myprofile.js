@@ -37,7 +37,7 @@ function Myprofile() {
 
 
     function handleDeleteAccount() {
-    const shouldDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    const shouldDelete = window.confirm("Are you sure you want to delete your account? This will delete all information about the account and cannot be undone.");
 
     if (shouldDelete) {
       // 向服务器发送 DELETE 请求删除用户账号
@@ -55,6 +55,27 @@ function Myprofile() {
         });
     }
   }
+
+  function handleDeleteUserName() {
+    const shouldDelete = window.confirm("Are you sure you want to quit this programme? We will collect existing account information and delete the account. This action cannot be undone.");
+
+    if (shouldDelete) {
+      // 向服务器发送 DELETE 请求删除用户账号
+      axios.delete(`http://localhost:5000/delete-username/${username}`)
+        .then(response => {
+          console.log("SUCCESS", response);
+          // 处理删除成功的情况，例如显示成功消息，并执行注销操作
+          alert("Your account has been deleted successfully.");
+          // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
+        })
+        .catch(error => {
+          console.log(error);
+          // 处理删除失败的情况，例如显示错误消息
+          alert("An error occurred while deleting your account. Please try again later.");
+        });
+    }
+  }
+
 
 
   function changeToFalse() {
@@ -187,6 +208,10 @@ return (
           <button className="delete-button1" onClick={handleDeleteAccount}>
             Delete my account
           </button>
+
+              <button className="delete-button1" onClick={handleDeleteUserName}>
+                Quit the programme
+              </button>
 
             </div>
             </div>

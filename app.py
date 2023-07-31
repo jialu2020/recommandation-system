@@ -45,6 +45,18 @@ class Users(db.Model):
         self.userTyp = userTyp  # 确保参数名称与字段名称一致
 
 
+class UserRanks(db.Model):
+    __tablename__ = "user_ranks"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(), db.ForeignKey('studentUsers.username'), index=True, nullable=False)  # Correct foreign key reference to username in Users table
+    rank = db.Column(db.Integer, default=0)
+
+    def __init__(self, username, rank):
+        self.username = username
+        self.rank = rank
+
+
+
 class Subjects(db.Model):  # to connect user with his selected subject
     __tablename__ = "mysubject"
     id = db.Column(db.Integer, primary_key=True)
@@ -545,6 +557,33 @@ def delete_user(username):
         Level.query.filter_by(username=username).delete()
 
         db.session.delete(user)
+        db.session.commit()
+
+        return jsonify({"message": f"User with username {username} has been deleted successfully."}), 200
+    except Exception as e:
+        # 处理异常情况
+        db.session.rollback()
+        return jsonify({"error": "An error occurred while deleting the user.", "details": str(e)}), 500
+
+@app.route("/delete-username/<username>", methods=['DELETE'])
+def delete_username(username):
+    try:
+        # 查找要删除的用户数据
+        user = Users.query.filter_by(username=username).first()
+
+        if not user:
+            return jsonify({"message": f"User with username {username} not found."}), 404
+
+        # 设置用户名的占位符值来表示用户账户已被删除
+        deleted_username = 'deleted_user=' + user.username
+        user.username = deleted_username
+
+        # 更新与用户相关的 Leistung 数据中的用户名
+        Leistung.query.filter_by(username=username).update({"username": deleted_username})
+
+        # 更新与用户相关的 Level 数据中的用户名
+        Level.query.filter_by(username=username).update({"username": deleted_username})
+
         db.session.commit()
 
         return jsonify({"message": f"User with username {username} has been deleted successfully."}), 200
