@@ -18,6 +18,7 @@ import CookiePolicy from "./footerPage/CookiePolicy";
 import PrivacyPolicy from "./footerPage/PrivacyPolicy";
 import Contact from "./footerPage/contact";
 import MultipleChoiceQuestion from "./pages/MultipleChoicePage";
+import Ranklist from "./pages/Ranklist";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             <Route path= "/course" element= {<Course/>} />
             <Route path= "/like" element= {<Like/>} />
             <Route path= "/search" element= {<Search/>} />
+            <Route path= "/ranklist" element= {<Ranklist/>} />
             <Route path= "/myprofile" element= {<Myprofile/>} />
             <Route  path="/" element={<Login />}  />
             <Route  path="/register" element={<Register />}  />

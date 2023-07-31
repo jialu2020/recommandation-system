@@ -7,6 +7,7 @@ import star from "../icons/star.png"
 import moon from "../icons/crescent-moon.png"
 import sun from "../icons/sun.png"
 import Footer from "../footer";
+import {useNavigate} from "react-router-dom";
 
 
 function Myprofile() {
@@ -15,6 +16,7 @@ function Myprofile() {
   const [mysub, setmysub] = useState([]);
   const [levels, setLevels] = useState([]);
   const [showExplanation, setShowExplanation] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -49,6 +51,7 @@ function Myprofile() {
           // 处理删除成功的情况，例如显示成功消息，并执行注销操作
           alert("Ihr Konto Info wurde erfolgreich gelöscht.");
           // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
+           handleLogout();
         })
         .catch(error => {
           console.log(error);
@@ -71,6 +74,7 @@ function Myprofile() {
           // 处理删除成功的情况，例如显示成功消息，并执行注销操作
           alert("Ihr Konto wurde erfolgreich gelöscht.");
           // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
+           handleLogout();
         })
         .catch(error => {
           console.log(error);
@@ -80,7 +84,15 @@ function Myprofile() {
     }
   }
 
+  const handleLogout = () => {
+      // 执行退出账号操作
 
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      localStorage.removeItem('password');
+       localStorage.removeItem('userType');
+      navigate('/'); // 退出账号后跳转回登录页面或其他适当的页面
+    };
 
   function changeToFalse() {
     setEditMode(false);

@@ -57,9 +57,9 @@ function Navbar({ isLoggedIn }) {
 
               <li>
               <NavLink
-                to="/"
-                className={activeLink === '/Course' ? 'active' : ''}
-                onClick={() => handleLinkClick('/Course')}
+                to="/Ranklist"
+                className={activeLink === '/Ranklist' ? 'active' : ''}
+                onClick={() => handleLinkClick('/Ranklist')}
                 title="Rangliste"
               >
                 Rangliste
