@@ -67,10 +67,7 @@ useEffect(() => {
       console.log("answer")
       console.log(answer)
       console.log(answer[0])
-      const options = generateMultipleChoiceOptions(answer[0], 3);
-      setMultiOptions(options);
-      console.log("multioptions");
-      console.log(options);
+
       // 设置初始的题目
     })
     .catch(error => {
@@ -203,6 +200,8 @@ const handleButtonClick = (letter) => {
 
       const letters = shuffledWord.split('');
       const progress = (done / (getMessage?.data?.length || 1)) * 100; // Calculate progress percentage
+
+
     function getGewicht(gotschwerigkeit){
       if (gotschwerigkeit<-1){
         return 0.45}
@@ -327,27 +326,6 @@ const handleButtonClick = (letter) => {
 // this is for multiple choice
 
   const [isMultipleChoice, setIsMultipleChoice] = useState(false)
-   const [multiOptions, setMultiOptions] = useState([]);
-
-
-  const generateMultipleChoiceOptions = (correctAnswer, numOptions = 3) => {
-    const options = [correctAnswer];
-    // Generate wrong options by shuffling the letters of the correct answer
-    for (let i = 1; i < numOptions; i++) {
-      let wrongOption = correctAnswer.split('');
-      for (let j = wrongOption.length - 1; j > 0; j--) {
-        const k = Math.floor(Math.random() * (j + 1));
-        [wrongOption[j], wrongOption[k]] = [wrongOption[k], wrongOption[j]];
-      }
-      options.push(wrongOption.join(''));
-    }
-    // Shuffle the options array to randomize the order
-    for (let i = options.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [options[i], options[j]] = [options[j], options[i]];
-    }
-    return options;
-  };
 
 
 

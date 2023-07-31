@@ -6,12 +6,12 @@ import Homepage from "./pages/Homepage";
 import Navbar from "./Navbar";
 import Myprofile from "./pages/Myprofile";
 import Search from "./pages/Search";
-import Course from "./pages/Course";
 import Like from "./pages/Like";
 import {Login} from "./pages/Login";
 import {Register} from "./pages/Register";
 import Aufgabe from "./pages/Aufgabe";
 import WordLearningPage from "./pages/WordLearningPage";
+import WordLearningPage2 from "./pages/WordLearningPage2";
 import OptionPage from "./pages/Course-option";
 import Imprint from "./footerPage/imprint";
 import CookiePolicy from "./footerPage/CookiePolicy";
@@ -43,17 +43,17 @@ function App() {
           <Routes>
 
             <Route path= "/homepage" element= {<Homepage/>} />
-            <Route path= "/course" element= {<Course/>} />
+            <Route path= "/course" element= {<OptionPage/>} />
             <Route path= "/like" element= {<Like/>} />
             <Route path= "/search" element= {<Search/>} />
             <Route path= "/ranklist" element= {<Ranklist/>} />
             <Route path= "/myprofile" element= {<Myprofile/>} />
             <Route  path="/" element={<Login />}  />
             <Route  path="/register" element={<Register />}  />
-              <Route path= "/course/english-options" element= {<OptionPage/>} />
+              {/*<Route path= "/english-options" element= {<OptionPage/>} />*/}
             <Route  path="/course/aufgabe" element={<Aufgabe />}  />
             <Route  path="/course/game" element={<WordLearningPage />}  />
-             <Route  path="/course/multiple-choice" element={<MultipleChoiceQuestion/>}  />
+             <Route  path="/course/multiple-choice" element={<WordLearningPage2/>}  />
 
             <Route path="/imprint" element={<Imprint />} />
 

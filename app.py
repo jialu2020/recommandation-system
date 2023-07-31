@@ -219,23 +219,23 @@ def calculateProbability(a, b, x):
 def get_aufgabe(username, kategorie):
     level = Level.query.filter_by(username=username, kategorie=kategorie).first()
     if not level:
-        # check if its a new user and forcing a grading exam
-        all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).order_by(func.random()).limit(5).all()
-        results = aufgabe_schema.dump(all_aufgabe)
-        return jsonify(results)
-    if level:
+        # 没有找到 Level 记录，将 latest_ability 设为 0
+        latest_ability = 0
+    else:
         latest_record = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
             Level.create_time.desc()).limit(3).first()
         latest_ability = latest_record.faehigkeit
 
-        all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
-        filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
-                             0.25 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
-                                                         latest_ability) < 0.75]
-        filtered_aufgaben = random.sample(filtered_aufgaben, 4)
+    all_aufgabe = Exercises.query.filter(Exercises.kategorie == kategorie).all()
+    filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
+                         0.25 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
+                                                     latest_ability) < 0.75]
+    filtered_aufgaben = random.sample(filtered_aufgaben, 4)
 
     results = aufgabe_schema.dump(filtered_aufgaben)
+    print("Returned data:", results)
     return jsonify(results)
+
 
 
 @app.route("/getleistung/<username>", methods=["GET"])

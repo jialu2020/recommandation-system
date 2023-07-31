@@ -14,25 +14,26 @@ export default function Course() {
     setKategorie(event.target.value);
   };
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000/getkategories/' + username, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("data is: " + data);
-      setOptions(data);
-      console.log("setoption: " + options);
-    })
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://127.0.0.1:5000/getkategories/' + username, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     console.log("data is: " + data);
+  //     setOptions(data);
+  //     console.log("setoption: " + options);
+  //   })
+  // }, []);
 
   useEffect(() => {
-    if (options.length === 0) {
+    // if (options.length === 0) {
       navigate("/course/english-options");
-    }
+      console.log("option in c: " + options);
+    // }
   }, [options]);
 
   const optionsMap = options.map((option) => ({
