@@ -15,6 +15,7 @@ const WordLearningPage2 = () => {
   const [done, setDone] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [dataSource, setdataSource] = useState([]);
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
 
 
   useEffect(() => {
@@ -254,10 +255,10 @@ const WordLearningPage2 = () => {
     <div>
       <Navbar />
       <div>
-        <h1>单词学习</h1>
+        <h1>multi-choice</h1>
         {currentQuestionIndex < wordData.length ? (
           <div>
-            <p>题目 {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
+            <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
             <ul>
               {wordData[currentQuestionIndex].options.map((option, i) => (
                 <li key={i}>
@@ -281,8 +282,8 @@ const WordLearningPage2 = () => {
           </div>
         ) : (
           <div>
-            <p>恭喜你，已完成所有题目！</p>
-            <button type="button" onClick={handleSubmitAnswers}>提交答案</button>
+            <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
+            <button type="button" onClick={handleSubmitAnswers}>submit</button>
           </div>
         )}
       </div>

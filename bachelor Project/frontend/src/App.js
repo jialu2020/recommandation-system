@@ -17,7 +17,6 @@ import Imprint from "./footerPage/imprint";
 import CookiePolicy from "./footerPage/CookiePolicy";
 import PrivacyPolicy from "./footerPage/PrivacyPolicy";
 import Contact from "./footerPage/contact";
-import MultipleChoiceQuestion from "./pages/MultipleChoicePage";
 import Ranklist from "./pages/Ranklist";
 
 

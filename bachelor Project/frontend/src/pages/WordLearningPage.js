@@ -414,9 +414,7 @@ const handleButtonClick = (letter) => {
 
 
           </div>)}
-          <div>
             <Footer />
-          </div>
         </div>
       );
     };

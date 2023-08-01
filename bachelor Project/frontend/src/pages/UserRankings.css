@@ -1,0 +1,41 @@
+/* userRankings.css */
+
+.user-ranking-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.user-ranking-item span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@keyframes rainbow-text {
+  10% { color: #CD6155  ; }
+  15% { color: #EC7063; }
+  20% { color: #AF7AC5 ; }
+
+  25% { color: #A569BD ; }
+  30% { color: #2980B9; }
+  35% { color: #3498DB ; }
+  40% { color: #1ABC9C ; }
+  45% { color: #16A085 ; }
+  50% { color: #27AE60; }
+  55% { color: #2ECC71 ; }
+  60% { color: #F1C40F; }
+  65% { color: #F39C12 ; }
+  70% { color: #E67E22; }
+  75% { color: #D35400; }
+  80% { color: #873600; }
+  85% { color: #E59866 ; }
+   90% { color: #EDBB99 ; }
+   95% { color: #D0D3D4; }
+   100% { color: #4D5656; }
+}
+
+.top-three {
+  animation: rainbow-text 10s infinite; /* Adjust the duration as needed */
+  font-weight: bold;
+}
