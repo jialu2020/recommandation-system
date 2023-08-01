@@ -225,25 +225,33 @@ useEffect(()=>{
 
 
     {showScore ? (
-      <div className='score-section'>
-        {getMessage.status === 200 ? (
-          <div className='score-text'>
-            You scored {dataSource.filter(item => item.antwort === item.musterloesung).length} out of {getMessage.data.length}
+
+      <div className="quiz-content" >
+        <div className='score-section'>
+          {getMessage.status === 200 ? (
+            <div className='score-text'>
+              You scored {dataSource.filter(item => item.antwort === item.musterloesung).length} out of {getMessage.data.length}
+            </div>
+          ) : (<h3>No Response</h3>)}
+          <div className='score-table'>
+            <BaseTable dataSource={dataSource} columns={columns} />
           </div>
-        ) : (<h3>No Response</h3>)}
-        <div className='score-table'>
-          <BaseTable dataSource={dataSource} columns={columns} />
+          <div>
+            <button className="button" onClick={WeiterClick}>Weiter</button>
+          </div>
         </div>
-        <div>
-          <button className="button" onClick={WeiterClick}>Weiter</button>
-        </div>
+
       </div>
+
+
     ) : (
       <div>
 
-        <div style={{  width: '500px', margin :'30px',backgroundColor: 'white'}}>
+        <div className="quiz-content" >
           {getMessage.status === 200 ? (
             <div className='question-section' >
+
+              <h2 className="title"> Spelling</h2>
 
               <div className='question-count'>
                 <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
@@ -267,9 +275,9 @@ useEffect(()=>{
               </div>
               <div>
                 {!showSubmit ? (
-                  <button className="next" disabled={!message} onClick={NextClick}>Next</button>
+                  <button type="button" disabled={!message} onClick={NextClick}>Next</button>
                 ) : (
-                  <button className="next" onClick={Submit}>Submit</button>
+                  <button type="button" onClick={Submit}>Submit</button>
                 )}
               </div>
             </div>

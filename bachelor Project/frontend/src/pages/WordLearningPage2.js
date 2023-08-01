@@ -1,7 +1,8 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import './WordLearningPage.css';
+import './WordLearningPage2.css';
 import Navbar from "../Navbar";
 import axios from 'axios';
+import Footer from "../footer";
 
 const WordLearningPage2 = () => {
   const [wordData, setWordData] = useState([]);
@@ -105,6 +106,7 @@ const WordLearningPage2 = () => {
 
   const handleAnswerSelection = (selectedOption) => {
     setSelectedAnswer(selectedOption);
+    setIsOptionSelected(true);
   };
 
   const handleNextQuestion = () => {
@@ -254,38 +256,37 @@ const WordLearningPage2 = () => {
   return (
     <div>
       <Navbar />
-      <div>
-        <h1>multi-choice</h1>
-        {currentQuestionIndex < wordData.length ? (
-          <div>
-            <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
-            <ul>
-              {wordData[currentQuestionIndex].options.map((option, i) => (
-                <li key={i}>
-                  <label>
-                    <input
-                      type="radio"
-                      name="selectedAnswer"
-                      value={option}
-                      checked={selectedAnswer === option}
-                      onChange={() => handleAnswerSelection(option)}
-                    />
-                    {option}
-                  </label>
-                </li>
-              ))}
-            </ul>
-            {showResult && (
-              <p>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? '回答正确！' : '回答错误。'}</p>
-            )}
-            <button type="button" onClick={handleNextQuestion}>下一题</button>
-          </div>
-        ) : (
-          <div>
-            <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
-            <button type="button" onClick={handleSubmitAnswers}>submit</button>
-          </div>
-        )}
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }} >
+        <div className="quiz-content">
+          <h1 className="title">multi-choice</h1>
+          {currentQuestionIndex < wordData.length ? (
+            <div>
+              <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
+              <div className="options-container">
+                {wordData[currentQuestionIndex].options.map((option, i) => (
+                  <div
+                    key={i}
+                    className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
+                    onClick={() => handleAnswerSelection(option)}
+                  >
+                    <span className="option-text">{option}</span>
+                  </div>
+                ))}
+              </div>
+              {showResult && (
+                <p>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? '回答正确！' : '回答错误。'}</p>
+              )}
+              <button type="button" onClick={handleNextQuestion} disabled={!isOptionSelected}>
+                Next
+              </button>
+            </div>
+          ) : (
+            <div>
+              <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
+              <button type="button" onClick={handleSubmitAnswers}>submit</button>
+            </div>
+          )}
+        </div>
       </div>
       {showSubmit && (
         <div>
@@ -294,6 +295,8 @@ const WordLearningPage2 = () => {
           <p>提交时间：{dateTime}</p>
         </div>
       )}
+
+      <Footer />
     </div>
   );
 };

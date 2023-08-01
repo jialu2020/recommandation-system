@@ -1,0 +1,55 @@
+/* Assuming the class "option-rectangle" is applied to each option */
+.option-rectangle {
+  display: block;
+  padding: 15px 20px;
+  border: 2px solid #007BFF; /* Blue border */
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 10px; /* Adding rounded corners */
+  width: 300px; /* Fixed width for the rectangle */
+  background-color: #E1F5FE; /* Light blue background */
+  transition: background-color 0.3s, border-color 0.3s; /* Adding transitions for hover effect */
+  color: #007BFF; /* Set the font color to blue */
+  font-weight: bold; /* Make the font bold */
+}
+
+.option-rectangle:hover {
+  background-color: #B3E5FC; /* Light blue background on hover */
+  border-color: #0056b3; /* Darker blue border on hover */
+  color: #0056b3; /* Set the font color to a darker blue on hover */
+}
+.quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.quiz-content {
+  width: 500px; /* Fixed width for the quiz container */
+  padding: 20px;
+  border-radius: 20px;
+  margin: 0 auto; /* Center the quiz content horizontally */
+  margin-top: 20%;
+  background-color: white;
+
+}
+.selected-option {
+  background-color: #0056b3; /* Dark blue background for the selected option */
+  color: white; /* Set the font color to white for the selected option */
+}
+button[type="button"] {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+button[type="button"]:hover {
+  background-color: #0056b3;
+}

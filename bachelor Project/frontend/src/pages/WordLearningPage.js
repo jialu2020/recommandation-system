@@ -330,90 +330,93 @@ const handleButtonClick = (letter) => {
 
 
       return (
-        <div>
+        <div >
           <Navbar/>
+       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+         {showScore ? (
+             <div className="Aufgabe" >
+               <div className="word-learning-page">
+                 {score >= 4 && (
+                   <React.Fragment>
+                     <h2 className="title">Excellent!</h2>
+                     <p className="hint">you got all the qusetions right!</p>
+                     <img src={wowGif} alt="Excellent" className="score-gif" />
+                   </React.Fragment>
+                 )}
+                 {score > 2 && score < 4 && (
+                   <React.Fragment>
+                     <h2 className="title">Good job!</h2>
+                     <p className="hint">Not bad. Keep it up!</p>
+                     <img src={goodGif} alt="Good Job" className="score-gif" />
+                   </React.Fragment>
+                 )}
+                 {score <= 2 && (
+                   <React.Fragment>
+                     <h2 className="title">Oops</h2>
+                     <p className="hint">You need more practice!</p>
+                     <img src={sadGif} alt="Oops" className="score-gif" />
+                   </React.Fragment>
+                 )}
+                 <p className="hint">your score is: {score}</p>
 
-        {showScore ? (
-      <div className="Aufgabe" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-        <div className="word-learning-page">
-          {score >= 4 && (
-            <React.Fragment>
-              <h2 className="title">Excellent!</h2>
-              <p className="hint">you got all the qusetions right!</p>
-              <img src={wowGif} alt="Excellent" className="score-gif" />
-            </React.Fragment>
-          )}
-          {score > 2 && score < 4 && (
-            <React.Fragment>
-              <h2 className="title">Good job!</h2>
-              <p className="hint">Not bad. Keep it up!</p>
-              <img src={goodGif} alt="Good Job" className="score-gif" />
-            </React.Fragment>
-          )}
-          {score <= 2 && (
-            <React.Fragment>
-              <h2 className="title">Oops</h2>
-              <p className="hint">You need more practice!</p>
-              <img src={sadGif} alt="Oops" className="score-gif" />
-            </React.Fragment>
-          )}
-          <p className="hint">your score is: {score}</p>
+                 <button className='continue' onClick={handleContinue}>save and continue</button>
+               </div>
+             </div>
+           ) :
+           (<div className="Aufgabe">
+             <div className="word-learning-page">
+               <h2 className="title">Word Learning Page</h2>
+               <p className="hint">Hint: {hint}</p>
+               <div className="heart-container">
+                 <div className="hearts">
+                   {Array(hearts)
+                     .fill()
+                     .map((_, index) => (
+                       <img
+                         key={index}
+                         src={imageGif}// 替换为适当的图像路径
+                         alt="Heart"
+                         className="heart-icon"
+                       />
+                     ))}
+                 </div>
+               </div>
+               <div className="word-buttons">
+                 {letters.map((letter, index) => (
+                   <button
+                     key={index}
+                     className="letter-button"
+                     onClick={() => handleButtonClick(letter)}
+                   >
+                     {letter}
+                   </button>
+                 ))}
+               </div>
+               <div className="answer-section">
 
-          <button className='continue' onClick={handleContinue}>save and continue</button>
-        </div>
-      </div>
-      ) :
-          (<div className="Aufgabe">
-            <div className="word-learning-page">
-              <h2 className="title">Word Learning Page</h2>
-              <p className="hint">Hint: {hint}</p>
-              <div className="heart-container">
-                <div className="hearts">
-                  {Array(hearts)
-                    .fill()
-                    .map((_, index) => (
-                      <img
-                        key={index}
-                        src={imageGif}// 替换为适当的图像路径
-                        alt="Heart"
-                        className="heart-icon"
-                      />
-                    ))}
-                </div>
-              </div>
-              <div className="word-buttons">
-                {letters.map((letter, index) => (
-                  <button
-                    key={index}
-                    className="letter-button"
-                    onClick={() => handleButtonClick(letter)}
-                  >
-                    {letter}
-                  </button>
-                ))}
-              </div>
-              <div className="answer-section">
+                 <input type="" value={currentAnswer} disabled className="answer-input"/>
+                 <a className="infolink" onClick={handleDelete}>Delete</a>
+                 <button className="submit" onClick={handleSubmit} disabled={!currentAnswer}>Submit</button>
 
-                <input type="" value={currentAnswer} disabled className="answer-input"/>
-                <button className="infolink" onClick={handleDelete}>Delete</button>
-                <button className="" onClick={handleSubmit} disabled={!currentAnswer}>Submit</button>
-
-              </div>
-
-
-              <div className="scoreboard">
-                <h3>Score: {score}</h3>
-
-              </div>
+               </div>
 
 
-              <div className="progress-bar-container">
-                <div className="progress-bar" style={{width: `${progress}%`}}></div>
-              </div>
-            </div>
+               <div className="scoreboard">
+                 <h3>Score: {score}</h3>
+
+               </div>
 
 
-          </div>)}
+               <div className="progress-bar-container">
+                 <div className="progress-bar" style={{width: `${progress}%`}}></div>
+               </div>
+             </div>
+
+
+           </div>)}
+
+       </div>
+
             <Footer />
         </div>
       );

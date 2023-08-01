@@ -134,6 +134,8 @@
 
 .word-learning-page {
   position: relative;
+  margin: 0 auto; /* Center the quiz content horizontally */
+  margin-top: 20%;
 }
 
 .heart-container {
