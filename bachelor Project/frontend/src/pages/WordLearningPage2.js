@@ -3,6 +3,7 @@ import './WordLearningPage2.css';
 import Navbar from "../Navbar";
 import axios from 'axios';
 import Footer from "../footer";
+import doneGif from '../icons/done.gif';
 
 const WordLearningPage2 = () => {
   const [wordData, setWordData] = useState([]);
@@ -17,6 +18,7 @@ const WordLearningPage2 = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [dataSource, setdataSource] = useState([]);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+   const [showNextButton, setShowNextButton] = useState(false);
 
 
   useEffect(() => {
@@ -107,7 +109,16 @@ const WordLearningPage2 = () => {
   const handleAnswerSelection = (selectedOption) => {
     setSelectedAnswer(selectedOption);
     setIsOptionSelected(true);
+    setShowNextButton(true); // Enable the "OK" button when an option is selected
   };
+
+
+   const handleOkClick = () => {
+    // Show the result for the current question
+    setShowResult(true);
+    setShowNextButton(true); // Disable the "OK" button after clicking
+  };
+
 
   const handleNextQuestion = () => {
     // 将学生的答题情况添加到 dataSource 中
@@ -122,12 +133,11 @@ const WordLearningPage2 = () => {
       }
     ]);
 
-
-
-
-    // 更新当前题目索引，显示下一道题目
-    setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-    setSelectedAnswer(''); // 清空选中答案，以便下一题重新选择
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    setSelectedAnswer('');
+    setIsOptionSelected(false);
+    setShowResult(false); // Hide the result
+    setShowNextButton(false); // Hide the "Next" button until an option is selected for the next question
   };
 
   useEffect(() => {
@@ -225,8 +235,8 @@ const WordLearningPage2 = () => {
   async function addRank() {
     const username = localStorage.getItem('username');
   try {
-    // 要增加的 rank 值，这里设置为 10
-    const rankToAdd = 10;
+    // 要增加的 rank 值
+    const rankToAdd = 3;
 
     // 构建请求体，传递 rank 参数
     const requestOptions = {
@@ -239,14 +249,14 @@ const WordLearningPage2 = () => {
     const response = await fetch(`http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`, requestOptions);
 
     if (!response.ok) {
-      throw new Error('请求失败');
+      throw new Error('request fail');
     }
 
     const data = await response.json();
     console.log(data.message); // 可选：打印服务器返回的消息
     // 处理请求成功的逻辑，如果需要的话
   } catch (error) {
-    console.error('出现错误：', error);
+    console.error('error occured：', error);
     // 处理错误情况，如果需要的话
   }
 }
@@ -256,7 +266,7 @@ const WordLearningPage2 = () => {
   return (
     <div>
       <Navbar />
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }} >
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <div className="quiz-content">
           <h1 className="title">multi-choice</h1>
           {currentQuestionIndex < wordData.length ? (
@@ -274,16 +284,27 @@ const WordLearningPage2 = () => {
                 ))}
               </div>
               {showResult && (
-                <p>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? '回答正确！' : '回答错误。'}</p>
+                <p>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? 'Richtige Antwort!' : 'Falsche Antwort, die richtige Antwort lautet: ' + wordData[currentQuestionIndex].correctAnswer }</p>
               )}
-              <button type="button" onClick={handleNextQuestion} disabled={!isOptionSelected}>
-                Next
-              </button>
+              {!showResult && showNextButton && (
+                <button type="button" onClick={handleOkClick}>
+                  OK
+                </button>
+              )}
+              {showResult && showNextButton && (
+                <button type="button" onClick={handleNextQuestion}>
+                  Next
+                </button>
+              )}
             </div>
           ) : (
             <div>
+               <img style={{ margin: "0 auto" }} src={doneGif} alt="Done" />
               <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
-              <button type="button" onClick={handleSubmitAnswers}>submit</button>
+              <p>Mit dieser Übung haben Sie 5 Rank Punkte erreicht.</p>
+              {!showSubmit && (
+                <button type="button" onClick={handleSubmitAnswers}>submit</button>
+              )}
             </div>
           )}
         </div>
