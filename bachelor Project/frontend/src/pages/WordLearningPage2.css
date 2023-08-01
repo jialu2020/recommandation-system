@@ -39,7 +39,7 @@
   background-color: #0056b3; /* Dark blue background for the selected option */
   color: white; /* Set the font color to white for the selected option */
 }
-button[type="button"] {
+button {
   background-color: #007BFF;
   color: white;
   border: none;
@@ -50,6 +50,6 @@ button[type="button"] {
   margin-top: 20px;
 }
 
-button[type="button"]:hover {
+button:hover {
   background-color: #0056b3;
 }
