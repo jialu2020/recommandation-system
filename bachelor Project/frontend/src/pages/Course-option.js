@@ -6,6 +6,7 @@ import spellingPic from "../icons/spell-check.png"
 import gamePic from "../icons/choice.png"
 import choice from "../icons/choice_multi.png"
 import Footer from "../footer";
+import random from "../icons/random.png"
 
 const OptionPage = () => {
   const navigate = useNavigate();
@@ -24,6 +25,12 @@ const OptionPage = () => {
     const handleChoiceClick = () => {
     // 处理进入Aufgabe页面的逻辑
     navigate('/course/multiple-choice');
+  };
+
+    const handleRandomClick = () => {
+    const options = ['/course/aufgabe', '/course/game', '/course/multiple-choice'];
+    const randomIndex = Math.floor(Math.random() * options.length);
+    navigate(options[randomIndex]);
   };
 
   return (
@@ -45,6 +52,10 @@ const OptionPage = () => {
                <div className="option" onClick={handleChoiceClick}>
              <img src={choice} alt="game" />
              <p className="title2">Multi Chioce</p>
+           </div>
+            <div className="option" onClick={handleRandomClick}>
+             <img src={random} alt="game" />
+             <p className="title2">Random</p>
            </div>
          </div>
 

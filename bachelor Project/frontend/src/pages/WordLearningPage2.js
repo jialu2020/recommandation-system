@@ -19,6 +19,7 @@ const WordLearningPage2 = () => {
   const [dataSource, setdataSource] = useState([]);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
    const [showNextButton, setShowNextButton] = useState(false);
+   const [answerSubmitted, setAnswerSubmitted] = useState(false);
 
 
   useEffect(() => {
@@ -115,12 +116,15 @@ const WordLearningPage2 = () => {
 
    const handleOkClick = () => {
     // Show the result for the current question
+     setAnswerSubmitted(true);
     setShowResult(true);
     setShowNextButton(true); // Disable the "OK" button after clicking
   };
 
 
   const handleNextQuestion = () => {
+
+     setAnswerSubmitted(false);
     // 将学生的答题情况添加到 dataSource 中
     setdataSource(prevDataSource => [
       ...prevDataSource,
@@ -268,17 +272,16 @@ const WordLearningPage2 = () => {
       <Navbar />
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <div className="quiz-content">
-          <h1 className="title">multi-choice</h1>
+          <h2 className="title" style= {{ marginTop : '15px' }}>multi-choice</h2>
           {currentQuestionIndex < wordData.length ? (
             <div>
               <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
               <div className="options-container">
                 {wordData[currentQuestionIndex].options.map((option, i) => (
                   <div
-                    key={i}
-                    className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
-                    onClick={() => handleAnswerSelection(option)}
-                  >
+                   className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
+                     onClick={() => !answerSubmitted && handleAnswerSelection(option)} // 检查标志位来决定是否允许点击选项
+                    >
                     <span className="option-text">{option}</span>
                   </div>
                 ))}
