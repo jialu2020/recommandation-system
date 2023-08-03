@@ -155,8 +155,11 @@ const WordLearningPage2 = () => {
     console.log(dataSource);
     console.log(wordData);
   }, [dataSource]); // useEffect 钩子会在 dataSource 更新时执行
-    const navigate = useNavigate();
- const handleSubmitAnswers = () => {
+
+
+  const navigate = useNavigate();
+
+  const handleSubmitAnswers = () => {
 
     updateLeistung();
     addRank();

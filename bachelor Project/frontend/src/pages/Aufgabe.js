@@ -6,6 +6,7 @@ import { BaseTable } from "ali-react-table";
 import Navbar from "../Navbar";
 import Footer from "../footer";
 import {ArtColumn} from "ali-react-table";
+import {useNavigate} from "react-router-dom";
 
 
 function Aufgabe() {
@@ -73,11 +74,14 @@ useEffect(()=>{
 
     setdataSource([
     ...dataSource,
-    {num: done+1,
-    aufgabe: getMessage.data[currentQuestion].aufgabenstellung,
-    antwort: message,
-    musterloesung: getMessage.data[currentQuestion].musterloesung,
-    bewertung: message === getMessage.data[currentQuestion].musterloesung?'richtig':'falsch'}
+      {
+      num: done + 1,
+      aufgabe: getMessage.data[currentQuestion].aufgabenstellung,
+      antwort: message,
+      musterloesung: getMessage.data[currentQuestion].musterloesung,
+      bewertung: message.toLowerCase() === getMessage.data[currentQuestion].musterloesung.toLowerCase() ? 'richtig' : 'falsch'
+
+    }
     ])
 
     //setScore(dataSource.filter(item => item.antwort === item.musterloesung).length);
@@ -159,6 +163,10 @@ useEffect(()=>{
 		setShowSubmit(false);
   }
 
+
+
+  const navigate = useNavigate();
+
   const WeiterClick = () => {
 
 //Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt)
@@ -181,7 +189,11 @@ useEffect(()=>{
 
   setShowSubmit(false);
 
-  window.location.reload(false);
+   const options = ['/course/multiple-choice', '/course/game'];
+   const randomIndex = Math.floor(Math.random() * options.length);
+   navigate(options[randomIndex]);
+
+
 
   setdataSource([]);
   }
