@@ -279,6 +279,7 @@ const WordLearningPage2 = () => {
               <div className="options-container">
                 {wordData[currentQuestionIndex].options.map((option, i) => (
                   <div
+                     key={option}
                    className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
                      onClick={() => !answerSubmitted && handleAnswerSelection(option)} // 检查标志位来决定是否允许点击选项
                     >
