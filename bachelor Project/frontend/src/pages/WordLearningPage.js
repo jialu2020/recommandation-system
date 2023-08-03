@@ -248,20 +248,14 @@ const handleButtonClick = (letter) => {
         console.log("new level is : " +newLevel)
          console.log(newLevel.faehigkeit)
 
-        const levelResponse = await fetch('http://127.0.0.1:5000/addlevel', requestOptions);
+        const levelResponse = await fetch('http:///127.0.0.1:5000/addlevel', requestOptions);
         const levelData = await levelResponse.json();
         console.log(levelData);
 
          setLevel(levelData);
 
         // 重置状态
-        setCurrentAnswer('');
-        setDataSource([]);
-        setDone(0);
-        setScore(0);
-        setHearts(3);
-        setCurrentObjectIndex(0);
-        setShowScore(false);
+       window.location.reload(false);
       } catch (error) {
         console.log(error);
       }
@@ -271,19 +265,32 @@ const handleButtonClick = (letter) => {
 
 
     function calculateLevel() {
+
+       console.log("1111111111111111111111111111111111");
       let level = 0.0;
 
       for (let i = 0; i < dataSource.length; i++) {
         let schwerigkeit = getMessage.data[i].schwerigkeit;
-        let discrimination = getMessage.data[i].discrimination;
+        let discrimination = 1
         let bewertung = dataSource[i].bewertung;
         let gewicht = getGewicht(schwerigkeit);
 
-        level += schwerigkeit * discrimination * (bewertung === "richtig" ? 1 : 0) * gewicht;
+          console.log(`DataSource[${i}].bewertung: ${dataSource[i].bewertung}`);
+          console.log(`DataSource[${i}].schwerigkeit: ${schwerigkeit}`);
+          console.log(`DataSource[${i}]gewicht: ${gewicht}`);
+
+        level += schwerigkeit * discrimination * (bewertung ? 1 : 0) * gewicht;
+        console.log("Final level: ", level);
       }
 
-      console.log(level);
+
+
+
+
+       console.log("jisuan level ");
+       console.log(level);
       return level;
+
     }
 
 
@@ -320,13 +327,6 @@ const handleButtonClick = (letter) => {
           });
       }
     }
-
-
-
-// this is for multiple choice
-
-  const [isMultipleChoice, setIsMultipleChoice] = useState(false)
-
 
 
       return (
