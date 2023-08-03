@@ -18,7 +18,7 @@ app = Flask(__name__, static_folder='frontend/build/static')
 api = Api(app)
 
 # CORS(app)
-cors = CORS(app, resources={r"*": {"origins": "http://localhost:3000"}})
+CORS(app, origins="http://localhost:3000")
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
@@ -48,13 +48,13 @@ class Users(db.Model):
 class UserRanks(db.Model):
     __tablename__ = "user_ranks"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(), db.ForeignKey('studentUsers.username'), index=True, nullable=False)  # Correct foreign key reference to username in Users table
+    username = db.Column(db.String(), db.ForeignKey('studentUsers.username'), index=True,
+                         nullable=False)  # Correct foreign key reference to username in Users table
     rank = db.Column(db.Integer, default=0)
 
     def __init__(self, username, rank):
         self.username = username
         self.rank = rank
-
 
 
 class Subjects(db.Model):  # to connect user with his selected subject
@@ -237,7 +237,6 @@ def get_aufgabe(username, kategorie):
     return jsonify(results)
 
 
-
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
     all_leistung = Leistung.query.filter(Leistung.username == username).all()
@@ -378,7 +377,6 @@ def add_level():
     if (len(Init_Level) == 0):
         newLevel = Level(username, faehigkeit, kategorie)
 
-    # faehigkeit = request.json["faehigkeit"]
     else:
         zeit = request.json["zeit"]
         print(zeit)
@@ -452,7 +450,6 @@ def add_level():
     return LevelSchema().jsonify(newLevel)
 
 
-
 # getrank API
 @app.route("/getrank/<username>", methods=['GET'])
 def get_rank_by_username(username):
@@ -461,6 +458,7 @@ def get_rank_by_username(username):
         return jsonify({'username': user_ranks.username, 'rank': user_ranks.rank})
     else:
         return jsonify({'message': 'Rank not found'})
+
 
 # addrank API
 @app.route("/addrank/<username>/<int:rank>", methods=['POST'])
@@ -474,11 +472,13 @@ def add_rank(username, rank):
     db.session.commit()
     return jsonify({'message': 'Rank updated successfully'})
 
+
 @app.route("/getallranks", methods=['GET'])
 def get_all_ranks():
     all_ranks = UserRanks.query.all()
     ranks_data = [{'username': rank.username, 'rank': rank.rank} for rank in all_ranks]
     return jsonify(ranks_data)
+
 
 @app.route("/getlevel/<username>", methods=['GET'])
 def get_level_by_username(username):
@@ -593,6 +593,7 @@ def delete_user(username):
         # 处理异常情况
         db.session.rollback()
         return jsonify({"error": "An error occurred while deleting the user.", "details": str(e)}), 500
+
 
 @app.route("/delete-username/<username>", methods=['DELETE'])
 def delete_username(username):

@@ -7,6 +7,7 @@ import sadGif from "../icons/X5Na.gif"
 import wowGif from "../icons/bfX.gif"
 import goodGif from "../icons/5de.gif"
 import Footer from "../footer";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -216,51 +217,46 @@ const handleButtonClick = (letter) => {
       else{ return 0.02}
 
     }
+ const navigate = useNavigate();
 
-    const handleContinue = async () => {
-      let thisuser = localStorage.getItem('username');
-      try {
-        const response = await axios.get('http://localhost:5000/getaufgabe/' + thisuser + '/' + kategorie);
-        console.log("SUCCESS", response);
-        setGetMessage(response);
-        const aufgabenstellungen = response.data.map(item => item.aufgabenstellung);
-        const musterloesungen = response.data.map(item => item.musterloesung);
-        setWord(musterloesungen[0]);
-        setHint(aufgabenstellungen[0]);// 设置初始的题目
 
-        console.log("datasource");
-        console.log(dataSource);
-        updateLeistung();
+const handleContinue = async () => {
+  updateLeistung();
 
-        let newLevel = {
-          username: localStorage.getItem('username'),
-          faehigkeit: calculateLevel(),
-          kategorie: localStorage.getItem('kategorie'),
-          zeit: DateTime
-        };
+  let newLevel = {
+    username: localStorage.getItem('username'),
+    faehigkeit: calculateLevel(),
+    kategorie: localStorage.getItem('kategorie'),
+    zeit: DateTime
+  };
 
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newLevel)
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newLevel)
+  };
 
-        };
-        console.log("new level is : " +newLevel)
-         console.log(newLevel.faehigkeit)
+  console.log("new level is : ", newLevel);
+  console.log("faehigkeit: ", newLevel.faehigkeit);
 
-        const levelResponse = await fetch('http:///127.0.0.1:5000/addlevel', requestOptions);
-        const levelData = await levelResponse.json();
-        console.log(levelData);
+  try {
+    const response = await fetch('http://localhost:5000/addlevel', requestOptions);
+    const levelData = await response.json();
+    console.log("levelData: ", levelData);
+    setLevel(levelData);
 
-         setLevel(levelData);
+    // 这里等待一段时间再跳转页面，可以根据需要调整等待的时间
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await addRank()
 
-        // 重置状态
-       window.location.reload(false);
-      } catch (error) {
-        console.log(error);
-      }
+    const options = ['/course/aufgabe', '/course/multiple-choice'];
+    const randomIndex = Math.floor(Math.random() * options.length);
+    navigate(options[randomIndex]);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    };
 
 
 
@@ -329,6 +325,37 @@ const handleButtonClick = (letter) => {
     }
 
 
+    async function addRank() {
+    const username = localStorage.getItem('username');
+  try {
+    // 要增加的 rank 值，这里设置为 10
+    const rankToAdd = 4;
+
+    // 构建请求体，传递 rank 参数
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rank: rankToAdd }),
+    };
+
+    // 发起 POST 请求调用 addrank 方法
+    const response = await fetch(`http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error('request fail');
+    }
+
+    const data = await response.json();
+    console.log(data.message); // 可选：打印服务器返回的消息
+    // 处理请求成功的逻辑，如果需要的话
+  } catch (error) {
+    console.error('error occured：', error);
+    // 处理错误情况，如果需要的话
+  }
+}
+
+
+
       return (
         <div >
           <Navbar/>
@@ -358,6 +385,7 @@ const handleButtonClick = (letter) => {
                    </React.Fragment>
                  )}
                  <p className="hint">your score is: {score}</p>
+                  <p>Mit dieser Übung haben Sie 4 Rank Punkte erreicht.</p>
 
                  <button className='continue' onClick={handleContinue}>save and continue</button>
                </div>

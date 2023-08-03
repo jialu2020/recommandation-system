@@ -4,6 +4,10 @@ import Navbar from "../Navbar";
 import axios from 'axios';
 import Footer from "../footer";
 import doneGif from '../icons/done.gif';
+import {useNavigate} from "react-router-dom";
+import loading1 from '../icons/icons8-loading.gif';
+
+
 
 const WordLearningPage2 = () => {
   const [wordData, setWordData] = useState([]);
@@ -20,6 +24,7 @@ const WordLearningPage2 = () => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
    const [showNextButton, setShowNextButton] = useState(false);
    const [answerSubmitted, setAnswerSubmitted] = useState(false);
+   const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -51,9 +56,11 @@ const WordLearningPage2 = () => {
 
         // 更新题目信息数组
         setWordData(wordDataWithOptions);
+          setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching word data:', error);
+          setLoading(false);
       });
   }, []);
 
@@ -148,8 +155,9 @@ const WordLearningPage2 = () => {
     console.log(dataSource);
     console.log(wordData);
   }, [dataSource]); // useEffect 钩子会在 dataSource 更新时执行
-
+    const navigate = useNavigate();
  const handleSubmitAnswers = () => {
+
     updateLeistung();
     addRank();
 
@@ -173,7 +181,11 @@ const WordLearningPage2 = () => {
 
     setShowSubmit(false);
 
-    window.location.reload(false);
+    //window.location.reload(false);
+     // 随机导航到其他两个页面
+   const options = ['/course/aufgabe', '/course/game'];
+   const randomIndex = Math.floor(Math.random() * options.length);
+   navigate(options[randomIndex]);
 
     setdataSource([]);
 
@@ -271,9 +283,14 @@ const WordLearningPage2 = () => {
     <div>
       <Navbar />
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-        <div className="quiz-content">
+       <div className="quiz-content">
           <h2 className="title" style= {{ marginTop : '15px' }}>multi-choice</h2>
-          {currentQuestionIndex < wordData.length ? (
+
+          {loading ? ( // 根据loading状态来显示加载指示器
+           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+              <img src={loading1} alt="Loading..." />
+            </div>
+            ): currentQuestionIndex < wordData.length ? (
             <div>
               <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
               <div className="options-container">
