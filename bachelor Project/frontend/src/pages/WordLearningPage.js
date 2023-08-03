@@ -217,11 +217,12 @@ const handleButtonClick = (letter) => {
       else{ return 0.02}
 
     }
- const navigate = useNavigate();
 
+       const navigate = useNavigate();
 
 const handleContinue = async () => {
-  updateLeistung();
+
+       updateLeistung();
 
   let newLevel = {
     username: localStorage.getItem('username'),
