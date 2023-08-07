@@ -44,7 +44,11 @@ function UserRankings() {
         {showExplanation && (
           <div className="explanation-textbox">
             {/* Your explanation text here */}
-            This is the explanation text.
+            <p>Jedes Mal, wenn eine Frage in Lernen beantwortet wird, erhält man eine bestimmte Anzahl von Rangpunkten.
+            </p>
+            <p>
+               Dieser Rang zeigt nur an, wie aktiv der Benutzer ist.
+            </p>
           </div>
         )}
 

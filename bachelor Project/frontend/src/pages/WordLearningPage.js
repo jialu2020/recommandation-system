@@ -247,7 +247,7 @@ const handleContinue = async () => {
     setLevel(levelData);
 
     // 这里等待一段时间再跳转页面，可以根据需要调整等待的时间
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     await addRank()
 
     const options = ['/course/aufgabe', '/course/multiple-choice'];
@@ -263,7 +263,6 @@ const handleContinue = async () => {
 
     function calculateLevel() {
 
-       console.log("1111111111111111111111111111111111");
       let level = 0.0;
 
       for (let i = 0; i < dataSource.length; i++) {

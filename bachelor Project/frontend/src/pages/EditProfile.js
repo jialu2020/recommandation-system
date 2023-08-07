@@ -83,7 +83,7 @@ export default ({changeToFalse})=>{
           textDecoration: 'underline',
         }}
       >
-        Back
+        Zurück
       </button>
     </div>
   </form>

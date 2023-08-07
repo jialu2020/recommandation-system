@@ -81,9 +81,9 @@ export const Login = () => {
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" id="password" name="password" />
             <button type="submit">Log In</button>
           </form>
-          <button className="link-btn" onClick={handleRedirect}>
+          <a href="#" className="link" onClick={handleRedirect}>
            Sie haben noch kein Konto? Registrieren Sie sich hier.
-          </button>
+          </a>
         </div>
       </div>
       <Footer />

@@ -216,7 +216,7 @@ return (
               <span>Username:</span> {localStorage.getItem('username')}
             </div>
             <div className="username-password">
-              <span>Password:</span> {localStorage.getItem('password')}  <button className="link-btn" onClick={() => setEditMode(true)}>
+              <span>Passwort:</span> {localStorage.getItem('password')}  <button className="link-btn" onClick={() => setEditMode(true)}>
                 Passwort ändern
               </button>
             </div>

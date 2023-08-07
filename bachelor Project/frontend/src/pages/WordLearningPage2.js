@@ -317,7 +317,7 @@ const WordLearningPage2 = () => {
               )}
               {showResult && showNextButton && (
                 <button type="button" onClick={handleNextQuestion}>
-                  Next
+                  Weiter
                 </button>
               )}
             </div>
@@ -327,7 +327,7 @@ const WordLearningPage2 = () => {
               <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
               <p>Mit dieser Übung haben Sie 5 Rank Punkte erreicht.</p>
               {!showSubmit && (
-                <button type="button" onClick={handleSubmitAnswers}>submit</button>
+                <button type="button" onClick={handleSubmitAnswers}>Einreichen</button>
               )}
             </div>
           )}

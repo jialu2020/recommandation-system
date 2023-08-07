@@ -169,14 +169,13 @@ useEffect(()=>{
 
   const WeiterClick = () => {
 
-//Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt)
-//  updateLeistung();
 
-
-      let newlevel = {username: localStorage.getItem('username'),
-      faehigkeit: getnewlevel(),
-      kategorie: localStorage.getItem('kategorie'),
-      zeit: DateTime}
+      let newlevel = {
+        username: localStorage.getItem('username'),
+        faehigkeit: getnewlevel(),
+        kategorie: localStorage.getItem('kategorie'),
+        zeit: new Date().toISOString()
+      }
 
        const requestOptions = {
         method: 'POST',
