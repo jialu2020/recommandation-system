@@ -220,7 +220,7 @@ return (
                 Passwort ändern
               </button>
             </div>
-            <div id="buttonclass">
+            <div id="buttonclass" style={{ marginBottom : '20px'}}>
           <button className="delete-button1" onClick={handleDeleteAccount}>
             Mein Konto löschen
           </button>

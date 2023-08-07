@@ -393,7 +393,7 @@ const handleContinue = async () => {
            ) :
            (<div className="Aufgabe">
              <div className="word-learning-page">
-               <h2 className="title">Word Learning Page</h2>
+               <h2 className="title" style={{ marginTop: '20px'}}>Word Learning Page</h2>
                <p className="hint">Hint: {hint}</p>
                <div className="heart-container">
                  <div className="hearts">
@@ -409,7 +409,7 @@ const handleContinue = async () => {
                      ))}
                  </div>
                </div>
-               <div className="word-buttons">
+               <div className="word-buttons" style={{ margin: '20px'}}>
                  {letters.map((letter, index) => (
                    <button
                      key={index}
