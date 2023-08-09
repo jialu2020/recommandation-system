@@ -42,11 +42,10 @@ function UserRankings() {
           </a>
         </p>
         {showExplanation && (
-          <div className="explanation-textbox">
-            {/* Your explanation text here */}
-            <p>Jedes Mal, wenn eine Frage in Lernen beantwortet wird, erhält man eine bestimmte Anzahl von Rangpunkten.
+          <div className="explanation-textbox" style={{ marginLeft : "20px"}}>
+            <p style={{ marginLeft : "10px"}}>Jedes Mal, wenn eine Frage in Lernen beantwortet wird, erhält man eine bestimmte Anzahl von Rangpunkten.
             </p>
-            <p>
+            <p style={{ marginLeft : "10px"}}>
                Dieser Rang zeigt nur an, wie aktiv der Benutzer ist.
             </p>
           </div>

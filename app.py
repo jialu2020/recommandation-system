@@ -585,6 +585,8 @@ def delete_user(username):
         # 删除与用户相关的 Level 数据
         Level.query.filter_by(username=username).delete()
 
+        UserRanks.query.filter_by(username=username).delete()
+
         db.session.delete(user)
         db.session.commit()
 
@@ -603,6 +605,9 @@ def delete_username(username):
 
         if not user:
             return jsonify({"message": f"User with username {username} not found."}), 404
+
+        # 删除与用户相关的 user_ranks 表中的记录
+        UserRanks.query.filter_by(username=username).delete()
 
         # 设置用户名的占位符值来表示用户账户已被删除
         deleted_username = 'deleted_user=' + user.username

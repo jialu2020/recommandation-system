@@ -308,7 +308,8 @@ const WordLearningPage2 = () => {
                 ))}
               </div>
               {showResult && (
-                <p>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? 'Richtige Antwort!' : 'Falsche Antwort, die richtige Antwort lautet: ' + wordData[currentQuestionIndex].correctAnswer }</p>
+              <p style={{ color: selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? 'green' : 'red' }}>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ?
+                'Richtige Antwort!' : 'Falsche Antwort, die richtige Antwort lautet: ' + wordData[currentQuestionIndex].correctAnswer}</p>
               )}
               {!showResult && showNextButton && (
                 <button type="button" onClick={handleOkClick}>
