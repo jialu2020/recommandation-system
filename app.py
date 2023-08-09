@@ -368,86 +368,93 @@ def add_leistung():
 
 @app.route("/addlevel", methods=['POST'])
 def add_level():
-    username = request.json["username"]
-    faehigkeit = request.json["faehigkeit"]
-    kategorie = request.json["kategorie"]
+    try:
+        username = request.json["username"]
+        faehigkeit = request.json["faehigkeit"]
+        kategorie = request.json["kategorie"]
 
-    Init_Level = Level.query.filter(Level.username == username).filter(Level.kategorie == kategorie).all()
+        Init_Level = Level.query.filter(Level.username == username).filter(Level.kategorie == kategorie).all()
 
-    if (len(Init_Level) == 0):
-        newLevel = Level(username, faehigkeit, kategorie)
+        if (len(Init_Level) == 0):
+            newLevel = Level(username, faehigkeit, kategorie)
 
-    else:
-        zeit = request.json["zeit"]
-        print(zeit)
-        R_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
-            Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,
-                                                                                     Exercises.discrimination).all()
-        R_Parameter = [{}, {}]
-        W_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
-            Leistung.zeitpunkt == zeit).filter(Leistung.score == False).with_entities(Exercises.schwerigkeit,
-                                                                                      Exercises.discrimination).all()
-        W_Parameter = [{}, {}]
-        print(R_Aufgaben, W_Aufgaben)
+        else:
+            zeit = request.json["zeit"]
+            print(zeit)
+            R_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
+                Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,
+                                                                                         Exercises.discrimination).all()
+            R_Parameter = [{}, {}]
+            W_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
+                Leistung.zeitpunkt == zeit).filter(Leistung.score == False).with_entities(Exercises.schwerigkeit,
+                                                                                          Exercises.discrimination).all()
+            W_Parameter = [{}, {}]
+            print(R_Aufgaben, W_Aufgaben)
 
-        if (len(R_Aufgaben) != 0 and len(W_Aufgaben) != 0):
+            if (len(R_Aufgaben) != 0 and len(W_Aufgaben) != 0):
 
-            for i in range(len(R_Aufgaben)):
-                R_Parameter[0][i] = R_Aufgaben[i][0]
-                R_Parameter[1][i] = R_Aufgaben[i][1]
+                for i in range(len(R_Aufgaben)):
+                    R_Parameter[0][i] = R_Aufgaben[i][0]
+                    R_Parameter[1][i] = R_Aufgaben[i][1]
 
-            for j in range(len(W_Aufgaben)):
-                W_Parameter[0][j] = W_Aufgaben[j][0]
-                W_Parameter[1][j] = W_Aufgaben[j][1]
+                for j in range(len(W_Aufgaben)):
+                    W_Parameter[0][j] = W_Aufgaben[j][0]
+                    W_Parameter[1][j] = W_Aufgaben[j][1]
 
-            faehigkeit = G(R_Parameter[1], R_Parameter[0], W_Parameter[1], W_Parameter[0])
+                faehigkeit = G(R_Parameter[1], R_Parameter[0], W_Parameter[1], W_Parameter[0])
 
-            print("right disc:", R_Parameter[1])
-            print("right dif:", R_Parameter[0])
-            print("wrong disc:", W_Parameter[1])
-            print("wrong dif:", W_Parameter[0])
-            print(faehigkeit)
+                print("right disc:", R_Parameter[1])
+                print("right dif:", R_Parameter[0])
+                print("wrong disc:", W_Parameter[1])
+                print("wrong dif:", W_Parameter[0])
+                print(faehigkeit)
 
-        if (len(R_Aufgaben) == 0):
+            if (len(R_Aufgaben) == 0):
 
-            for j in range(len(W_Aufgaben)):
-                W_Parameter[0][j] = W_Aufgaben[j][0]
-                W_Parameter[1][j] = W_Aufgaben[j][1]
+                for j in range(len(W_Aufgaben)):
+                    W_Parameter[0][j] = W_Aufgaben[j][0]
+                    W_Parameter[1][j] = W_Aufgaben[j][1]
 
-            faehigkeit = W(W_Parameter[1], W_Parameter[0])
-            print("all wrong", faehigkeit)
+                faehigkeit = W(W_Parameter[1], W_Parameter[0])
+                print("all wrong", faehigkeit)
 
-        if (len(W_Aufgaben) == 0):
+            if (len(W_Aufgaben) == 0):
 
-            for j in range(len(R_Aufgaben)):
-                R_Parameter[0][j] = R_Aufgaben[j][0]
-                R_Parameter[1][j] = R_Aufgaben[j][1]
+                for j in range(len(R_Aufgaben)):
+                    R_Parameter[0][j] = R_Aufgaben[j][0]
+                    R_Parameter[1][j] = R_Aufgaben[j][1]
 
-            faehigkeit = R(R_Parameter[1], R_Parameter[0])
-            print("all right", faehigkeit)
-        faehigkeits = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
-            Level.create_time.desc()).with_entities(Level.faehigkeit).limit(4).all()
-        print("recently 4 faehigkeit:", faehigkeits)
-        newest_faehig = faehigkeits[0][0]
-        current_faehig = 0
+                faehigkeit = R(R_Parameter[1], R_Parameter[0])
+                print("all right", faehigkeit)
+            faehigkeits = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
+                Level.create_time.desc()).with_entities(Level.faehigkeit).limit(4).all()
+            print("recently 4 faehigkeit:", faehigkeits)
+            newest_faehig = faehigkeits[0][0]
+            current_faehig = 0
 
-        for i in range(len(faehigkeits)):
-            current_faehig += faehigkeits[i][0]
-        if (newest_faehig - faehigkeit > 0.3):
-            faehigkeit = newest_faehig - 0.3
-            print("newest", faehigkeit)
-        if (faehigkeit - newest_faehig > 0.5):
-            faehigkeit = newest_faehig + 0.5
-        faehigkeit = (current_faehig + faehigkeit) / (len(faehigkeits) + 1)
-        # else:
-        #     faehigkeit = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
-        #         Level.create_time.desc()).with_entities(Level.faehigkeit).limit(1).all()
-        #     faehigkeit = faehigkeit[0][0] - 0.1
+            for i in range(len(faehigkeits)):
+                current_faehig += faehigkeits[i][0]
+            if (newest_faehig - faehigkeit > 0.3):
+                faehigkeit = newest_faehig - 0.3
+                print("newest", faehigkeit)
+            if (faehigkeit - newest_faehig > 0.5):
+                faehigkeit = newest_faehig + 0.5
+            faehigkeit = (current_faehig + faehigkeit) / (len(faehigkeits) + 1)
+            # else:
+            #     faehigkeit = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
+            #         Level.create_time.desc()).with_entities(Level.faehigkeit).limit(1).all()
+            #     faehigkeit = faehigkeit[0][0] - 0.1
 
-        newLevel = Level(username, faehigkeit, kategorie)
-    db.session.add(newLevel)
-    db.session.commit()
-    return LevelSchema().jsonify(newLevel)
+            newLevel = Level(username, faehigkeit, kategorie)
+        db.session.add(newLevel)
+        db.session.commit()
+        response = LevelSchema().jsonify(newLevel)
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')  # 替换为您的前端源地址
+        return response
+
+    except Exception as e:
+        print("Error:", e)
+        return {"error": str(e)}, 500
 
 
 # getrank API

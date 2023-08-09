@@ -8,6 +8,7 @@ import wowGif from "../icons/bfX.gif"
 import goodGif from "../icons/5de.gif"
 import Footer from "../footer";
 import {useNavigate} from "react-router-dom";
+import loading1 from "../icons/icons8-loading.gif";
 
 
 
@@ -35,11 +36,6 @@ import {useNavigate} from "react-router-dom";
 
     const [kategorie, setkategorie] = useState(localStorage.getItem('kategorie'));
 
-    const [schwerigkeit, setschwerigkeit] = useState('');
-
-    const [message, setMessage] = useState('');
-
-    const [DateTime, setDateTime] = useState('');
 
     const [currentObjectIndex, setCurrentObjectIndex] = useState(0);
 
@@ -50,6 +46,8 @@ import {useNavigate} from "react-router-dom";
     const [clickedLetters, setClickedLetters] = useState([]); // 存储已点击的字母
 
     const [level, setLevel] = useState(null);
+
+    const [isLoading, setIsLoading] = useState(false);
 
 
 
@@ -221,34 +219,31 @@ const handleButtonClick = (letter) => {
        const navigate = useNavigate();
 
 const handleContinue = async () => {
-
-       updateLeistung();
+   setIsLoading(true);
+  await updateLeistung();
 
   let newLevel = {
     username: localStorage.getItem('username'),
     faehigkeit: calculateLevel(),
     kategorie: localStorage.getItem('kategorie'),
-    zeit: DateTime
+    zeit: Date().toLocaleString()
   };
 
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newLevel)
+    body: JSON.stringify(newLevel),
   };
-
-  console.log("new level is : ", newLevel);
-  console.log("faehigkeit: ", newLevel.faehigkeit);
 
   try {
     const response = await fetch('http://localhost:5000/addlevel', requestOptions);
     const levelData = await response.json();
-    console.log("levelData: ", levelData);
     setLevel(levelData);
+    setIsLoading(false);
 
     // 这里等待一段时间再跳转页面，可以根据需要调整等待的时间
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    await addRank()
+    await addRank();
 
     const options = ['/course/aufgabe', '/course/multiple-choice'];
     const randomIndex = Math.floor(Math.random() * options.length);
@@ -295,7 +290,7 @@ const handleContinue = async () => {
     function updateLeistung() {
       const currentDate = new Date();
       const formattedDateTime = currentDate.toISOString();
-      setDateTime(formattedDateTime);
+
 
       for (let i = 0; i < dataSource.length; i++) {
         let leistung = {
@@ -304,7 +299,7 @@ const handleContinue = async () => {
           score: dataSource[i].bewertung,
           kategorie: localStorage.getItem('kategorie'),
           schwerigkeit: getMessage.data[i].schwerigkeit,
-          zeitpunkt: formattedDateTime
+          zeitpunkt : Date().toLocaleString()
         };
 
         const requestOptions = {
@@ -360,7 +355,9 @@ const handleContinue = async () => {
         <div >
           <Navbar/>
        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-         {showScore ? (
+         {isLoading ? (
+        <div>Loading...  <img src={loading1} alt="Loading..." /></div>
+        ) : showScore ? (
              <div className="Aufgabe" >
                <div className="word-learning-page">
                  {score >= 4 && (
