@@ -48,16 +48,10 @@ function Aufgabe() {
 
 
 useEffect(()=>{
-//setkategorie(localStorage.getItem('kategorie'))
-//
-//    fetch('http://127.0.0.1:5000/getaufgabe/' + kategorie)
-//        .then((response) => response.json())
-//        .then((data) => console.log(data));
-//    setkategorie(localStorage.getItem('kategorie'))
+    console.log("hahahaha")
 
     let thisuser = localStorage.getItem('username')
-
-    axios.get('http://localhost:5000/getaufgabe/'+ thisuser + '/' +kategorie).then(response => {
+     axios.get('http://localhost:5000/getaufgabe/'+ thisuser + '/' +kategorie).then(response => {
       console.log("SUCCESS", response)
       setGetMessage(response)
     }).catch(error => {
@@ -299,17 +293,18 @@ async function addRank() {
                 <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
               </div>
               <div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
+              <span>(Die Anfangsbuchstaben des Wortes : {getMessage.data[currentQuestion].musterloesung.charAt(0)})</span>
             </div>
           ) : (<h3>No Response</h3>)}
           <div className='answer-section'>
             <div className='input-section'>
-              <input
-                className="input"
-                id="message"
-                name="message"
-                onChange={handleChange}
-                value={message}
-              />
+                <input
+                  className="input"
+                  id="message"
+                  name="message"
+                  onChange={handleChange}
+                  value={message}
+                />
             </div>
             <div className="buttons-container">
               <div>
