@@ -44,17 +44,13 @@
 
 
 .letter-button:hover {
-  /* Your existing hover styles */
 
-  /* Add background color change */
   background-color: #1B9CFC;
 }
 
-.letter-button:active {
-  /* Your existing active styles */
+.letter-button.clicked{
 
-  /* Add background color change */
-  background-color: #1abc9c;
+  background-color: gray;
 }
 
 

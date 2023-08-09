@@ -49,6 +49,9 @@ import loading1 from "../icons/icons8-loading.gif";
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [clickedButtons, setClickedButtons] = useState([]);
+
+
 
 
 
@@ -84,17 +87,18 @@ const checkAnswer = (answer, musterloesung) => {
 
 
 
-const handleButtonClick = (letter) => {
-      setCurrentAnswer((prevAnswer) => prevAnswer + letter);
-      setClickedLetters((prevClickedLetters) => [...prevClickedLetters, letter]);
+const handleButtonClick = (id, letter) => {
+  setCurrentAnswer((prevAnswer) => prevAnswer + letter);
+  setClickedButtons((prevClickedButtons) => ({ ...prevClickedButtons, [id]: true }));
+};
 
-    };
 
 
 
  const handleSubmit = () => {
   const currentObject = getMessage.data[currentObjectIndex];
   const isCorrect = checkAnswer(currentAnswer, currentObject.musterloesung);
+  setClickedButtons({});
 
   if (currentObjectIndex < getMessage.data.length - 1) {
     //逻辑是 先判断下一道题是否存在
@@ -406,17 +410,17 @@ const handleContinue = async () => {
                      ))}
                  </div>
                </div>
-               <div className="word-buttons" style={{ margin: '20px'}}>
-                 {letters.map((letter, index) => (
-                   <button
-                     key={index}
-                     className="letter-button"
-                     onClick={() => handleButtonClick(letter)}
-                   >
-                     {letter}
-                   </button>
-                 ))}
-               </div>
+                    <div className="word-buttons" style={{ margin: '20px' }}>
+                      {letters.map((letter, index) => (
+                        <button
+                          key={index}
+                          className={`letter-button ${clickedButtons[index] ? 'clicked' : ''}`}
+                          onClick={() => handleButtonClick(index, letter)}
+                        >
+                          {letter}
+                        </button>
+                      ))}
+                    </div>
                <div className="answer-section">
 
                  <input type="" value={currentAnswer} disabled className="answer-input"/>

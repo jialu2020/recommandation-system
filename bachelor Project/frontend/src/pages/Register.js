@@ -7,7 +7,7 @@ import "./Register.css";
 export const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('normal'); // 'normal' is the default user type
+  const [userType, setUserType] = useState('recommendation'); // 'recommendation' is the default user type
   const [error, setError] = useState(null);
   const [privacyPolicyConfirmed, setPrivacyPolicyConfirmed] = useState(false);
   const [cookiePolicyConfirmed, setCookiePolicyConfirmed] = useState(false);
