@@ -237,6 +237,24 @@ def get_aufgabe(username, kategorie):
     return jsonify(results)
 
 
+@app.route("/getaufgabeNormal/<username>/<kategorie>", methods=["GET"])
+def get_nonRSaufgabe(username, kategorie):
+    level = Level.query.filter_by(username=username, kategorie=kategorie).first()
+    if not level:
+        latest_ability = 0
+    else:
+        filtered_exercises = Exercises.query.filter(
+            func.abs(Exercises.schwerigkeit - level.faehigkeit) < 0.1
+        ).all()
+        # 筛选的条件是，练习题的难度与学生的能力之差小于 0.1
+
+        selected_exercises = random.sample(filtered_exercises, 4)
+
+        results = aufgabe_schema.dump(selected_exercises)
+        print("Returned data:", results)
+        return jsonify(results)
+
+
 @app.route("/getleistung/<username>", methods=["GET"])
 def get_leistung(username):
     all_leistung = Leistung.query.filter(Leistung.username == username).all()
