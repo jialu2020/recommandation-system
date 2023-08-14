@@ -56,26 +56,40 @@ import loading1 from "../icons/icons8-loading.gif";
 
 
 useEffect(() => {
-  let thisuser = localStorage.getItem('username');
-  axios.get('http://localhost:5000/getaufgabe/' + thisuser + '/' + kategorie)
-    .then(response => {
-      console.log("SUCCESS", response);
-      setGetMessage(response);
-      const hint= response.data.map(item => item.aufgabenstellung);
-      const answer= response.data.map(item => item.musterloesung);
+  const thisuser = localStorage.getItem('username');
+  const userType = localStorage.getItem('userType');
 
-      setHint(hint[0]);
-      setWord(answer[0]);
-      console.log("answer")
-      console.log(answer)
-      console.log(answer[0])
 
-      // 设置初始的题目
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  setShowSubmit(false);
+  let apiPath = '';
+  if (userType === 'normal') {
+    apiPath = 'http://localhost:5000/getaufgabeNormal/';
+    console.log("it is normal api")
+  } else if (userType === 'recommandation') {
+    apiPath = 'http://localhost:5000/getaufgabe/';
+    console.log("it is RS api")
+  }
+
+  if (apiPath) {
+    axios.get(apiPath + thisuser + '/' + kategorie)
+      .then(response => {
+        console.log("SUCCESS", response);
+        setGetMessage(response);
+        const hint = response.data.map(item => item.aufgabenstellung);
+        const answer = response.data.map(item => item.musterloesung);
+
+        setHint(hint[0]);
+        setWord(answer[0]);
+        console.log("answer");
+        console.log(answer);
+        console.log(answer[0]);
+
+        // 设置初始的题目
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    setShowSubmit(false);
+  }
 }, []);
 
 
