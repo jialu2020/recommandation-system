@@ -306,9 +306,6 @@ const handleContinue = async () => {
 
 
     function updateLeistung() {
-      const currentDate = new Date();
-      const formattedDateTime = currentDate.toISOString();
-
 
       for (let i = 0; i < dataSource.length; i++) {
         let leistung = {

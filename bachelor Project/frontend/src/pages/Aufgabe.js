@@ -48,7 +48,6 @@ function Aufgabe() {
 
 
 useEffect(()=>{
-    console.log("hahahaha")
 
     let thisuser = localStorage.getItem('username')
      axios.get('http://localhost:5000/getaufgabe/'+ thisuser + '/' +kategorie).then(response => {
@@ -101,15 +100,14 @@ useEffect(()=>{
   function updateLeistung(){
   for(let i=0; i<dataSource.length; i++){
 
-//      console.log(getMessage.data[i].schwerigkeit+"***")
-
       let leistung = {username: localStorage.getItem('username'),
-              aufgabestellung: getMessage.data[i].aufgabenstellung,
+              aufgabestellung: dataSource[i].aufgabe,
               score : dataSource[i].bewertung === 'richtig',
               kategorie : localStorage.getItem('kategorie'),
               schwerigkeit : getMessage.data[i].schwerigkeit,
-              zeitpunkt : DateTime};
-
+              zeitpunkt :  Date().toLocaleString()
+      };
+      console.log("leistung aufgabe", leistung)
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -146,7 +144,6 @@ useEffect(()=>{
 
   const Submit = () =>{
 
-    updateLeistung();
 
     addRank();
 
@@ -158,38 +155,41 @@ useEffect(()=>{
   }
 
 
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+const WeiterClick = () => {
 
-  const WeiterClick = () => {
+  updateLeistung();
 
 
-      let newlevel = {
-        username: localStorage.getItem('username'),
-        faehigkeit: getnewlevel(),
-        kategorie: localStorage.getItem('kategorie'),
-        zeit: new Date().toISOString()
-      }
+  let newlevel = {
+    username: localStorage.getItem('username'),
+    faehigkeit: getnewlevel(),
+    kategorie: localStorage.getItem('kategorie'),
+    zeit: Date().toLocaleString()
+  };
 
-       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newlevel)
-      };
-      fetch('http://127.0.0.1:5000/addlevel', requestOptions)
-        .then(response => response.json())
-        .then(newlevel);
+  console.log("new level", newlevel);
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newlevel)
+  };
+
+  fetch('http://localhost:5000/addlevel', requestOptions)
+    .then(response => response.json())
+    .then(newlevel);
 
   setShowSubmit(false);
 
-   const options = ['/course/multiple-choice', '/course/game'];
-   const randomIndex = Math.floor(Math.random() * options.length);
-   navigate(options[randomIndex]);
-
-
+  const options = ['/course/multiple-choice', '/course/game'];
+  const randomIndex = Math.floor(Math.random() * options.length);
+  navigate(options[randomIndex]);
 
   setdataSource([]);
-  }
+};
+
 
   function getnewlevel(){
   let thislevel = 0.0
@@ -197,12 +197,13 @@ useEffect(()=>{
   for(let i = 0; i<dataSource.length; i++){
   //dataSource[i]
     let thisschwerigkeit = getMessage.data[i].schwerigkeit
-    let thisdiscrimination = getMessage.data[i].discrimination
+    let thisdiscrimination = 1
     let thisbewertung = dataSource[i].bewertung
     let gewicht = getGewicht(thisschwerigkeit)
 
     thislevel += thisschwerigkeit * thisdiscrimination * (thisbewertung=="richtig"?1:0) * gewicht
   }
+  console.log("the  new level")
   console.log(thislevel)
   return thislevel
   }

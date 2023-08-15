@@ -387,9 +387,16 @@ def add_leistung():
 @app.route("/addlevel", methods=['POST'])
 def add_level():
     try:
+        print("Received request", request)
         username = request.json["username"]
         faehigkeit = request.json["faehigkeit"]
         kategorie = request.json["kategorie"]
+
+
+        print("Received username: %s", username)
+        print("Received faehigkeit: %s", faehigkeit)
+        print("Received kategorie: %s", kategorie)
+        print("Received time: %s", request.json["zeit"])
 
         Init_Level = Level.query.filter(Level.username == username).filter(Level.kategorie == kategorie).all()
 
@@ -398,15 +405,19 @@ def add_level():
 
         else:
             zeit = request.json["zeit"]
-            print(zeit)
+            print("zeit is: ",zeit)
             R_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
                 Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,
                                                                                          Exercises.discrimination).all()
+            print("R_Aufgaben,",R_Aufgaben)
+
             R_Parameter = [{}, {}]
             W_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
                 Leistung.zeitpunkt == zeit).filter(Leistung.score == False).with_entities(Exercises.schwerigkeit,
                                                                                           Exercises.discrimination).all()
             W_Parameter = [{}, {}]
+            print("W_Aufgaben,")
+            print(W_Aufgaben)
             print(R_Aufgaben, W_Aufgaben)
 
             if (len(R_Aufgaben) != 0 and len(W_Aufgaben) != 0):
@@ -458,6 +469,8 @@ def add_level():
             if (faehigkeit - newest_faehig > 0.5):
                 faehigkeit = newest_faehig + 0.5
             faehigkeit = (current_faehig + faehigkeit) / (len(faehigkeits) + 1)
+
+            print("Calculated faehigkeit: %s", faehigkeit)
             # else:
             #     faehigkeit = Level.query.filter(Level.username == username, Level.kategorie == kategorie).order_by(
             #         Level.create_time.desc()).with_entities(Level.faehigkeit).limit(1).all()
@@ -466,8 +479,9 @@ def add_level():
             newLevel = Level(username, faehigkeit, kategorie)
         db.session.add(newLevel)
         db.session.commit()
+        print("Added newLevel to the database")
         response = LevelSchema().jsonify(newLevel)
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')  # 替换为您的前端源地址
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
         return response
 
     except Exception as e:
@@ -475,7 +489,6 @@ def add_level():
         return {"error": str(e)}, 500
 
 
-# getrank API
 @app.route("/getrank/<username>", methods=['GET'])
 def get_rank_by_username(username):
     user_ranks = UserRanks.query.filter_by(username=username).first()

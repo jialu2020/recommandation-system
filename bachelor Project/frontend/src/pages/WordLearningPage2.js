@@ -172,6 +172,7 @@ const WordLearningPage2 = () => {
       kategorie: localStorage.getItem('kategorie'),
       zeit: Date().toLocaleString()
     }
+    console.log("new level wlp2",newlevel)
 
     const requestOptions = {
       method: 'POST',
@@ -238,8 +239,8 @@ const WordLearningPage2 = () => {
           zeitpunkt : Date().toLocaleString()
 
         };
-      console.log("leisting")
-      console.log(leistung)
+      console.log("leistung",leistung)
+
 
       const requestOptions = {
         method: 'POST',
