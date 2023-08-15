@@ -27,42 +27,55 @@ const WordLearningPage2 = () => {
    const [loading, setLoading] = useState(true);
 
 
-  useEffect(() => {
-    const thisuser = localStorage.getItem('username');
+    useEffect(() => {
+      const thisuser = localStorage.getItem('username');
+      const userType = localStorage.getItem('userType');
+      let apiPath = '';
 
-    // 发起 HTTP 请求获取题目信息
-    axios
-      .get('http://localhost:5000/getaufgabe/' + thisuser + '/' + kategorie)
-      .then(response => {
-        const data = response.data;
+      // 根据用户类型选择API路径
+      if (userType === 'normal') {
+        apiPath = 'http://localhost:5000/getaufgabeNormal/';
+        console.log("it is normal api");
+      } else if (userType === 'recommandation') {
+        apiPath = 'http://localhost:5000/getaufgabe/';
+        console.log("it is RS api");
+      }
 
-        console.log(response.data)
-        // 处理数据，为每道题目生成错误选项
-        const wordDataWithOptions = data.map(item => {
-          // 获取正确答案
-          const correctAnswer = item.musterloesung;
-          const schwerigkeit = item.schwerigkeit;
-          // 生成错误选项数组
-          const options = generateWrongOptions(correctAnswer);
+      if (apiPath !== '') {
+        // 发起 HTTP 请求获取题目信息
+        axios
+          .get(apiPath + thisuser + '/' + kategorie)
+          .then(response => {
+            const data = response.data;
 
-          // 将正确答案和选项组成一个对象
-          return {
-            question: item.aufgabenstellung,
-            correctAnswer: correctAnswer,
-            options: options,
-            difficulty:schwerigkeit,
-          };
-        });
+            // 处理数据，为每道题目生成错误选项
+            const wordDataWithOptions = data.map(item => {
+              // 获取正确答案
+              const correctAnswer = item.musterloesung;
+              const schwerigkeit = item.schwerigkeit;
+              // 生成错误选项数组
+              const options = generateWrongOptions(correctAnswer);
 
-        // 更新题目信息数组
-        setWordData(wordDataWithOptions);
-          setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching word data:', error);
-          setLoading(false);
-      });
-  }, []);
+              // 将正确答案和选项组成一个对象
+              return {
+                question: item.aufgabenstellung,
+                correctAnswer: correctAnswer,
+                options: options,
+                difficulty: schwerigkeit,
+              };
+            });
+
+            // 更新题目信息数组
+            setWordData(wordDataWithOptions);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error('Error fetching word data:', error);
+            setLoading(false);
+          });
+      }
+    }, []);
+
 
   const generateWrongOptions = (correctAnswer) => {
     const options = [];

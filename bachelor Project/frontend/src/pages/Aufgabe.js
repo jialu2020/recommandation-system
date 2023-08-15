@@ -29,15 +29,11 @@ function Aufgabe() {
 
 	const [showSubmit, setShowSubmit] = useState(false);
 
-	const [score, setScore] = useState(0);
-
 	const [done, setDone] = useState(0);
 
 	const [kategorie, setkategorie] = useState(localStorage.getItem('kategorie'));
 
-	const [schwerigkeit, setschwerigkeit] = useState('');
-
-	const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('');
 
 	const [DateTime, setDateTime] = useState('');
 
@@ -46,20 +42,30 @@ function Aufgabe() {
   };
 
 
+  useEffect(() => {
+    const userType = localStorage.getItem('userType');
 
-useEffect(()=>{
+    let apiPath = ''; // Initialize the API path variable based on userType
+    if (userType === 'normal') {
+      apiPath = 'http://localhost:5000/getaufgabeNormal/';
+      console.log("it is normal api")
+    } else if (userType === 'recommandation') {
+      apiPath = 'http://localhost:5000/getaufgabe/';
+      console.log("it is RS api")
+    }
 
-    let thisuser = localStorage.getItem('username')
-     axios.get('http://localhost:5000/getaufgabe/'+ thisuser + '/' +kategorie).then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
+    if (apiPath !== '') {
+      let thisuser = localStorage.getItem('username');
+      axios.get(apiPath + thisuser + '/' + kategorie).then(response => {
+        console.log("SUCCESS", response);
+        setGetMessage(response);
+      }).catch(error => {
+        console.log(error);
+      });
+      setShowSubmit(false);
+    }
+  }, []); //
 
-    setShowSubmit(false);
-
- }, [])
 
   const NextClick = () => {
 
