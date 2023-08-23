@@ -5,36 +5,37 @@ function PrivacyPolicy() {
 
 
   return (
-    <div style={containerStyle}>
-      <h1 style={headingStyle}>Privacy Policy</h1>
-      <p style={paragraphStyle}>
-        At IndiLearn, we value your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and disclose your data when you use our website and services.
-      </p>
-      <h2 style={subHeadingStyle}>Information We Collect</h2>
-      <p style={paragraphStyle}>
-        We may collect personal information, such as  username when you register an account with us.
-      </p>
-      <h2 style={subHeadingStyle}>How We Use Your Information</h2>
-      <p style={paragraphStyle}>
-        We use your personal information to provide and improve our services, customize your user experience, and communicate with you about our products and updates.
-      </p>
-      <h2 style={subHeadingStyle}>Data Security</h2>
-      <p style={paragraphStyle}>
-        We take data security seriously and employ appropriate measures to protect your information from unauthorized access, alteration, or disclosure.
-      </p>
-      <h2 style={subHeadingStyle}>Third-Party Services</h2>
-      <p style={paragraphStyle}>
-        We may use third-party services, such as analytics and advertising providers, to enhance our website's functionality.
-      </p>
-      <h2 style={subHeadingStyle}>Your Choices</h2>
-      <p style={paragraphStyle}>
-        You may also delete your account and personal information from our database at any time.
-      </p>
-      <h2 style={subHeadingStyle}>Changes to the Privacy Policy</h2>
-      <p style={paragraphStyle}>
-        We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will notify you of any significant changes by posting the updated Privacy Policy on our website or by other appropriate means.
-      </p>
-    </div>
+      <div style={containerStyle}>
+        <h1 style={headingStyle}>Datenschutzerklärung</h1>
+        <p style={paragraphStyle}>
+          Bei IndiLearn legen wir großen Wert auf Ihre Privatsphäre und verpflichten uns, Ihre persönlichen Informationen zu schützen. Diese Datenschutzerklärung beschreibt, wie wir Ihre Daten erfassen, verwenden und offenlegen, wenn Sie unsere Website und Dienste nutzen.
+        </p>
+        <h2 style={subHeadingStyle}>Erhobene Informationen</h2>
+        <p style={paragraphStyle}>
+          Wir können personenbezogene Informationen wie Ihren Benutzernamen erfassen, wenn Sie bei uns ein Konto registrieren.
+        </p>
+        <h2 style={subHeadingStyle}>Verwendung Ihrer Informationen</h2>
+        <p style={paragraphStyle}>
+          Wir verwenden Ihre personenbezogenen Informationen, um unsere Dienste bereitzustellen und zu verbessern, Ihr Benutzererlebnis anzupassen und mit Ihnen über unsere Produkte und Aktualisierungen zu kommunizieren.
+        </p>
+        <h2 style={subHeadingStyle}>Datensicherheit</h2>
+        <p style={paragraphStyle}>
+          Wir nehmen den Datenschutz ernst und ergreifen angemessene Maßnahmen, um Ihre Informationen vor unbefugtem Zugriff, Änderungen oder Offenlegung zu schützen.
+        </p>
+        <h2 style={subHeadingStyle}>Dienste von Dritten</h2>
+        <p style={paragraphStyle}>
+          Wir können Dienste von Drittanbietern wie Analyse- und Werbeanbietern verwenden, um die Funktionalität unserer Website zu verbessern.
+        </p>
+        <h2 style={subHeadingStyle}>Ihre Auswahlmöglichkeiten</h2>
+        <p style={paragraphStyle}>
+          Sie können Ihr Konto und Ihre persönlichen Informationen jederzeit aus unserer Datenbank löschen.
+        </p>
+        <h2 style={subHeadingStyle}>Änderungen der Datenschutzerklärung</h2>
+        <p style={paragraphStyle}>
+          Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren, um Änderungen unserer Praktiken oder aus anderen betrieblichen, rechtlichen oder regulatorischen Gründen widerzuspiegeln. Wir werden Sie über wesentliche Änderungen informieren, indem wir die aktualisierte Datenschutzerklärung auf unserer Website veröffentlichen oder auf andere geeignete Weise.
+        </p>
+      </div>
+
   );
 }
 
@@ -48,6 +49,7 @@ const headingStyle = {
   fontSize: '24px',
   fontWeight: 'bold',
   marginBottom: '10px',
+  textAlign: 'center'
 };
 
 const subHeadingStyle = {

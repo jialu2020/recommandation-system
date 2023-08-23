@@ -49,7 +49,7 @@ function Aufgabe() {
     if (userType === 'normal') {
       apiPath = 'http://localhost:5000/getaufgabeNormal/';
       console.log("it is normal api")
-    } else if (userType === 'recommandation') {
+    } else if (userType === 'recommendation') {
       apiPath = 'http://localhost:5000/getaufgabe/';
       console.log("it is RS api")
     }

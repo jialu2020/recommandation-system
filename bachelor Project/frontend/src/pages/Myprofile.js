@@ -216,9 +216,11 @@ return (
               <span>Username:</span> {localStorage.getItem('username')}
             </div>
             <div className="username-password">
-              <span>Passwort:</span> {localStorage.getItem('password')}  <button className="link-btn" onClick={() => setEditMode(true)}>
+              <span>Passwort:</span> {localStorage.getItem('password')}
+              <button className="link-btn" style={{ background: 'none', border: 'none', color: 'grey', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setEditMode(true)}>
                 Passwort ändern
               </button>
+
             </div>
             <div id="buttonclass" style={{ marginBottom : '20px'}}>
           <button className="delete-button1" onClick={handleDeleteAccount}>
