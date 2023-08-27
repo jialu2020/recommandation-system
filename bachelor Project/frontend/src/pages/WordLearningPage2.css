@@ -29,9 +29,8 @@
 .quiz-content {
   width: 500px; /* Fixed width for the quiz container */
   padding: 20px;
-  border-radius: 20px;
-  margin: 0 auto; /* Center the quiz content horizontally */
-  margin-top: 20%;
+  border-radius: 25px;
+  margin: 20px auto auto;
   background-color: white;
 
 }
