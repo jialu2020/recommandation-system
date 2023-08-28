@@ -76,56 +76,49 @@ const WordLearningPage2 = () => {
       }
     }, []);
 
+const generateWrongOptions = (correctAnswer) => {
+  const options = [];
+  const correctArray = correctAnswer.split('');
+  const optionSet = new Set();
 
-  const generateWrongOptions = (correctAnswer) => {
-    const options = [];
-    const correctArray = correctAnswer.split(''); // 将正确答案转换为字符数组
-    const optionSet = new Set();
+  if (correctArray.length >= 5) {
+    const middleIndex = Math.floor(correctArray.length / 2);
 
-    // 处理长度大于 5 的单词，调换中间的 2 个字母作为错误选项
-    if (correctArray.length > 5) {
-      const middleIndex = Math.floor(correctArray.length / 2);
-      const temp1 = correctArray[middleIndex];
-      const temp2 = correctArray[middleIndex - 1];
-      correctArray[middleIndex] = temp2;
-      correctArray[middleIndex - 1] = temp1;
-    }
-    // 处理长度小于 5 的单词，随机替换中间的一个字母作为错误选项
-    else if (correctArray.length < 5) {
-      const middleIndex = 1;
-      const randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26)); // 随机生成一个小写字母
-      correctArray[middleIndex] = randomChar;
-    }
-
-    // 先将正确答案加入选项数组
-    options.push(correctAnswer);
-
-    // 生成其他错误选项
-    while (options.length < 3) {
-      // 随机选择一个位置
-      const index1 = Math.floor(Math.random() * correctArray.length);
-      // 随机选择该位置的相邻位置
-      const index2 = (index1 + 1) % correctArray.length;
-
-      // 交换选中的两个位置的字母
-      [correctArray[index1], correctArray[index2]] = [correctArray[index2], correctArray[index1]];
-
-      // 将交换后的字符数组转换回字符串，并加入选项数组（但确保不重复加入正确答案和已有选项）
-      const option = correctArray.join('');
-      if (option !== correctAnswer && !optionSet.has(option)) {
-        options.push(option);
-        optionSet.add(option);
+    for (let i = 1; i < correctArray.length - 1 && options.length < 3; i++) {
+      if (i !== middleIndex && i !== middleIndex - 1) {
+        for (let j = i + 1; j < correctArray.length - 1; j++) {
+          if (j !== middleIndex && j !== middleIndex - 1) {
+            const wrongArray = [...correctArray];
+            [wrongArray[i], wrongArray[j]] = [wrongArray[j], wrongArray[i]];
+            const wrongOption = wrongArray.join('');
+            if (!optionSet.has(wrongOption) && wrongOption !== correctAnswer) {
+              options.push(wrongOption);
+              optionSet.add(wrongOption);
+              break;
+            }
+          }
+        }
       }
     }
+  }
 
-    // 随机洗牌选项数组，确保正确答案不在第一位
-    for (let i = options.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [options[i], options[j]] = [options[j], options[i]];
+  while (options.length < 3) {
+    const lastIndex = correctArray.length - 1;
+    const randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+    if (randomChar !== correctArray[lastIndex] && !optionSet.has(randomChar)) {
+      const wrongArray = [...correctArray];
+      wrongArray[lastIndex] = randomChar;
+      const wrongOption = wrongArray.join('');
+      options.push(wrongOption);
+      optionSet.add(wrongOption);
     }
+  }
 
-    return options;
-  };
+  // Shuffle the options array to ensure correct answer is not always first
+  const shuffledOptions = [correctAnswer, ...options].sort(() => Math.random() - 0.5);
+
+  return shuffledOptions;
+};
 
   const handleAnswerSelection = (selectedOption) => {
     setSelectedAnswer(selectedOption);
@@ -315,15 +308,16 @@ const WordLearningPage2 = () => {
             <div>
               <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
               <div className="options-container">
-                {wordData[currentQuestionIndex].options.map((option, i) => (
-                  <div
-                     key={option}
-                   className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
-                     onClick={() => !answerSubmitted && handleAnswerSelection(option)} // 检查标志位来决定是否允许点击选项
+                  {wordData[currentQuestionIndex].options.map((option, i) => (
+                    <div
+                      key={i}
+                      className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
+                      onClick={() => !answerSubmitted && handleAnswerSelection(option)}
                     >
-                    <span className="option-text">{option}</span>
-                  </div>
-                ))}
+                      <span className="option-text">{option}</span>
+                    </div>
+                  ))}
+
               </div>
               {showResult && (
               <p style={{ color: selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? 'green' : 'red' }}>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ?
