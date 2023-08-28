@@ -63,7 +63,7 @@ function Myprofile() {
 
 function handleDeleteUserName() {
   // 打开一个新窗口，显示终止信息
-   const terminationPageUrl = "./pages/termination";
+   const terminationPageUrl = "./termination";
 
     window.open(terminationPageUrl, "_blank");
 
