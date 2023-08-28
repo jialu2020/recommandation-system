@@ -18,6 +18,7 @@ import CookiePolicy from "./footerPage/CookiePolicy";
 import PrivacyPolicy from "./footerPage/PrivacyPolicy";
 import Contact from "./footerPage/contact";
 import Ranklist from "./pages/Ranklist";
+import TerminationPage from './pages/TerminationPage';
 
 
 function App() {
@@ -52,8 +53,8 @@ function App() {
               {/*<Route path= "/english-options" element= {<OptionPage/>} />*/}
             <Route  path="/course/aufgabe" element={<Aufgabe />}  />
             <Route  path="/course/game" element={<WordLearningPage />}  />
-             <Route  path="/course/multiple-choice" element={<WordLearningPage2/>}  />
-
+            <Route  path="/course/multiple-choice" element={<WordLearningPage2/>}  />
+            <Route path="/termination" element={<TerminationPage />} />
             <Route path="/imprint" element={<Imprint />} />
 
             <Route path="/privacy-policy" element={<PrivacyPolicy/>} />

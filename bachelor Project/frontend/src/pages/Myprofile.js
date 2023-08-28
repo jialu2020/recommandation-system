@@ -61,28 +61,13 @@ function Myprofile() {
     }
   }
 
-  function handleDeleteUserName() {
-    const shouldDelete =
-      window.confirm
-      ("Sind Sie sicher, dass Sie dieses Programm abbrechen möchten? Wir werden die bestehenden Kontodaten erfassen und das Konto löschen. Dieser Vorgang kann nicht rückgängig gemacht werden.");
+function handleDeleteUserName() {
+  // 打开一个新窗口，显示终止信息
+   const terminationPageUrl = "./pages/termination";
 
-    if (shouldDelete) {
-      // 向服务器发送 DELETE 请求删除用户账号
-      axios.delete(`http://localhost:5000/delete-username/${username}`)
-        .then(response => {
-          console.log("SUCCESS", response);
-          // 处理删除成功的情况，例如显示成功消息，并执行注销操作
-          alert("Ihr Konto wurde erfolgreich gelöscht.");
-          // 这里可以执行用户注销的操作，比如跳转到登录页面或清除用户的登录状态
-           handleLogout();
-        })
-        .catch(error => {
-          console.log(error);
-          // 处理删除失败的情况，例如显示错误消息
-          alert("Bei der Löschung Ihres Kontos ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.");
-        });
-    }
-  }
+    window.open(terminationPageUrl, "_blank");
+
+}
 
   const handleLogout = () => {
       // 执行退出账号操作
@@ -224,11 +209,11 @@ return (
             </div>
             <div id="buttonclass" style={{ marginBottom : '20px'}}>
           <button className="delete-button1" onClick={handleDeleteAccount}>
-            Mein Konto löschen
+            Konto deaktivieren
           </button>
 
               <button className="delete-button1" onClick={handleDeleteUserName}>
-                Das Programm abbrechen
+                Projektstudien beenden
               </button>
 
             </div>
