@@ -404,7 +404,7 @@ const handleContinue = async () => {
              </div>
            ) :
            (<div className="Aufgabe">
-             <div className="word-learning-page">
+             <div className="quiz-content">
                <h2 className="title" style={{ marginTop: '20px'}}>Word Learning Page</h2>
                <p className="hint">Hint: {hint}</p>
                <div className="heart-container">

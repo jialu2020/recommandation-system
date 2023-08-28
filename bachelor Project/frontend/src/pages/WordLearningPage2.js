@@ -131,12 +131,16 @@ const WordLearningPage2 = () => {
     setSelectedAnswer(selectedOption);
     setIsOptionSelected(true);
     setShowNextButton(true); // Enable the "OK" button when an option is selected
+
+     setAnswerSubmitted(true);
+    setShowResult(true);
+    setShowNextButton(true); //
   };
 
 
    const handleOkClick = () => {
     // Show the result for the current question
-     setAnswerSubmitted(true);
+    setAnswerSubmitted(true);
     setShowResult(true);
     setShowNextButton(true); // Disable the "OK" button after clicking
   };
@@ -337,10 +341,10 @@ const WordLearningPage2 = () => {
               )}
             </div>
           ) : (
-            <div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                <img style={{ margin: "0 auto" }} src={doneGif} alt="Done" />
               <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
-              <p>Mit dieser Übung haben Sie 5 Rank Punkte erreicht.</p>
+              <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
               {!showSubmit && (
                 <button type="button" onClick={handleSubmitAnswers}>Einreichen</button>
               )}
