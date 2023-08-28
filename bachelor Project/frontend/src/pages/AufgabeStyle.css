@@ -67,7 +67,16 @@ body {
   margin-top: 10px;
 }
 
-.back,
+.back{
+  background-color: gray;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+
+}
 .next {
   padding: 10px 20px;
   border: 1px solid #ccc;

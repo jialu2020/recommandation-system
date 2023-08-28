@@ -275,7 +275,7 @@ async function addRank() {
               You scored {dataSource.filter(item => item.antwort === item.musterloesung).length} out of {getMessage.data.length}
             </div>
           ) : (<h3>No Response</h3>)}
-           <p>Mit dieser Übung haben Sie 5 Rank Punkte erreicht.</p>
+           <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
           <div className='score-table'>
             <BaseTable dataSource={dataSource} columns={columns} />
           </div>
@@ -291,15 +291,17 @@ async function addRank() {
       <div>
 
         <div className="quiz-content" >
+
+           <h2 className="title">Buchstabieren Sie die englischen Wörter entsprechend den folgenden Hinweisen</h2>
           {getMessage.status === 200 ? (
+
             <div className='question-section' >
 
-              <h2 className="title"> Spelling</h2>
-
-              <div className='question-count'>
-                <span>Question({kategorie}) {currentQuestion + 1}</span>/{getMessage.data.length}
+              <div style={{ textAlign: 'center' }}>
+                  <span className="title">Frage: {currentQuestion + 1}/{getMessage.data.length}</span>
               </div>
-              <div className='question-text'>{getMessage.data[currentQuestion].aufgabenstellung}</div>
+
+              <div className='question-text'> <span> Hinweis : {getMessage.data[currentQuestion].aufgabenstellung} </span></div>
               <span>(Die Anfangsbuchstaben des Wortes : {getMessage.data[currentQuestion].musterloesung.charAt(0)})</span>
             </div>
           ) : (<h3>No Response</h3>)}
@@ -315,13 +317,17 @@ async function addRank() {
             </div>
             <div className="buttons-container">
               <div>
-                {done !== 0 && <button className="back" disabled={done === 0} onClick={BackClick}> Back</button>}
+                {done !== 0 && !showSubmit && (
+                  <button className="back" disabled={done === 0} onClick={BackClick}>
+                    Back
+                  </button>
+                )}
               </div>
               <div>
                 {!showSubmit ? (
                   <button type="button" disabled={!message} onClick={NextClick}>Next</button>
                 ) : (
-                  <button type="button" onClick={Submit}>Submit</button>
+                  <button type="submit" onClick={Submit}>Submit</button>
                 )}
               </div>
             </div>
