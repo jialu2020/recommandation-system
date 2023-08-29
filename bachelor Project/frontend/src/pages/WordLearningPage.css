@@ -82,7 +82,6 @@
 
 .answer-input {
   border-bottom: 1px solid black;
-  padding-bottom: 5px;
 }
 
 
@@ -134,7 +133,7 @@
 .word-learning-page {
   position: relative;
   margin: 0 auto; /* Center the quiz content horizontally */
-  margin-top: 20%;
+  margin-top: 20px;
 }
 
 .heart-container {
@@ -152,6 +151,14 @@
   width: 20px;
   height: 20px;
 }
+
+.score-gif-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; /* Add margin as needed */
+}
+
 .score-gif{
   width: 70px;
   height: 70px;

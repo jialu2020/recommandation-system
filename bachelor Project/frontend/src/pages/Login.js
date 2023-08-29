@@ -76,7 +76,9 @@ export const Login = () => {
           <h2>Willkommen bei Indilearn!</h2>
           <form className="login-form" onSubmit={handleSubmit}>
 
-            <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" id="username" name="username" />
+            <input
+               style={{marginBottom: '15px'}}
+              value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" id="username" name="username" />
 
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" id="password" name="password" />
             <button type="submit">Log In</button>

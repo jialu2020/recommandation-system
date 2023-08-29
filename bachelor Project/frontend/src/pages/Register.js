@@ -53,6 +53,7 @@ export const Register = () => {
             <div className="input-container">
               {/* Username input */}
               <input
+                style={{marginBottom: '15px'}}
                 type="text"
                 name="username"
                 value={username}

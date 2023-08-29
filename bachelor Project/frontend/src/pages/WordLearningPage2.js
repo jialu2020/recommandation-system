@@ -298,7 +298,7 @@ const generateWrongOptions = (correctAnswer) => {
       <Navbar />
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
        <div className="quiz-content">
-          <h2 className="title" style= {{ marginTop : '15px' }}>multi-choice</h2>
+          <h2 className="title" style= {{ marginTop : '15px' }}>Wählen Sie das englische Wort, das die gleiche Bedeutung hat wie das unten stehende.</h2>
 
           {loading ? ( // 根据loading状态来显示加载指示器
            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
