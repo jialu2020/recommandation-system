@@ -403,13 +403,13 @@ const handleContinue = async () => {
                  <p className="hint">your score is: {score}</p>
                   <p >Mit dieser Übung haben Sie 4 Punkte erreicht.</p>
 
-                 <button className='continue' onClick={handleContinue}>save and continue</button>
+                 <button className='continue' onClick={handleContinue}>speichern und fortfahren</button>
                </div>
              </div>
            ) :
            (<div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-             <div className="word-learning-page">
-               <h2 className="title" style={{ marginTop: '20px'}}>Word Learning Page</h2>
+             <div className="word-learning-page" >
+               <h2 className="title" style={{ marginTop: '20px'}}>klicken Sie auf die Buchstaben, um die entsprechenden Wörter zu bilden</h2>
                <p className="hint">Hint: {hint}</p>
                <div className="heart-container">
                  <div className="hearts">
