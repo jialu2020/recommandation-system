@@ -51,6 +51,8 @@ import loading1 from "../icons/icons8-loading.gif";
 
     const [clickedButtons, setClickedButtons] = useState([]);
 
+    const [clickedOrder, setClickedOrder] = useState([]);
+
 
 
 
@@ -102,8 +104,12 @@ const checkAnswer = (answer, musterloesung) => {
 
 
 const handleButtonClick = (id, letter) => {
-  setCurrentAnswer((prevAnswer) => prevAnswer + letter);
-  setClickedButtons((prevClickedButtons) => ({ ...prevClickedButtons, [id]: true }));
+      if (!clickedButtons[id]) {
+      setCurrentAnswer((prevAnswer) => prevAnswer + letter);
+      setClickedButtons((prevClickedButtons) => ({ ...prevClickedButtons, [id]: true }));
+      setClickedOrder((prevClickedOrder) => [...prevClickedOrder, id]); // 将点击的按钮索引添加到点击顺序数组
+    }
+
 };
 
 
@@ -200,9 +206,20 @@ const handleButtonClick = (id, letter) => {
 
 
 
-   const handleDelete = () => {
-        setCurrentAnswer((prevAnswer) => prevAnswer.slice(0, -1));
-      };
+  const handleDelete = () => {
+    if (clickedOrder.length > 0) {
+      const lastClickedIndex = clickedOrder.pop();
+      setClickedButtons((prevClickedButtons) => ({
+        ...prevClickedButtons,
+        [lastClickedIndex]: false,
+      }));
+    }
+
+    // 删除当前答案的最后一个字符
+    setCurrentAnswer((prevAnswer) => prevAnswer.slice(0, -1));
+  }
+
+
 
 
       const shuffledWord = useMemo(() => {
@@ -237,7 +254,9 @@ const handleButtonClick = (id, letter) => {
        const navigate = useNavigate();
 
 const handleContinue = async () => {
-   setIsLoading(true);
+
+  setIsLoading(true);
+
   await updateLeistung();
 
   let newLevel = {
@@ -307,6 +326,7 @@ const handleContinue = async () => {
 
     function updateLeistung() {
 
+
       for (let i = 0; i < dataSource.length; i++) {
         let leistung = {
           username: localStorage.getItem('username'),
@@ -371,36 +391,37 @@ const handleContinue = async () => {
           <Navbar/>
        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
          {isLoading ? (
-        <div>Loading...  <img src={loading1} alt="Loading..." /></div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}
+        >Loading...  <img src={loading1} alt="Loading..." /></div>
         ) : showScore ? (
              <div className="Aufgabe" >
                <div className="word-learning-page">
                  {score >= 4 && (
                    <React.Fragment>
-                     <h2 className="title">Excellent!</h2>
-                     <p className="hint">you got all the qusetions right!</p>
-                      <div className="score-gif-container">
+                     <h2 className="title">Ausgezeichnet!</h2>
+                     <p className="hint">Du hast alle Fragen richtig beantwortet!</p>
+                      <div className="score-gif-container mt20">
                      <img src={wowGif} alt="Excellent" className="score-gif" />
                         </div>
                    </React.Fragment>
                  )}
                  {score > 2 && score < 4 && (
                    <React.Fragment>
-                     <h2 className="title">Good job!</h2>
-                     <p className="hint">Not bad. Keep it up!</p>
-                      <div className="score-gif-container">
+                     <h2 className="title">Gut gemacht!</h2>
+                     <p className="hint">Nicht schlecht. Mach weiter so!</p>
+                      <div className="score-gif-container mt20">
                      <img src={goodGif} alt="Good Job" className="score-gif" /> </div>
                    </React.Fragment>
                  )}
                  {score <= 2 && (
                    <React.Fragment>
-                     <h2 className="title">Oops</h2>
-                     <p className="hint">You need more practice!</p>
-                      <div className="score-gif-container">
+                     <h2 className="title">Hoppla..</h2>
+                     <p className="hint">Du musst mehr üben!</p>
+                      <div className="score-gif-container mt20">
                      <img src={sadGif} alt="Oops" className="score-gif" /></div>
                    </React.Fragment>
                  )}
-                 <p className="hint">your score is: {score}</p>
+                 <p className="hint">dein Ergebnis: {score}</p>
                   <p >Mit dieser Übung haben Sie 4 Punkte erreicht.</p>
 
                  <button className='continue' onClick={handleContinue}>speichern und fortfahren</button>

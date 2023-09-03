@@ -292,7 +292,7 @@ async function addRank() {
 
         <div className="quiz-content" >
 
-           <h2 className="title">Buchstabiere die englischen Wörter entsprechend den folgenden Hinweisen</h2>
+           <h2 className="title">Buchstabiere die englischen Wörter entsprechend den Hinweisen</h2>
           {getMessage.status === 200 ? (
 
             <div className='question-section' >
@@ -301,8 +301,8 @@ async function addRank() {
                   <span className="title">Frage: {currentQuestion + 1}/{getMessage.data.length}</span>
               </div>
 
-              <div className='question-text'> <span> Hinweis : {getMessage.data[currentQuestion].aufgabenstellung} </span></div>
-              <span>(Die Anfangsbuchstaben des Wortes : {getMessage.data[currentQuestion].musterloesung.charAt(0)})</span>
+              <div className='question-text'> <span> Hinweis: {getMessage.data[currentQuestion].aufgabenstellung} </span></div>
+              <span>(Der Anfangsbuchstabe des Wortes : {getMessage.data[currentQuestion].musterloesung.charAt(0)})</span>
             </div>
           ) : (<h3>No Response</h3>)}
           <div className='answer-section'>
@@ -325,7 +325,7 @@ async function addRank() {
               </div>
               <div>
                 {!showSubmit ? (
-                  <button type="button" disabled={!message} onClick={NextClick}>Next</button>
+                  <button className="mt10" type="button" disabled={!message} onClick={NextClick}>Next</button>
                 ) : (
                   <button type="submit" onClick={Submit}>Submit</button>
                 )}
