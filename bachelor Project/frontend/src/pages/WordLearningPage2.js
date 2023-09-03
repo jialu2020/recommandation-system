@@ -25,6 +25,7 @@ const WordLearningPage2 = () => {
    const [showNextButton, setShowNextButton] = useState(false);
    const [answerSubmitted, setAnswerSubmitted] = useState(false);
    const [loading, setLoading] = useState(true);
+     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
 
     useEffect(() => {
@@ -81,6 +82,10 @@ const generateWrongOptions = (correctAnswer) => {
   const correctArray = correctAnswer.split('');
   const optionSet = new Set();
 
+  const isUniqueOption = (option) => {
+    return !optionSet.has(option) && option !== correctAnswer;
+  };
+
   if (correctArray.length >= 5) {
     const middleIndex = Math.floor(correctArray.length / 2);
 
@@ -91,7 +96,7 @@ const generateWrongOptions = (correctAnswer) => {
             const wrongArray = [...correctArray];
             [wrongArray[i], wrongArray[j]] = [wrongArray[j], wrongArray[i]];
             const wrongOption = wrongArray.join('');
-            if (!optionSet.has(wrongOption) && wrongOption !== correctAnswer) {
+            if (isUniqueOption(wrongOption)) {
               options.push(wrongOption);
               optionSet.add(wrongOption);
               break;
@@ -105,7 +110,7 @@ const generateWrongOptions = (correctAnswer) => {
   while (options.length < 3) {
     const lastIndex = correctArray.length - 1;
     const randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26));
-    if (randomChar !== correctArray[lastIndex] && !optionSet.has(randomChar)) {
+    if (randomChar !== correctArray[lastIndex] && isUniqueOption(randomChar)) {
       const wrongArray = [...correctArray];
       wrongArray[lastIndex] = randomChar;
       const wrongOption = wrongArray.join('');
@@ -120,15 +125,21 @@ const generateWrongOptions = (correctAnswer) => {
   return shuffledOptions;
 };
 
-  const handleAnswerSelection = (selectedOption) => {
-    setSelectedAnswer(selectedOption);
-    setIsOptionSelected(true);
-    setShowNextButton(true); // Enable the "OK" button when an option is selected
 
-     setAnswerSubmitted(true);
-    setShowResult(true);
-    setShowNextButton(true); //
-  };
+const handleAnswerSelection = (selectedOption) => {
+  // 先设置选定的答案，然后再计算是否正确
+  setSelectedAnswer(selectedOption);
+
+  // 计算是否正确
+  const isCorrect = selectedOption === wordData[currentQuestionIndex].correctAnswer;
+  setIsAnswerCorrect(isCorrect);
+
+  setIsOptionSelected(true);
+  setShowNextButton(true); // Enable the "OK" button when an option is selected
+
+  setAnswerSubmitted(true);
+  setShowResult(true);
+};
 
 
    const handleOkClick = () => {
@@ -298,24 +309,31 @@ const generateWrongOptions = (correctAnswer) => {
       <Navbar />
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
        <div className="quiz-content">
-          <h2 className="title" style= {{ marginTop : '15px' }}>Wählen Sie das englische Wort, das die gleiche Bedeutung hat wie das unten stehende.</h2>
-
           {loading ? ( // 根据loading状态来显示加载指示器
            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
               <img src={loading1} alt="Loading..." />
             </div>
             ): currentQuestionIndex < wordData.length ? (
             <div>
+                        <h2 className="title" style= {{ marginTop : '15px' }}>Wähle
+            das englische Wort, das die gleiche Bedeutung hat wie das untenstehende.</h2>
               <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
               <div className="options-container">
                   {wordData[currentQuestionIndex].options.map((option, i) => (
-                    <div
-                      key={i}
-                      className={`option-rectangle ${selectedAnswer === option ? 'selected-option' : ''}`}
-                      onClick={() => !answerSubmitted && handleAnswerSelection(option)}
-                    >
-                      <span className="option-text">{option}</span>
-                    </div>
+                  <div
+                    key={i}
+                    className={`option-rectangle ${
+                      selectedAnswer === option
+                        ? isAnswerCorrect
+                          ? 'selected-option-correct'
+                          : 'selected-option-incorrect'
+                        : ''
+                    } ${selectedAnswer === option ? 'selected-option' : ''}`}
+                    onClick={() => !answerSubmitted && handleAnswerSelection(option)}
+                  >
+                    <span className="option-text">{option}</span>
+                  </div>
+
                   ))}
 
               </div>
@@ -346,14 +364,6 @@ const generateWrongOptions = (correctAnswer) => {
           )}
         </div>
       </div>
-      {showSubmit && (
-        <div>
-          <p>答案提交成功！</p>
-          <p>得分：{score}</p>
-          <p>提交时间：{dateTime}</p>
-        </div>
-      )}
-
       <Footer />
     </div>
   );

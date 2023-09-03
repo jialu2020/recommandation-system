@@ -77,3 +77,29 @@ button:hover {
     background-image: url('../icons/left-arrow.gif');
     background-size: cover;
   }
+/* 答案正确时的样式 */
+.selected-option-correct {
+  background-color: rgba(89, 162, 91, 0.9); /* 绿色背景 */
+  color: #fff; /* 白色文本 */
+
+   border: 2px solid #4caf50; /* 绿色边框 */
+}
+
+/* 答案错误时的样式 */
+.selected-option-incorrect {
+  background-color: rgba(183, 83, 76, 0.84); /* 红色背景 */
+  color: #fff; /* 白色文本 */
+
+    border: 2px solid #9d2f26; /* 红色边框 */
+}
+.selected-option {
+
+  transition: all 0.3s ease;
+}
+
+
+
+.selected-option:hover {
+  pointer-events: none !important;
+}
+

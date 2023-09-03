@@ -24,7 +24,9 @@ body {
 .score-table {
   margin-top: 10px;
 }
-
+.mt10{
+  margin-top: 10px;
+}
 .button {
   background-color: #1877f2;
   color: #fff;
