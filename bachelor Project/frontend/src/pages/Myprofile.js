@@ -222,7 +222,7 @@ return (
           </form>
         </div>
         <div className="level-list">
-          <h3 className= "title2">Level:</h3>
+          <h3 className= "title2">Mein Level:</h3>
 
           <ul>
             {levels.map(level => (
@@ -243,8 +243,7 @@ return (
 
               <p>Jedes Mal, wenn Sie aufsteigen, erhalten Sie einen Stern.</p>
               <ul>
-                <p>Lass dich auf die Reise des Wachstums und des Aufsteigens ein! Mit jedem Schritt schaltest du neue Symbole frei, die deinen Fortschritt und deine Erfolge symbolisieren!!!</p>
-                {/* Add more explanations for other levels */}
+                <p>Mit jedem Schritt schaltest du neue Symbole frei, die deinen Fortschritt und deine Erfolge symbolisieren</p>
               </ul>
             </div>
           )}
