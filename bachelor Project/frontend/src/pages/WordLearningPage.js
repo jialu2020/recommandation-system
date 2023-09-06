@@ -251,7 +251,7 @@ const handleButtonClick = (id, letter) => {
 
     }
 
-       const navigate = useNavigate();
+const navigate = useNavigate();
 
 const handleContinue = async () => {
 
@@ -311,10 +311,6 @@ const handleContinue = async () => {
         console.log("Final level: ", level);
       }
 
-
-
-
-
        console.log("jisuan level ");
        console.log(level);
       return level;
@@ -325,8 +321,6 @@ const handleContinue = async () => {
 
 
     function updateLeistung() {
-
-
       for (let i = 0; i < dataSource.length; i++) {
         let leistung = {
           username: localStorage.getItem('username'),
@@ -356,32 +350,30 @@ const handleContinue = async () => {
 
 
     async function addRank() {
-    const username = localStorage.getItem('username');
-  try {
-    // 要增加的 rank 值，这里设置为 10
-    const rankToAdd = 4;
+      const username = localStorage.getItem('username');
+      try {
+        // 要增加的 rank 值，这里设置为 4
+        const rankToAdd = 4;
+        // 构建请求体，传递 rank 参数
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rank: rankToAdd }),
+        };
 
-    // 构建请求体，传递 rank 参数
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ rank: rankToAdd }),
-    };
+        // 发起 POST 请求调用 addrank 方法
+        const response = await fetch(`http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`, requestOptions);
 
-    // 发起 POST 请求调用 addrank 方法
-    const response = await fetch(`http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`, requestOptions);
-
-    if (!response.ok) {
-      throw new Error('request fail');
-    }
-
-    const data = await response.json();
-    console.log(data.message); // 可选：打印服务器返回的消息
-    // 处理请求成功的逻辑，如果需要的话
-  } catch (error) {
-    console.error('error occured：', error);
-    // 处理错误情况，如果需要的话
-  }
+        if (!response.ok) {
+          throw new Error('request fail');
+        }
+        const data = await response.json();
+        console.log(data.message); // 可选：打印服务器返回的消息
+        // 处理请求成功的逻辑，如果需要的话
+      } catch (error) {
+        console.error('error occured：', error);
+        // 处理错误情况，如果需要的话
+      }
 }
 
 
@@ -424,7 +416,7 @@ const handleContinue = async () => {
                  <p className="hint">dein Ergebnis: {score}</p>
                   <p >Mit dieser Übung haben Sie 4 Punkte erreicht.</p>
 
-                 <button className='continue' onClick={handleContinue}>speichern und fortfahren</button>
+                 <button className='continue' onClick={handleContinue}>Weiter</button>
                </div>
              </div>
            ) :
@@ -465,16 +457,10 @@ const handleContinue = async () => {
                   löschen
                  </button>
                  <button className="submit" onClick={handleSubmit} disabled={!currentAnswer}>einreichen</button>
-
                </div>
-
-
                <div className="scoreboard">
                  <h3>Score: {score}</h3>
-
                </div>
-
-
                <div className="progress-bar-container">
                  <div className="progress-bar" style={{width: `${progress}%`}}></div>
                </div>

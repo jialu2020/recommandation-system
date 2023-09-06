@@ -83,8 +83,6 @@ function Aufgabe() {
     }
     ])
 
-    //setScore(dataSource.filter(item => item.antwort === item.musterloesung).length);
-
 		const nextQuestion = currentQuestion + 1;
 
 		if (nextQuestion < getMessage.data.length) {
@@ -150,23 +148,7 @@ function Aufgabe() {
 
   const Submit = () =>{
 
-
-    addRank();
-
-		setShowScore(true);
-
-		setMessage('');
-
-		setShowSubmit(false);
-  }
-
-
-    const navigate = useNavigate();
-
-const WeiterClick = () => {
-
-  updateLeistung();
-
+    updateLeistung();
 
   let newlevel = {
     username: localStorage.getItem('username'),
@@ -187,12 +169,23 @@ const WeiterClick = () => {
     .then(response => response.json())
     .then(newlevel);
 
-  setShowSubmit(false);
+    addRank();
 
+    setShowSubmit(false);
+
+		setShowScore(true);
+
+		setMessage('');
+
+  }
+
+
+    const navigate = useNavigate();
+
+const WeiterClick = () => {
   const options = ['/course/multiple-choice', '/course/game'];
   const randomIndex = Math.floor(Math.random() * options.length);
   navigate(options[randomIndex]);
-
   setdataSource([]);
 };
 
@@ -319,15 +312,15 @@ async function addRank() {
               <div>
                 {done !== 0 && !showSubmit && (
                   <button className="back" disabled={done === 0} onClick={BackClick}>
-                    Back
+                    Zurück
                   </button>
                 )}
               </div>
               <div>
                 {!showSubmit ? (
-                  <button className="mt10" type="button" disabled={!message} onClick={NextClick}>Next</button>
+                  <button className="mt10" type="button" disabled={!message} onClick={NextClick}>Nächste</button>
                 ) : (
-                  <button type="submit" onClick={Submit}>Submit</button>
+                  <button className="mb10" onClick={Submit}>Einreichen</button>
                 )}
               </div>
             </div>
