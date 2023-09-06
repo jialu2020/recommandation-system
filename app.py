@@ -18,11 +18,12 @@ app = Flask(__name__, static_folder='frontend/build/static')
 api = Api(app)
 
 # CORS(app)
-CORS(app, origins="http://localhost:3000")
+CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de"])
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin123:12345@92.205.10.92:3306/indilearn"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia4723:lujia4723@92.205.13.53:3306/indilearn"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456789@92.205.13.53:3306/webServer"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
 db = SQLAlchemy(app)
