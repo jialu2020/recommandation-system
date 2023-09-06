@@ -126,6 +126,7 @@ const generateWrongOptions = (correctAnswer) => {
 };
 
 
+
 const handleAnswerSelection = (selectedOption) => {
   // 先设置选定的答案，然后再计算是否正确
   setSelectedAnswer(selectedOption);
