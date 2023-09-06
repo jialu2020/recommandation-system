@@ -26,6 +26,7 @@ const WordLearningPage2 = () => {
    const [answerSubmitted, setAnswerSubmitted] = useState(false);
    const [loading, setLoading] = useState(true);
      const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+      const [submitted, setSubmitted] = useState(false);
 
 
     useEffect(() => {
@@ -143,12 +144,7 @@ const handleAnswerSelection = (selectedOption) => {
 };
 
 
-   const handleOkClick = () => {
-    // Show the result for the current question
-    setAnswerSubmitted(true);
-    setShowResult(true);
-    setShowNextButton(true); // Disable the "OK" button after clicking
-  };
+
 
 
   const handleNextQuestion = () => {
@@ -182,7 +178,7 @@ const handleAnswerSelection = (selectedOption) => {
   const navigate = useNavigate();
 
   const handleSubmitAnswers = () => {
-
+    setSubmitted(true);
     updateLeistung();
     addRank();
 
@@ -204,16 +200,6 @@ const handleAnswerSelection = (selectedOption) => {
     fetch('http://127.0.0.1:5000/addlevel', requestOptions)
       .then(response => response.json())
       .then(newlevel);
-
-    setShowSubmit(false);
-
-    //window.location.reload(false);
-     // 随机导航到其他两个页面
-   const options = ['/course/aufgabe', '/course/game'];
-   const randomIndex = Math.floor(Math.random() * options.length);
-   navigate(options[randomIndex]);
-
-    setdataSource([]);
 
   };
 
@@ -303,71 +289,83 @@ const handleAnswerSelection = (selectedOption) => {
   }
 }
 
+const WeiterClick = () => {
+    setShowSubmit(false);
+     // 随机导航到其他两个页面
+   const options = ['/course/aufgabe', '/course/game'];
+   const randomIndex = Math.floor(Math.random() * options.length);
+   navigate(options[randomIndex]);
+   setdataSource([]);
+
+
+}
+
+
 
   // 渲染页面
-  return (
-    <div>
-      <Navbar />
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-       <div className="quiz-content">
-          {loading ? ( // 根据loading状态来显示加载指示器
-           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
-              <img src={loading1} alt="Loading..." />
+return (
+  <div>
+    <Navbar />
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
+      <div className="quiz-content">
+        {loading ? (
+          // 根据loading状态来显示加载指示器
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <img src={loading1} alt="Loading..." />
+          </div>
+        ) : submitted ? ( // 如果已经提交了答案，显示成绩结算
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <img style={{ margin: "0 auto" }} src={doneGif} alt="Done" />
+            <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
+            <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
+
+                <button type="button" onClick={WeiterClick}>Weiter</button>
+          </div>
+        ) : currentQuestionIndex < wordData.length ? (
+          // 显示问题和答案选项
+          <div>
+            <h2 className="title" style={{ marginTop: '15px' }}>Wähle
+              das englische Wort, das die gleiche Bedeutung hat wie das untenstehende.</h2>
+            <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
+            <div className="options-container">
+              {wordData[currentQuestionIndex].options.map((option, i) => (
+                <div
+                  key={i}
+                  className={`option-rectangle ${
+                    selectedAnswer === option
+                      ? isAnswerCorrect
+                        ? 'selected-option-correct'
+                        : 'selected-option-incorrect'
+                      : ''
+                  } ${selectedAnswer === option ? 'selected-option' : ''}`}
+                  onClick={() => !answerSubmitted && handleAnswerSelection(option)}
+                >
+                  <span className="option-text">{option}</span>
+                </div>
+              ))}
             </div>
-            ): currentQuestionIndex < wordData.length ? (
-            <div>
-                        <h2 className="title" style= {{ marginTop : '15px' }}>Wähle
-            das englische Wort, das die gleiche Bedeutung hat wie das untenstehende.</h2>
-              <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
-              <div className="options-container">
-                  {wordData[currentQuestionIndex].options.map((option, i) => (
-                  <div
-                    key={i}
-                    className={`option-rectangle ${
-                      selectedAnswer === option
-                        ? isAnswerCorrect
-                          ? 'selected-option-correct'
-                          : 'selected-option-incorrect'
-                        : ''
-                    } ${selectedAnswer === option ? 'selected-option' : ''}`}
-                    onClick={() => !answerSubmitted && handleAnswerSelection(option)}
-                  >
-                    <span className="option-text">{option}</span>
-                  </div>
-
-                  ))}
-
-              </div>
-              {showResult && (
+            {showResult && (
               <p style={{ color: selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? 'green' : 'red' }}>{selectedAnswer === wordData[currentQuestionIndex].correctAnswer ?
                 'Richtige Antwort!' : 'Falsche Antwort, die richtige Antwort lautet: ' + wordData[currentQuestionIndex].correctAnswer}</p>
-              )}
-              {!showResult && showNextButton && (
-                <button type="button" onClick={handleOkClick}>
-                  OK
-                </button>
-              )}
-              {showResult && showNextButton && (
-                <button type="button" onClick={handleNextQuestion}>
-                  Weiter
-                </button>
-              )}
-            </div>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-               <img style={{ margin: "0 auto" }} src={doneGif} alt="Done" />
-              <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
-              <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
-              {!showSubmit && (
-                <button type="button" onClick={handleSubmitAnswers}>Einreichen</button>
-              )}
-            </div>
-          )}
-        </div>
+            )}
+            {showResult && showNextButton && (
+              <button type="button" onClick={currentQuestionIndex === wordData.length - 1 ? handleSubmitAnswers : handleNextQuestion}>
+                {currentQuestionIndex === wordData.length - 1 ? 'Submit' : 'Ok'}
+              </button>
+            )}
+          </div>
+        ) : (
+          // 当所有问题都回答完毕后，显示提交按钮
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <button type="button" onClick={handleSubmitAnswers}>Einreichen</button>
+          </div>
+        )}
       </div>
-      <Footer />
     </div>
-  );
+    <Footer />
+  </div>
+);
+
 };
 
 export default WordLearningPage2;
