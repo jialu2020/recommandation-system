@@ -22,7 +22,7 @@ CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de"])
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
-#app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia4723:lujia4723@92.205.13.53:3306/indilearn"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456789@92.205.13.53:3306/webServer"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
@@ -393,7 +393,6 @@ def add_level():
         faehigkeit = request.json["faehigkeit"]
         kategorie = request.json["kategorie"]
 
-
         print("Received username: %s", username)
         print("Received faehigkeit: %s", faehigkeit)
         print("Received kategorie: %s", kategorie)
@@ -406,11 +405,11 @@ def add_level():
 
         else:
             zeit = request.json["zeit"]
-            print("zeit is: ",zeit)
+            print("zeit is: ", zeit)
             R_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(
                 Leistung.zeitpunkt == zeit).filter(Leistung.score == True).with_entities(Exercises.schwerigkeit,
                                                                                          Exercises.discrimination).all()
-            print("R_Aufgaben,",R_Aufgaben)
+            print("R_Aufgaben,", R_Aufgaben)
 
             R_Parameter = [{}, {}]
             W_Aufgaben = Leistung.query.join(Exercises, Leistung.aufgabestellung == Exercises.aufgabenstellung).filter(

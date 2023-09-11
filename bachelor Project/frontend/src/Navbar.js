@@ -76,6 +76,20 @@ function Navbar({ isLoggedIn }) {
             {/*    Join course*/}
             {/*  </NavLink>*/}
             {/*</li>*/}
+
+            <li>
+              <NavLink
+                to="/Lernzeit"
+                className={activeLink === '/Lernzeit' ? 'active' : ''}
+                onClick={() => handleLinkClick('/Search')}
+                title="Lernzeit"
+              >
+                Lernzeit
+              </NavLink>
+            </li>
+
+
+
             <li>
               <NavLink
                 to="/Myprofile"

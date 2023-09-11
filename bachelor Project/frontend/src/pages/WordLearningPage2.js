@@ -22,11 +22,13 @@ const WordLearningPage2 = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [dataSource, setdataSource] = useState([]);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
-   const [showNextButton, setShowNextButton] = useState(false);
-   const [answerSubmitted, setAnswerSubmitted] = useState(false);
-   const [loading, setLoading] = useState(true);
-     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
-      const [submitted, setSubmitted] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(false);
+  const [answerSubmitted, setAnswerSubmitted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [showSubmitButton, setShowSubmitButton] = useState(false);
+
 
 
     useEffect(() => {
@@ -128,46 +130,61 @@ const generateWrongOptions = (correctAnswer) => {
 
 
 
-const handleAnswerSelection = (selectedOption) => {
-  // 先设置选定的答案，然后再计算是否正确
-  setSelectedAnswer(selectedOption);
+  const handleAnswerSelection = (selectedOption) => {
+    // 如果已经选择了选项或者已经提交答案，则不处理
+    if (isOptionSelected || answerSubmitted) {
+      return;
+    }
 
-  // 计算是否正确
-  const isCorrect = selectedOption === wordData[currentQuestionIndex].correctAnswer;
-  setIsAnswerCorrect(isCorrect);
+    // 先设置选定的答案，然后再计算是否正确
+    setSelectedAnswer(selectedOption);
 
-  setIsOptionSelected(true);
-  setShowNextButton(true); // Enable the "OK" button when an option is selected
+    // 计算是否正确
+    const isCorrect = selectedOption === wordData[currentQuestionIndex].correctAnswer;
+    setIsAnswerCorrect(isCorrect);
 
-  setAnswerSubmitted(true);
-  setShowResult(true);
+    setIsOptionSelected(true);
+    setShowNextButton(true); // Enable the "OK" button when an option is selected
+
+    setAnswerSubmitted(true);
+    setShowResult(true);
+  };
+
+
+
+const handleNextQuestion = () => {
+  setAnswerSubmitted(false);
+
+  setdataSource((prevDataSource) => [
+    ...prevDataSource,
+    {
+      num: done + 1,
+      aufgabe: wordData[currentQuestionIndex].question,
+      antwort: selectedAnswer,
+      musterloesung: wordData[currentQuestionIndex].correctAnswer,
+      bewertung:
+        selectedAnswer === wordData[currentQuestionIndex].correctAnswer
+          ? "richtig"
+          : "falsch",
+    },
+  ]);
+
+  if (currentQuestionIndex === wordData.length - 1) {
+    setShowNextButton(false);
+    setShowSubmitButton(true);
+
+
+
+  } else {
+    // 如果不是最后一个问题，继续下一个问题的逻辑
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    setSelectedAnswer("");
+    setIsOptionSelected(false);
+    setShowResult(false); // 隐藏结果
+    setShowNextButton(false); // 隐藏 "Next" 按钮，直到选择下一个问题的选项
+  }
 };
 
-
-
-
-
-  const handleNextQuestion = () => {
-
-     setAnswerSubmitted(false);
-    // 将学生的答题情况添加到 dataSource 中
-    setdataSource(prevDataSource => [
-      ...prevDataSource,
-      {
-        num: done + 1,
-        aufgabe: wordData[currentQuestionIndex].question,
-        antwort: selectedAnswer,
-        musterloesung: wordData[currentQuestionIndex].correctAnswer,
-        bewertung: selectedAnswer === wordData[currentQuestionIndex].correctAnswer ? 'richtig' : 'falsch'
-      }
-    ]);
-
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    setSelectedAnswer('');
-    setIsOptionSelected(false);
-    setShowResult(false); // Hide the result
-    setShowNextButton(false); // Hide the "Next" button until an option is selected for the next question
-  };
 
   useEffect(() => {
     console.log(dataSource);
@@ -302,7 +319,6 @@ const WeiterClick = () => {
 
 
 
-  // 渲染页面
 return (
   <div>
     <Navbar />
@@ -319,7 +335,7 @@ return (
             <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
             <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
 
-                <button type="button" onClick={WeiterClick}>Weiter</button>
+            <button type="button" onClick={WeiterClick}>Weiter</button>
           </div>
         ) : currentQuestionIndex < wordData.length ? (
           // 显示问题和答案选项
@@ -349,15 +365,26 @@ return (
                 'Richtige Antwort!' : 'Falsche Antwort, die richtige Antwort lautet: ' + wordData[currentQuestionIndex].correctAnswer}</p>
             )}
             {showResult && showNextButton && (
-              <button type="button" onClick={currentQuestionIndex === wordData.length - 1 ? handleSubmitAnswers : handleNextQuestion}>
-                {currentQuestionIndex === wordData.length - 1 ? 'Submit' : 'Ok'}
+              <button type="button" onClick={handleNextQuestion}>
+                OK
               </button>
             )}
+            {showSubmitButton && (
+            <button type="button" onClick={handleSubmitAnswers}>
+              Einreichen
+            </button>
+             )}
+
           </div>
         ) : (
-          // 当所有问题都回答完毕后，显示提交按钮
+          // 当所有问题都回答完毕后，显示成绩结算
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <button type="button" onClick={handleSubmitAnswers}>Einreichen</button>
+            {/* 成绩结算内容 */}
+            <img style={{ margin: "0 auto" }} src={doneGif} alt="Done" />
+            <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
+            <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
+
+            <button type="button" onClick={WeiterClick}>Weiter</button>
           </div>
         )}
       </div>
@@ -365,6 +392,7 @@ return (
     <Footer />
   </div>
 );
+
 
 };
 
