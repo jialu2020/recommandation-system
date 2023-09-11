@@ -112,14 +112,17 @@ const generateWrongOptions = (correctAnswer) => {
 
   while (options.length < 3) {
     const lastIndex = correctArray.length - 1;
-    const randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26));
-    if (randomChar !== correctArray[lastIndex] && isUniqueOption(randomChar)) {
-      const wrongArray = [...correctArray];
-      wrongArray[lastIndex] = randomChar;
-      const wrongOption = wrongArray.join('');
-      options.push(wrongOption);
-      optionSet.add(wrongOption);
-    }
+    let randomChar;
+
+    do {
+      randomChar = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+    } while (randomChar === correctArray[lastIndex] || !isUniqueOption(randomChar));
+
+    const wrongArray = [...correctArray];
+    wrongArray[lastIndex] = randomChar;
+    const wrongOption = wrongArray.join('');
+    options.push(wrongOption);
+    optionSet.add(wrongOption);
   }
 
   // Shuffle the options array to ensure correct answer is not always first
