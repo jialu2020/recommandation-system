@@ -264,7 +264,8 @@ const handleNextQuestion = () => {
           score : dataSource[i].bewertung === 'richtig',
           kategorie : localStorage.getItem('kategorie'),
           schwerigkeit : wordData[i].difficulty,
-          zeitpunkt : Date().toLocaleString()
+          zeitpunkt : Date().toLocaleString(),
+          typ: 'MULT'
 
         };
       console.log("leistung",leistung)

@@ -21,8 +21,8 @@ api = Api(app)
 CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de"])
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456789@92.205.13.53:3306/webServer"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
@@ -98,14 +98,16 @@ class Leistung(db.Model):
     score = db.Column(db.Boolean)
     kategorie = db.Column(db.String())
     schwerigkeit = db.Column(db.Float(precision=1))
+    typ = db.Column(db.String())  # 新添加的列
     zeitpunkt = db.Column(db.String())
 
-    def __init__(self, username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt):
+    def __init__(self, username, aufgabestellung, score, kategorie, schwerigkeit, typ, zeitpunkt):
         self.username = username
         self.aufgabestellung = aufgabestellung
         self.score = score
         self.kategorie = kategorie
         self.schwerigkeit = schwerigkeit
+        self.typ = typ
         self.zeitpunkt = zeitpunkt
 
 
@@ -143,15 +145,6 @@ aufgabe_schema = AufgabeSchema()
 aufgabe_schema = AufgabeSchema(many=True)
 
 
-class LeistungSchema(ma.Schema):
-    class Meta:
-        fields = ("id", "username", "aufgabestellung", "score", "kategorie", "schwerigkeit", "zeitpunkt")
-
-
-leistung_schema = LeistungSchema()
-leistung_schema = LeistungSchema(many=True)
-
-
 class SubjectSchema(ma.Schema):
     class Meta:
         fields = ("id", "fachname", "username")
@@ -159,6 +152,15 @@ class SubjectSchema(ma.Schema):
 
 sub_schema = SubjectSchema()
 sub_schema = SubjectSchema(many=True)
+
+
+class LeistungSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "username", "aufgabestellung", "score", "kategorie", "schwerigkeit", "zeitpunkt", "typ")
+
+
+leistung_schema = LeistungSchema()
+leistung_schemas = LeistungSchema(many=True)
 
 
 class LevelSchema(ma.Schema):
@@ -373,12 +375,12 @@ def add_leistung():
     kategorie = request.json["kategorie"]
     schwerigkeit = request.json["schwerigkeit"]
     zeitpunkt = request.json["zeitpunkt"]
+    typ = request.json["typ"]
 
-    leistung = Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, zeitpunkt)
+    leistung = Leistung(username, aufgabestellung, score, kategorie, schwerigkeit, typ, zeitpunkt)  # 传递typ的值
 
-    app.logger.info(Leistung.id)
+    app.logger.info(leistung.id)  # 访问leistung对象的id属性
 
-    # db.session.bulk_save_objects(leistung)
     db.session.add(leistung)
     db.session.commit()
 

@@ -328,7 +328,8 @@ const handleContinue = async () => {
           score: dataSource[i].bewertung,
           kategorie: localStorage.getItem('kategorie'),
           schwerigkeit: getMessage.data[i].schwerigkeit,
-          zeitpunkt : Date().toLocaleString()
+          zeitpunkt : Date().toLocaleString(),
+          typ: 'FILL'
         };
 
         const requestOptions = {

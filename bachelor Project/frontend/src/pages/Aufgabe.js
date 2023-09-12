@@ -109,7 +109,8 @@ function Aufgabe() {
               score : dataSource[i].bewertung === 'richtig',
               kategorie : localStorage.getItem('kategorie'),
               schwerigkeit : getMessage.data[i].schwerigkeit,
-              zeitpunkt :  Date().toLocaleString()
+              zeitpunkt :  Date().toLocaleString(),
+              typ: 'SPELL'
       };
       console.log("leistung aufgabe", leistung)
       const requestOptions = {
