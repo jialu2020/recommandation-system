@@ -419,7 +419,7 @@ const handleContinue = async () => {
                    </React.Fragment>
                  )}
                  <p className="hint">dein Ergebnis: {score}</p>
-                  <p >Mit dieser Übung haben Sie 4 Punkte erreicht.</p>
+                  <p >Mit dieser Übung hast du 4 Punkte erreicht.</p>
 
                  <button className='continue' onClick={handleContinue}>Weiter</button>
                </div>
@@ -428,7 +428,7 @@ const handleContinue = async () => {
            (<div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
              <div className="word-learning-page" >
                <h2 className="title" style={{ marginTop: '20px'}}>Klicke auf die Buchstaben, um die entsprechenden Wörter zu bilden</h2>
-               <p className="hint">Hint: {hint}</p>
+               <p className="hint">Hinweis: {hint}</p>
                <div className="heart-container">
                  <div className="hearts">
                    {Array(hearts)

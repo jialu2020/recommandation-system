@@ -272,7 +272,7 @@ async function addRank() {
               Du hast {dataSource.filter(item => item.antwort === item.musterloesung).length} von {getMessage.data.length} Fragen richtig beantwortet.
             </div>
           ) : (<h3>No Response</h3>)}
-           <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
+           <p>Mit dieser Übung hast du 5 Punkte erreicht.</p>
           <div className='score-table'>
             <BaseTable dataSource={dataSource} columns={columns} />
           </div>
@@ -289,7 +289,7 @@ async function addRank() {
 
         <div className="quiz-content" >
 
-           <h2 className="title">Buchstabiere die englischen Wörter entsprechend den Hinweisen</h2>
+           <h2 className="title">Buchstabiere die englischen Wörter entsprechend der Hinweise</h2>
           {getMessage.status === 200 ? (
 
             <div className='question-section' >

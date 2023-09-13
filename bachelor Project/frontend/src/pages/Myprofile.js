@@ -239,9 +239,9 @@ return (
           {showExplanation && (
             <div className="explanation-box">
               <h3>Erläuterung der Level-Symbole:</h3>
-              <p>Je mehr Fragen Sie richtig beantworten, desto höher ist Ihr Fähigkeitswert. </p>
+              <p>Je mehr Fragen du richtig beantworten, desto höher ist dein Fähigkeitswert. </p>
 
-              <p>Jedes Mal, wenn Sie aufsteigen, erhalten Sie einen Stern.</p>
+              <p>Jedes Mal, wenn du aufsteigst, erhaltst du einen Stern.</p>
               <ul>
                 <p>Mit jedem Schritt schaltest du neue Symbole frei, die deinen Fortschritt und deine Erfolge symbolisieren</p>
               </ul>

@@ -1,7 +1,7 @@
 import "./SearchStyle.css"
 import Navbar from "../Navbar";
-import React, { useState, useEffect} from "react";
 import Footer from "../footer";
+import React, { useState, useEffect} from "react";
 export default function Search(){
 
 

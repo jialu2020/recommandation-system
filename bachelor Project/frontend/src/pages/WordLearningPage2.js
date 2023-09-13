@@ -336,8 +336,8 @@ return (
         ) : submitted ? ( // 如果已经提交了答案，显示成绩结算
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <img style={{ margin: "0 auto" }} src={doneGif} alt="Done" />
-            <p>Herzlichen Glückwunsch, Sie haben alle Aufgaben erfüllt!</p>
-            <p>Mit dieser Übung haben Sie 5 Punkte erreicht.</p>
+            <p>Herzlichen Glückwunsch, du hast alle Aufgaben erfüllt!</p>
+            <p>Du hast bei dieser Übung 5 Punkte erreicht.</p>
 
             <button type="button" onClick={WeiterClick}>Weiter</button>
           </div>
@@ -345,7 +345,7 @@ return (
           // 显示问题和答案选项
           <div>
             <h2 className="title" style={{ marginTop: '15px' }}>Wähle
-              das englische Wort, das die gleiche Bedeutung hat wie das untenstehende.</h2>
+              das englische Wort, das die gleiche Bedeutung hat wie das Untenstehende.</h2>
             <p>Aufgabe {currentQuestionIndex + 1}: {wordData[currentQuestionIndex].question}</p>
             <div className="options-container">
               {wordData[currentQuestionIndex].options.map((option, i) => (

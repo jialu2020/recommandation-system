@@ -24,7 +24,7 @@ export const Register = () => {
       return;
     }
 
-    axios.post('http://www.indilearnlj.de/api/register', {
+    axios.post('http://localhost:5000/api/register', {
       username,
       password,
       userType,

@@ -12,18 +12,19 @@ import math
 from scipy.optimize import minimize_scalar
 import random
 from sqlalchemy import func
+from datetime import datetime, timedelta
+from sqlalchemy import cast, DateTime
 
 app = Flask(__name__, static_folder='frontend/build/static')
 
 api = Api(app)
 
-# CORS(app)
-CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de"])
+CORS(app)
+
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456789@92.205.13.53:3306/webServer"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
 db = SQLAlchemy(app)
@@ -117,7 +118,7 @@ class Level(db.Model):  # student faehigkeit
     username = db.Column(db.String())
     faehigkeit = db.Column(db.Float(precision=1))
     kategorie = db.Column(db.String())
-    create_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
 
     # "time" record the current UTC time when a new instance of the Level model is created.
 
@@ -666,6 +667,47 @@ def delete_username(username):
         # 处理异常情况
         db.session.rollback()
         return jsonify({"error": "An error occurred while deleting the user.", "details": str(e)}), 500
+
+
+@app.route('/statistics/<username>', methods=['GET'])
+def get_statistics(username):
+    start_datetime_str = request.args.get('10.9.2023', None)
+    end_datetime_str = request.args.get('14.9.2023', None)
+
+    if not start_datetime_str or not end_datetime_str:
+        return jsonify({"error": "请提供开始日期和结束日期"})
+
+    start_datetime = datetime.strptime(start_datetime_str, '%Y-%m-%d %H:%M:%S')
+    end_datetime = datetime.strptime(end_datetime_str, '%Y-%m-%d %H:%M:%S')
+
+    time_periods = []
+    for i in range(12):
+        start_hour = i * 2
+        end_hour = (i + 2) * 2 - 1
+        time_periods.append((start_hour, end_hour))
+
+    statistics = []
+    for start_hour, end_hour in time_periods:
+        start_time = start_datetime.replace(hour=start_hour, minute=0, second=0)
+        end_time = start_datetime.replace(hour=end_hour, minute=59, second=59)
+
+        count = (
+            Leistung.query
+            .filter(Leistung.username == username)
+            .filter(
+                func.to_timestamp(Leistung.zeitpunkt, 'YYYY-MM-DD HH24:MI:SS') >= start_time,
+                func.to_timestamp(Leistung.zeitpunkt, 'YYYY-MM-DD HH24:MI:SS') <= end_time
+            )
+            .count()
+        )
+
+        statistics.append({
+            'start_hour': start_hour,
+            'end_hour': end_hour,
+            'count': count
+        })
+
+    return jsonify(statistics)
 
 
 def hash_password(password: str) -> str:
