@@ -254,33 +254,33 @@ const handleNextQuestion = () => {
     else{ return 0.02}
 
   }
-  function updateLeistung(){
-    for(let i=0; i<dataSource.length; i++){
+function updateLeistung() {
+  for (let i = 0; i < dataSource.length; i++) {
+    const now = new Date();
+    const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
 
-      let leistung =
-        {
-          username: localStorage.getItem('username'),
-          aufgabestellung: dataSource[i].aufgabe,
-          score : dataSource[i].bewertung === 'richtig',
-          kategorie : localStorage.getItem('kategorie'),
-          schwerigkeit : wordData[i].difficulty,
-          zeitpunkt : Date().toLocaleString(),
-          typ: 'MULT'
+    let leistung = {
+      username: localStorage.getItem('username'),
+      aufgabestellung: dataSource[i].aufgabe,
+      score: dataSource[i].bewertung === 'richtig',
+      kategorie: localStorage.getItem('kategorie'),
+      schwerigkeit: wordData[i].difficulty,
+      zeitpunkt: localTime, // 使用本地时间
+      typ: 'MULT'
+    };
+    console.log("leistung", leistung);
 
-        };
-      console.log("leistung",leistung)
-
-
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leistung)
-      };
-      fetch('http://127.0.0.1:5000/addleistung', requestOptions)
-        .then(response => response.json())
-        .then(leistung);
-    }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(leistung)
+    };
+    fetch('http://127.0.0.1:5000/addleistung', requestOptions)
+      .then(response => response.json())
+      .then(leistung);
   }
+}
+
   async function addRank() {
     const username = localStorage.getItem('username');
   try {

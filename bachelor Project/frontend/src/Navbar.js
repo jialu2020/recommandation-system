@@ -79,9 +79,9 @@ function Navbar({ isLoggedIn }) {
 
             <li>
               <NavLink
-                to="/Lernzeit"
-                className={activeLink === '/Lernzeit' ? 'active' : ''}
-                onClick={() => handleLinkClick('/Search')}
+                to="/Statistik"
+                className={activeLink === '/Statistik' ? 'active' : ''}
+                onClick={() => handleLinkClick('/Statistik')}
                 title="Lernzeit"
               >
                 Lernzeit

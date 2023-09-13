@@ -19,6 +19,7 @@ import PrivacyPolicy from "./footerPage/PrivacyPolicy";
 import Contact from "./footerPage/contact";
 import Ranklist from "./pages/Ranklist";
 import TerminationPage from './pages/TerminationPage';
+import StudentStatisticsPage from "./pages/Statistik";
 
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
 
             <Route path= "/homepage" element= {<Homepage/>} />
             <Route path= "/course" element= {<OptionPage/>} />
-            <Route path= "/like" element= {<Like/>} />
+            <Route path= "/statistik" element= {<StudentStatisticsPage/>} />
             <Route path= "/search" element= {<Search/>} />
             <Route path= "/ranklist" element= {<Ranklist/>} />
             <Route path= "/myprofile" element= {<Myprofile/>} />

@@ -322,13 +322,17 @@ const handleContinue = async () => {
 
     function updateLeistung() {
       for (let i = 0; i < dataSource.length; i++) {
+
+        const now = new Date();
+        const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
+
         let leistung = {
           username: localStorage.getItem('username'),
           aufgabestellung: getMessage.data[i].aufgabenstellung,
           score: dataSource[i].bewertung,
           kategorie: localStorage.getItem('kategorie'),
           schwerigkeit: getMessage.data[i].schwerigkeit,
-          zeitpunkt : Date().toLocaleString(),
+          zeitpunkt : localTime,
           typ: 'FILL'
         };
 

@@ -104,12 +104,15 @@ function Aufgabe() {
   function updateLeistung(){
   for(let i=0; i<dataSource.length; i++){
 
+        const now = new Date();
+        const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
+
       let leistung = {username: localStorage.getItem('username'),
               aufgabestellung: dataSource[i].aufgabe,
               score : dataSource[i].bewertung === 'richtig',
               kategorie : localStorage.getItem('kategorie'),
               schwerigkeit : getMessage.data[i].schwerigkeit,
-              zeitpunkt :  Date().toLocaleString(),
+              zeitpunkt :  localTime,
               typ: 'SPELL'
       };
       console.log("leistung aufgabe", leistung)
