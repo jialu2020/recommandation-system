@@ -17,7 +17,9 @@ export const Login = () => {
     event.preventDefault();
 
     // Send a request to the backend to check the login credentials
-    fetch('http://localhost:5000/api/login', {
+    const api = "http://www.indilearnlj.de/api/login"
+
+    fetch(api, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

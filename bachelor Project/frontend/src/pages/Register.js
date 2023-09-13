@@ -15,16 +15,16 @@ export const Register = () => {
   const navigate = useNavigate();
 
   function handleSubmit(event) {
+     const api = "http://www.indilearnlj.de/api/register"
     event.preventDefault();
 
     if (!privacyPolicyConfirmed || !cookiePolicyConfirmed) {
-       console.log('2222')
       alert("Please confirm both Privacy Policy and Cookie Policy.");
 
       return;
     }
 
-    axios.post('http://localhost:5000/api/register', {
+    axios.post(api, {
       username,
       password,
       userType,
