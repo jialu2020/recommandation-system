@@ -16,6 +16,7 @@ export const Register = () => {
 
   function handleSubmit(event) {
      const api = "http://www.indilearnlj.de/api/register"
+     const api2 = "http://localhost:5000/api/register"
     event.preventDefault();
 
     if (!privacyPolicyConfirmed || !cookiePolicyConfirmed) {
@@ -24,7 +25,7 @@ export const Register = () => {
       return;
     }
 
-    axios.post(api, {
+    axios.post(api2, {
       username,
       password,
       userType,

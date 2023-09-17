@@ -18,8 +18,9 @@ export const Login = () => {
 
     // Send a request to the backend to check the login credentials
     const api = "http://www.indilearnlj.de/api/login"
+    const api2 = "http://localhost:5000/api/login"
 
-    fetch(api, {
+    fetch(api2, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
