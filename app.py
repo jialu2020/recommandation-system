@@ -700,7 +700,7 @@ def get_statistics(username):
 
 
 @app.route('/accuracy-all/<username>', methods=['GET'])
-def get_accuracy(username):
+def get_accuracy_all(username):
     # 获取学生的Leistung数据
     leistungen = Leistung.query.filter_by(username=username).all()
 

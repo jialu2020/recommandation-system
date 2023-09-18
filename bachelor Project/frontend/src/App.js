@@ -19,7 +19,7 @@ import PrivacyPolicy from "./pages/footerPage/PrivacyPolicy";
 import Contact from "./pages/footerPage/contact";
 import Ranklist from "./pages/Ranklist";
 import TerminationPage from './pages/TerminationPage';
-import StudentStatisticsPage from "./pages/Statistik";
+import StudentStatisticsPage from "./pages/StatistikPage";
 
 
 function App() {
