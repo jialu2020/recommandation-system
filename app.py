@@ -1,5 +1,7 @@
 import os
 import hashlib
+from collections import defaultdict
+
 import jwt
 import datetime
 from flask import Flask, request, jsonify
@@ -21,11 +23,10 @@ api = Api(app)
 
 CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de"])
 
-
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
 db = SQLAlchemy(app)
@@ -672,43 +673,89 @@ def delete_username(username):
 
 @app.route('/statistics/<username>', methods=['GET'])
 def get_statistics(username):
-    start_datetime_str = request.args.get('10.9.2023', None)
-    end_datetime_str = request.args.get('14.9.2023', None)
+    # 获取学生的Leistung数据
+    leistungen = Leistung.query.filter_by(username=username).all()
 
-    if not start_datetime_str or not end_datetime_str:
-        return jsonify({"error": "请提供开始日期和结束日期"})
+    # 创建一个字典来存储每个时间区间的Leistung总数量
+    time_intervals = {}
+    for leistung in leistungen:
+        leistung_time = datetime.strptime(leistung.zeitpunkt, '%d.%m.%Y, %H:%M:%S')
 
-    start_datetime = datetime.strptime(start_datetime_str, '%Y-%m-%d %H:%M:%S')
-    end_datetime = datetime.strptime(end_datetime_str, '%Y-%m-%d %H:%M:%S')
+        # 计算时间区间的起始时间（每三个小时一个区间）
+        interval_start = leistung_time.replace(minute=0, second=0, microsecond=0)
+        interval_start -= timedelta(hours=leistung_time.hour % 3)
 
-    time_periods = []
-    for i in range(12):
-        start_hour = i * 2
-        end_hour = (i + 2) * 2 - 1
-        time_periods.append((start_hour, end_hour))
+        interval_end = interval_start + timedelta(hours=1)
 
-    statistics = []
-    for start_hour, end_hour in time_periods:
-        start_time = start_datetime.replace(hour=start_hour, minute=0, second=0)
-        end_time = start_datetime.replace(hour=end_hour, minute=59, second=59)
+        interval_str = f"{interval_start.strftime('%H:%M')} - {interval_end.strftime('%H:%M')}"
 
-        count = (
-            Leistung.query
-            .filter(Leistung.username == username)
-            .filter(
-                func.to_timestamp(Leistung.zeitpunkt, 'YYYY-MM-DD HH24:MI:SS') >= start_time,
-                func.to_timestamp(Leistung.zeitpunkt, 'YYYY-MM-DD HH24:MI:SS') <= end_time
-            )
-            .count()
-        )
+        # 初始化时间区间计数
+        if interval_str not in time_intervals:
+            time_intervals[interval_str] = 0
 
-        statistics.append({
-            'start_hour': start_hour,
-            'end_hour': end_hour,
-            'count': count
-        })
+        # 更新时间区间的Leistung总数量
+        time_intervals[interval_str] += 1
 
-    return jsonify(statistics)
+    return jsonify(time_intervals)
+
+
+@app.route('/accuracy-all/<username>', methods=['GET'])
+def get_accuracy(username):
+    # 获取学生的Leistung数据
+    leistungen = Leistung.query.filter_by(username=username).all()
+
+    # 初始化正确和错误的计数
+    correct_count = 0
+    total_count = len(leistungen)
+
+    for leistung in leistungen:
+        # 如果Leistung的score为True，则计为正确
+        if leistung.score == True:
+            correct_count += 1
+
+    # 计算正确率
+    accuracy = (correct_count / total_count) * 100 if total_count > 0 else 0
+
+    return jsonify({"accuracy": accuracy})
+
+
+@app.route('/accuracy/<username>', methods=['GET'])
+def get_accuracy(username):
+    # 获取学生的Leistung数据
+    leistungen = Leistung.query.filter_by(username=username).all()
+
+    # 创建一个字典来存储每个时间段的正确和总数
+    time_intervals = {}
+    for leistung in leistungen:
+        leistung_time = datetime.strptime(leistung.zeitpunkt, '%d.%m.%Y, %H:%M:%S')
+
+        # 计算时间区间的起始时间（每三个小时一个区间）
+        interval_start = leistung_time.replace(minute=0, second=0, microsecond=0)
+        interval_start -= timedelta(hours=leistung_time.hour % 3)
+
+        interval_end = interval_start + timedelta(hours=1)
+
+        interval_str = f"{interval_start.strftime('%H:%M')} - {interval_end.strftime('%H:%M')}"
+
+        # 初始化时间区间的正确和总数计数
+        if interval_str not in time_intervals:
+            time_intervals[interval_str] = {"correct": 0, "total": 0}
+
+        # 更新时间区间的正确和总数计数
+        if leistung.score == True:
+            time_intervals[interval_str]["correct"] += 1
+        time_intervals[interval_str]["total"] += 1
+
+    # 计算每个时间区间的正确率
+    accuracy_intervals = {}
+    for interval_str, counts in time_intervals.items():
+        if counts["total"] > 0:
+            accuracy = (counts["correct"] / counts["total"]) * 100
+        else:
+            accuracy = 0
+        accuracy_intervals[interval_str] = accuracy
+
+    return jsonify(accuracy_intervals)
 
 
 def hash_password(password: str) -> str:
