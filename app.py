@@ -681,13 +681,10 @@ def get_statistics(username):
     for leistung in leistungen:
         leistung_time = datetime.strptime(leistung.zeitpunkt, '%d.%m.%Y, %H:%M:%S')
 
-        # 计算时间区间的起始时间（每三个小时一个区间）
+        # 计算时间区间的起始时间（每个小时一个区间）
         interval_start = leistung_time.replace(minute=0, second=0, microsecond=0)
-        interval_start -= timedelta(hours=leistung_time.hour % 3)
 
-        interval_end = interval_start + timedelta(hours=1)
-
-        interval_str = f"{interval_start.strftime('%H:%M')} - {interval_end.strftime('%H:%M')}"
+        interval_str = f"{interval_start.strftime('%H:%M')} - {(interval_start + timedelta(hours=1)).strftime('%H:%M')}"
 
         # 初始化时间区间计数
         if interval_str not in time_intervals:
@@ -710,7 +707,7 @@ def get_accuracy_all(username):
 
     for leistung in leistungen:
         # 如果Leistung的score为True，则计为正确
-        if leistung.score == True:
+        if leistung.score:
             correct_count += 1
 
     # 计算正确率
@@ -729,20 +726,17 @@ def get_accuracy(username):
     for leistung in leistungen:
         leistung_time = datetime.strptime(leistung.zeitpunkt, '%d.%m.%Y, %H:%M:%S')
 
-        # 计算时间区间的起始时间（每三个小时一个区间）
+        # 计算时间区间的起始时间（每个小时一个区间）
         interval_start = leistung_time.replace(minute=0, second=0, microsecond=0)
-        interval_start -= timedelta(hours=leistung_time.hour % 3)
 
-        interval_end = interval_start + timedelta(hours=1)
-
-        interval_str = f"{interval_start.strftime('%H:%M')} - {interval_end.strftime('%H:%M')}"
+        interval_str = f"{interval_start.strftime('%H:%M')} - {(interval_start + timedelta(hours=1)).strftime('%H:%M')}"
 
         # 初始化时间区间的正确和总数计数
         if interval_str not in time_intervals:
             time_intervals[interval_str] = {"correct": 0, "total": 0}
 
         # 更新时间区间的正确和总数计数
-        if leistung.score == True:
+        if leistung.score:
             time_intervals[interval_str]["correct"] += 1
         time_intervals[interval_str]["total"] += 1
 
@@ -756,6 +750,60 @@ def get_accuracy(username):
         accuracy_intervals[interval_str] = accuracy
 
     return jsonify(accuracy_intervals)
+
+
+@app.route('/accuracy/correct/<username>', methods=['GET'])
+def get_correct_answers(username):
+    # 获取学生的Leistung数据
+    leistungen = Leistung.query.filter_by(username=username).all()
+
+    # 创建一个字典来存储每个时间段的答对题目数量
+    correct_intervals = {}
+    for leistung in leistungen:
+        leistung_time = datetime.strptime(leistung.zeitpunkt, '%d.%m.%Y, %H:%M:%S')
+
+        # 计算时间区间的起始时间（每个小时一个区间）
+        interval_start = leistung_time.replace(minute=0, second=0, microsecond=0)
+
+        interval_str = f"{interval_start.strftime('%H:%M')} - {(interval_start + timedelta(hours=1)).strftime('%H:%M')}"
+
+        # 初始化时间区间的答对题目数量计数
+        if interval_str not in correct_intervals:
+            correct_intervals[interval_str] = 0
+
+        # 更新时间区间的答对题目数量计数
+        if leistung.score:
+            correct_intervals[interval_str] += 1
+
+    # 返回每个时间区间的答对题目数量
+    return jsonify(correct_intervals)
+
+
+@app.route('/accuracy/incorrect/<username>', methods=['GET'])
+def get_incorrect_answers(username):
+    # 获取学生的Leistung数据
+    leistungen = Leistung.query.filter_by(username=username).all()
+
+    # 创建一个字典来存储每个时间段的答错题目数量
+    incorrect_intervals = {}
+    for leistung in leistungen:
+        leistung_time = datetime.strptime(leistung.zeitpunkt, '%d.%m.%Y, %H:%M:%S')
+
+        # 计算时间区间的起始时间（每个小时一个区间）
+        interval_start = leistung_time.replace(minute=0, second=0, microsecond=0)
+
+        interval_str = f"{interval_start.strftime('%H:%M')} - {(interval_start + timedelta(hours=1)).strftime('%H:%M')}"
+
+        # 初始化时间区间的答错题目数量计数
+        if interval_str not in incorrect_intervals:
+            incorrect_intervals[interval_str] = 0
+
+        # 更新时间区间的答错题目数量计数
+        if not leistung.score:
+            incorrect_intervals[interval_str] += 1
+
+    # 返回每个时间区间的答错题目数量
+    return jsonify(incorrect_intervals)
 
 
 def hash_password(password: str) -> str:
