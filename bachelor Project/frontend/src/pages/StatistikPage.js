@@ -34,8 +34,8 @@ const StudentStatisticsPage = () => {
 
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f0f2f5' }}>
-      <Navbar />
+    <div style={{fontFamily: 'Arial, sans-serif', backgroundColor: '#f0f2f5'}}>
+      <Navbar/>
 
       <div
         className="user-rankings-container"
@@ -46,20 +46,20 @@ const StudentStatisticsPage = () => {
           padding: '20px',
         }}
       >
-        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-          <h1 style={{ fontSize: '24px', marginBottom: '20px', color: '#1877f2' }}>Leistung</h1>
+        <div style={{background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
+          <h1 style={{fontSize: '24px', marginBottom: '20px', color: '#1877f2'}}>Nutzungshäufigkeit</h1>
+          <p style={{fontSize: '16px', marginBottom: '20px', color: '#333'}}>Dieses Diagramm bietet eine Übersicht über die Anzahl der Antworten und die Antwortgenauigkeit in bestimmten Zeitintervallen.</p>
           {Object.keys(statisticsData).length > 0 && Object.keys(accuracyData).length > 0 ? (
-            <BarChart data1={statisticsData} data2={accuracyData} />
+            <BarChart data1={statisticsData} data2={accuracyData}/>
           ) : (
             <p>Es liegen noch keine Informationen vor.</p>
           )}
         </div>
       </div>
 
-      <Footer />
+      <Footer/>
     </div>
   );
-};
-
+}
 
 export default StudentStatisticsPage;

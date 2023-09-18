@@ -46,6 +46,19 @@ const BarChart = ({ data1, data2 }) => {
             itemStyle: {
               color: 'rgba(89,162,93,0.93)',
             },
+            label: {
+              show: true, // 显示标签
+              position: 'top', // 标签位置在柱子上方
+              formatter: function (params) {
+                const dataIndex = params.dataIndex;
+                const correctCount = seriesData1[dataIndex];
+                const incorrectCount = seriesData2[dataIndex];
+                const total = correctCount + incorrectCount;
+                const accuracy =
+                  total === 0 ? 'N/A' : ((correctCount / total) * 100).toFixed(2) + '%';
+                return `${accuracy}`;
+              },
+            },
           },
           {
             name: 'falsche Antwort',

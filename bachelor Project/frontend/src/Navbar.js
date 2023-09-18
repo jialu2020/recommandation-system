@@ -84,7 +84,7 @@ function Navbar({ isLoggedIn }) {
                 onClick={() => handleLinkClick('/Statistik')}
                 title="Lernzeit"
               >
-                Lernzeit
+                Statistik
               </NavLink>
             </li>
 
