@@ -42,11 +42,13 @@ class Users(db.Model):
     username = db.Column(db.String(), unique=True)
     password = db.Column(db.String())
     userTyp = db.Column(db.String())
+    is_admin = db.Column(db.Boolean, default=False)  # 新增字段，默认为False
 
-    def __init__(self, username, password, userTyp):  # 注意参数名修改为 userTyp
+    def __init__(self, username, password, userTyp, is_admin=False):  # 添加is_admin参数
         self.username = username
         self.password = password
-        self.userTyp = userTyp  # 确保参数名称与字段名称一致
+        self.userTyp = userTyp
+        self.is_admin = is_admin  # 设置is_admin字段
 
 
 class UserRanks(db.Model):
@@ -130,9 +132,26 @@ class Level(db.Model):  # student faehigkeit
         self.kategorie = kategorie
 
 
+class Email(db.Model):
+    __tablename__ = "emails"
+    id = db.Column(db.Integer, primary_key=True)
+    recipient_email = db.Column(db.String())
+    subject = db.Column(db.String())
+    message = db.Column(db.String())
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_sent = db.Column(db.Boolean, default=False)
+
+    def __init__(self, recipient_email, subject, message):
+        self.recipient_email = recipient_email
+        self.subject = subject
+        self.message = message
+        self.is_sent = False  # 初始化为未发送
+        self.created_at = datetime.utcnow()  # 初始化为当前时间
+
+
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ("id", "username", "password", "userTyp")
+        fields = ("id", "username", "password", "userTyp", "is_admin")
 
 
 user_schema = UserSchema()
@@ -173,6 +192,15 @@ class LevelSchema(ma.Schema):
 
 level_schema = LevelSchema()
 level_schema = LevelSchema(many=True)
+
+
+class EmailSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "recipient_email", "subject", "message", "created_at", "is_sent")
+
+
+email_schema = EmailSchema()
+email_schema = EmailSchema(many=True)
 
 
 @app.route("/get", methods=["GET"])
