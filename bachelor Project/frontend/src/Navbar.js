@@ -130,7 +130,7 @@ function Navbar({ isLoggedIn }) {
                   onClick={() => handleLinkClick('/AdminPage')}
                   title="Admin Page"
                 >
-                  Admin Page
+                 Administrator
                 </NavLink>
               </li>
             )}

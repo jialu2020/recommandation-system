@@ -13,9 +13,8 @@ from scipy.optimize import minimize_scalar
 import random
 from sqlalchemy import func
 from datetime import datetime, timedelta
-from functools import wraps
-
-from sqlalchemy import cast, DateTime
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__, static_folder='frontend/build/static')
 
@@ -141,11 +140,11 @@ class Email(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     is_sent = db.Column(db.Boolean, default=False)
 
-    def __init__(self, recipient_email, subject, message):
+    def __init__(self, recipient_email, subject, message, is_sent=False):
         self.recipient_email = recipient_email
         self.subject = subject
         self.message = message
-        self.is_sent = False  # 初始化为未发送
+        self.is_sent = is_sent  # 将传递的值分配给 is_sent
         self.created_at = datetime.utcnow()  # 初始化为当前时间
 
 
@@ -902,6 +901,52 @@ def delete_email_address(email):
         return jsonify({'success': True, 'message': 'Email address deleted successfully'}), 200
     else:
         return jsonify({'success': False, 'message': 'Email address not found'}), 404
+
+
+@app.route('/api/send_email', methods=['POST'])
+def send_email():
+    data = request.get_json()
+    subject = data['subject']
+    message = data['message']
+
+    # 获取所有电子邮件地址
+    email_addresses = EmailAddress.query.all()
+
+    # 电子邮件配置
+    sender_email = 'IndiLearn@outlook.com'  # 发件人邮箱
+    sender_password = 'luJIA4723'  # 发件人邮箱密码
+    smtp_server = 'smtp.office365.com'  # Outlook的SMTP服务器
+
+    smtp_port = 587  # 使用 STARTTLS 连接类型
+
+    for email_address in email_addresses:
+        recipient_email = email_address.address
+
+        # 创建电子邮件消息
+        msg = MIMEText(message)
+        msg['Subject'] = subject
+        msg['From'] = sender_email
+        msg['To'] = recipient_email
+
+        try:
+            # 连接到SMTP服务器
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(sender_email, sender_password)
+
+            # 发送电子邮件
+            server.sendmail(sender_email, recipient_email, msg.as_string())
+            server.quit()
+
+            # 将电子邮件信息保存到数据库
+            new_email = Email(recipient_email=recipient_email, subject=subject, message=message, is_sent=True)
+            db.session.add(new_email)
+            db.session.commit()
+        except Exception as e:
+            # 处理发送失败的情况
+            return jsonify({'success': False, 'message': str(e)}), 500
+
+    return jsonify({'success': True, 'message': '电子邮件已发送成功'}), 200
 
 
 def hash_password(password: str) -> str:

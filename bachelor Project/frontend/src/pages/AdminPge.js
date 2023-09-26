@@ -32,7 +32,7 @@ function AdminPage() {
       .then((response) => {
         // 处理API的响应
         if (response.data.success) {
-          setMessage('Add email address successfully：' + response.data.message);
+          setMessage('Add email address successfully：');
           setEmailList([...emailList, newEmail]);
           setNewEmail('');
         } else {
@@ -50,7 +50,7 @@ function AdminPage() {
       <Navbar /> {/* 保留最初的Navbar */}
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
             <h1 className="title">Admin Page</h1>
-        <div className="admin-page">
+        <div className="admin-page mt20">
           <div className="admin-content">
             <div className="email-input">
               <h1 className="title">Add an email address</h1>
