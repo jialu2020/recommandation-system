@@ -7,10 +7,8 @@ export const Login = () => {
   //创建状态 email是状态的名字 然后setEmailHook是一个函数来修改状态 最开始都是null所以使用''
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-
-  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   //用户提交表单  handleSubmit函数负责
   function handleSubmit(event) {
@@ -40,7 +38,7 @@ export const Login = () => {
           localStorage.setItem('password', data.password );
           localStorage.setItem('userType', data.usertype);
           localStorage.setItem('kategorie', 'English');
-          console.log(data)
+          console.log("login data:",data)
 
 
 

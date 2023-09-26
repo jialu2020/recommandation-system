@@ -1,7 +1,5 @@
 import os
 import hashlib
-from collections import defaultdict
-
 import jwt
 import datetime
 from flask import Flask, request, jsonify
@@ -15,6 +13,8 @@ from scipy.optimize import minimize_scalar
 import random
 from sqlalchemy import func
 from datetime import datetime, timedelta
+from functools import wraps
+
 from sqlalchemy import cast, DateTime
 
 app = Flask(__name__, static_folder='frontend/build/static')
@@ -149,6 +149,15 @@ class Email(db.Model):
         self.created_at = datetime.utcnow()  # 初始化为当前时间
 
 
+class EmailAddress(db.Model):
+    __tablename__ = "email_addresses"
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.String(), unique=True, nullable=False)
+
+    def __init__(self, address):
+        self.address = address
+
+
 class UserSchema(ma.Schema):
     class Meta:
         fields = ("id", "username", "password", "userTyp", "is_admin")
@@ -201,6 +210,15 @@ class EmailSchema(ma.Schema):
 
 email_schema = EmailSchema()
 email_schema = EmailSchema(many=True)
+
+
+class EmailAddressSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "address")
+
+
+email_address_schema = EmailAddressSchema()
+email_address_schema = EmailAddressSchema(many=True)
 
 
 @app.route("/get", methods=["GET"])
@@ -563,37 +581,46 @@ def get_level_by_username(username):
         return jsonify({'message': 'Levels not found'})
 
 
-SECRET_KEY = 'i_love_u'
-app.config['SECRET_KEY'] = 'your-secret-key'
+app.config['SECRET_KEY'] = 'a-very-long-and-random-secret-key-472372239'
+SECRET_KEY = app.config['SECRET_KEY']
 
 
+# 登录验证，包括管理员权限的检查
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data['username']
     password = data['password']
 
+    # 在数据库中查找用户
     user = Users.query.filter_by(username=username).first()
-    # return UserSchema().jsonify(user)
-    # Login successful, generate a JWT token
-    if not user:  # first to check if there is  such a username in db
-        response = jsonify({'success': False, 'message': 'User not found'})
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        return response
 
-    hashed_password = user.password  # password check
-    if check_password(password, hashed_password):
-        usertype = user.userTyp
-        token = jwt.encode({'user_name': user.username}, SECRET_KEY, algorithm='HS256')
-        response = jsonify(
-            {'success': True, 'token': token, 'username': username, 'password': password, 'usertype': usertype})
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        return response
-    else:
-        # Login failed
-        response = jsonify({'success': False, 'message': 'Incorrect password'})
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-        return response
+    if not user:
+        return jsonify({'success': False, 'message': 'User not found'}), 401
+
+    # 检查密码是否正确
+    hashed_password = user.password
+    if not check_password(password, hashed_password):
+        return jsonify({'success': False, 'message': 'Incorrect password'}), 401
+
+    # 检查用户是否为管理员
+    is_admin = user.is_admin
+
+    # 生成令牌，并在令牌中包含管理员权限标识
+    token = jwt.encode({'user_name': user.username, 'is_admin': is_admin}, SECRET_KEY, algorithm='HS256')
+
+    response_data = {
+        'success': True,
+        'token': token,
+        'username': username,
+        'password': password,
+        'usertype': user.userTyp,
+        'is_admin': is_admin
+    }
+
+    response = jsonify(response_data)
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    return response
 
 
 @app.route('/addSubject', methods=['POST'])
@@ -832,6 +859,49 @@ def get_incorrect_answers(username):
 
     # 返回每个时间区间的答错题目数量
     return jsonify(incorrect_intervals)
+
+
+@app.route('/api/admin_add_email', methods=['POST'])
+def admin_add_email():
+    data = request.get_json()
+    email_address = data.get('address')  # 获取电子邮件地址
+
+    # 检查电子邮件地址是否为空
+    if not email_address:
+        return jsonify({'success': False, 'message': 'Email address cannot be empty'}), 400
+
+    existing_email = EmailAddress.query.filter_by(address=email_address).first()
+
+    if existing_email:
+        return jsonify({'success': False, 'message': 'Email already exists'}), 400
+
+    new_email_address = EmailAddress(address=email_address)
+    db.session.add(new_email_address)
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Email added successfully'}), 201
+
+
+@app.route('/api/get_email_addresses', methods=['GET'])
+def get_email_addresses():
+    email_addresses = EmailAddress.query.all()
+    email_address_list = [email.address for email in email_addresses]
+    return jsonify({'email_addresses': email_address_list})
+
+
+# 创建路由用于删除电子邮件地址
+from flask import request, jsonify
+
+
+@app.route('/api/delete_email_address/<string:email>', methods=['DELETE'])
+def delete_email_address(email):
+    email_address = EmailAddress.query.filter_by(address=email).first()
+
+    if email_address:
+        db.session.delete(email_address)
+        db.session.commit()
+        return jsonify({'success': True, 'message': 'Email address deleted successfully'}), 200
+    else:
+        return jsonify({'success': False, 'message': 'Email address not found'}), 404
 
 
 def hash_password(password: str) -> str:

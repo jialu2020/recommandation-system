@@ -20,6 +20,7 @@ import Contact from "./pages/footerPage/contact";
 import Ranklist from "./pages/Ranklist";
 import TerminationPage from './pages/TerminationPage';
 import StudentStatisticsPage from "./pages/StatistikPage";
+import AdminPage from "./pages/AdminPge";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
             <Route path="/contact" element={<Contact/>} />
+            <Route path="/adminpage" element={<AdminPage />} />
 
           </Routes>
         </header>
