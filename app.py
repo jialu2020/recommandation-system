@@ -11,10 +11,11 @@ from flask_marshmallow import Marshmallow
 import math
 from scipy.optimize import minimize_scalar
 import random
-from sqlalchemy import func
+from sqlalchemy import func, distinct
 from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
+from sqlalchemy import and_
 
 app = Flask(__name__, static_folder='frontend/build/static')
 
@@ -946,7 +947,45 @@ def send_email():
             # 处理发送失败的情况
             return jsonify({'success': False, 'message': str(e)}), 500
 
-    return jsonify({'success': True, 'message': '电子邮件已发送成功'}), 200
+    return jsonify({'success': True, 'message': 'Email sent successfully'}), 200
+
+
+@app.route("/api/today_active_users", methods=["GET"])
+def today_active_users():
+    # 获取今天的日期
+    today_date = datetime.now().date()
+
+    # 将日期/时间值转换为与数据库字段匹配的格式
+    today_start = today_date.strftime("%d-%m-%Y 00:00:00")
+    print("today_start " + today_start)
+    tomorrow_start = (today_date + timedelta(days=1)).strftime("%d-%m-%Y 00:00:00")
+    print("tomorrow_start " + tomorrow_start)
+
+    # 查询数据库以获取今天的活跃用户数
+    active_users_count = db.session.query(func.count(distinct(Leistung.username))).filter(
+        Leistung.zeitpunkt >= today_start,
+        Leistung.zeitpunkt < tomorrow_start
+    ).scalar()
+
+    return jsonify({"today_active_users": active_users_count})
+
+
+@app.route("/api/daily_active_users", methods=["GET"])
+def daily_active_users():
+    # 获取所有不同的日期
+    dates = db.session.query(Leistung.zeitpunkt).distinct().all()
+
+    # 创建一个字典来存储每天的活跃用户数
+    daily_active_users = {}
+
+    for date in dates:
+        date_str = date[0].split(',')[0]  # 获取日期部分，例如：12.9.2023
+        active_users = db.session.query(Leistung.username).filter(
+            Leistung.zeitpunkt.startswith(date_str)).distinct().all()
+        active_users_count = len(active_users)
+        daily_active_users[date_str] = active_users_count
+
+    return jsonify(daily_active_users)
 
 
 def hash_password(password: str) -> str:

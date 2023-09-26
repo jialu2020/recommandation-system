@@ -8,8 +8,21 @@ function AdminPage() {
   const [emailList, setEmailList] = useState([]);
   const [newEmail, setNewEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [subject, setSubject] = useState('Willkommen zurück zu Indilearn!');
+  const [emailContent, setEmailContent] = useState(
+    `Hallo liebe/r Schüler/in,
+    \nWir vermissen dich! 😊
+    \nHeute haben schon [] andere Schüler/in bei Indilearn gelernt. Möchtest du heute auch etwas Neues lernen?
+    \nBesuche Indilearn, um tolle Lektionen und Spiele zu entdecken, die dir beim Lernen helfen können. Wir freuen uns, dich wiederzusehen!
+    \nViele Grüße,
+    \nDein Indilearn-Team`
+  );
+  const [emailSentMessage, setEmailSentMessage] = useState(null);
+  const [todayActiveUsers, setTodayActiveUsers] = useState(null);
 
-  // 获取所有电子邮件地址
+
+
+  // get all Email address
   useEffect(() => {
     axios.get('http://localhost:5000/api/get_email_addresses')
       .then((response) => {
@@ -19,6 +32,19 @@ function AdminPage() {
         console.error('获取电子邮件地址失败：' + error.message);
       });
   }, []);
+
+
+  useEffect(() => {
+    // 调用API以获取今天的活跃用户数
+    axios.get('http://localhost:5000/api/today_active_users')
+      .then((response) => {
+        setTodayActiveUsers(response.data.today_active_users);
+      })
+      .catch((error) => {
+        console.error('获取今天的活跃用户数失败：' + error.message);
+      });
+  }, []);
+
 
   const handleAddEmail = () => {
         const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
@@ -45,12 +71,42 @@ function AdminPage() {
       });
   };
 
-  return (
+const handleSendEmail = () => {
+    // 检查标题和内容是否为空
+    if (!subject || !emailContent) {
+      setMessage('Please enter a subject and email content');
+      return;
+    }
+
+    // 构建要发送的数据
+    const emailData = {
+      subject: subject,
+      message: emailContent,
+    };
+
+    // 调用API发送电子邮件
+     axios.post('http://localhost:5000/api/send_email', emailData)
+    .then((response) => {
+      if (response.data.success) {
+        setEmailSentMessage('Email sent successfully');
+      } else {
+        setEmailSentMessage('Failed to send email：' + response.data.message);
+      }
+    })
+    .catch((error) => {
+      setEmailSentMessage('Failed to send email：' + error.message);
+    });
+};
+
+
+
+   return (
     <div>
-      <Navbar /> {/* 保留最初的Navbar */}
+      <Navbar />
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
-            <h1 className="title">Admin Page</h1>
+        <h1 className="title">Admin Page</h1>
         <div className="admin-page mt20">
+
           <div className="admin-content">
             <div className="email-input">
               <h1 className="title">Add an email address</h1>
@@ -72,11 +128,38 @@ function AdminPage() {
                   {email}
                 </div>
               ))}
+
+              <div className="active-users-container mt10">
+               <p className="active-users-text">Active Users Today: {todayActiveUsers !== null ? todayActiveUsers : 'Loading ...'}</p>
+              </div>
             </div>
           </div>
         </div>
+
+          <div className="admin-page mt20">
+            <h1 className="title">Compose Email</h1>
+            <div className="input-button-container2">
+              <input
+                className="title-input"
+                type="text"
+                placeholder="Willkommen zurück zu Indilearn!"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                required
+              />
+              <textarea
+                className="content-textarea"
+                value={emailContent}
+                onChange={(e) => setEmailContent(e.target.value)}
+                required
+              ></textarea>
+              <button onClick={handleSendEmail}>Send Email</button>
+            </div>
+            {emailSentMessage && <p className="message">{emailSentMessage}</p>}
+          </div>
+
       </div>
-      <Footer /> {/* 保留最初的Footer */}
+      <Footer />
     </div>
   );
 }

@@ -29,6 +29,13 @@
   align-items: center;
 }
 
+  .input-button-container2 {
+    /* 输入和按钮容器样式 */
+    display: flex;
+    flex-direction: column; /* 垂直排列子元素 */
+    align-items: center; /* 水平居中子元素 */
+  }
+
 input[type="email"] {
   padding: 8px;
   border-radius: 4px;
@@ -55,4 +62,29 @@ button {
   margin: 1px;
   border-radius: 4px;
   border: 1px solid #ccc;
+}
+  .title-input {
+    /* 标题输入字段样式 */
+
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .content-textarea {
+    /* 内容textarea样式 */
+    width: 90%; /* 宽度占满容器 */
+    height: 250px; /* 根据需要调整高度 */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow-y: scroll; /* 显示垂直滚动条 */
+  }
+
+
+.active-users-container p {
+  font-size: 18px;
+  color: #007bff; /* 设置文字颜色为蓝色 */
 }
