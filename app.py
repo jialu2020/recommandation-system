@@ -956,9 +956,18 @@ def today_active_users():
     today_date = datetime.now().date()
 
     # 将日期/时间值转换为与数据库字段匹配的格式
-    today_start = today_date.strftime("%d-%m-%Y 00:00:00")
+    day = str(today_date.day)  # 转化为字符串并且不带前导零 否则会报错
+    month = str(today_date.month)
+    year = str(today_date.year)
+
+    today_start = f"{day}.{month}.{year}, 00:00:00"
     print("today_start " + today_start)
-    tomorrow_start = (today_date + timedelta(days=1)).strftime("%d-%m-%Y 00:00:00")
+
+    tomorrow_date = today_date + timedelta(days=1)
+    day_tomorrow = str(tomorrow_date.day)
+    month_tomorrow = str(tomorrow_date.month)
+    year_tomorrow = str(tomorrow_date.year)
+    tomorrow_start = f"{day_tomorrow}.{month_tomorrow}.{year_tomorrow}, 00:00:00"
     print("tomorrow_start " + tomorrow_start)
 
     # 查询数据库以获取今天的活跃用户数
