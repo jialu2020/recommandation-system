@@ -25,7 +25,7 @@ export const Register = () => {
       return;
     }
 
-    axios.post(api2, {
+    axios.post(api, {
       username,
       password,
       userType,

@@ -2,7 +2,7 @@ import os
 import hashlib
 import jwt
 import datetime
-from flask import Flask, request, jsonify
+from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -15,6 +15,7 @@ from sqlalchemy import func, distinct
 from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
+from flask import request, jsonify
 from sqlalchemy import and_
 
 app = Flask(__name__, static_folder='frontend/build/static')
@@ -886,10 +887,6 @@ def get_email_addresses():
     email_addresses = EmailAddress.query.all()
     email_address_list = [email.address for email in email_addresses]
     return jsonify({'email_addresses': email_address_list})
-
-
-# 创建路由用于删除电子邮件地址
-from flask import request, jsonify
 
 
 @app.route('/api/delete_email_address/<string:email>', methods=['DELETE'])

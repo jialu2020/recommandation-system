@@ -18,7 +18,7 @@ export const Login = () => {
     const api = "http://www.indilearnlj.de/api/login"
     const api2 = "http://localhost:5000/api/login"
 
-    fetch(api2, {
+    fetch(api, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
