@@ -199,6 +199,8 @@ const handleNextQuestion = () => {
   const navigate = useNavigate();
 
   const handleSubmitAnswers = () => {
+    const now = new Date();
+    const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
     setSubmitted(true);
     updateLeistung();
     addRank();
@@ -209,9 +211,9 @@ const handleNextQuestion = () => {
       username: localStorage.getItem('username'),
       faehigkeit: getnewlevel(),
       kategorie: localStorage.getItem('kategorie'),
-      zeit: Date().toLocaleString()
+      zeit: localTime,
     }
-    console.log("new level wlp2",newlevel)
+    console.log("new level wlp2 updated", newlevel)
 
     const requestOptions = {
       method: 'POST',
