@@ -155,6 +155,8 @@ function Aufgabe() {
   };
 
   const Submit = () =>{
+    const now = new Date();
+    const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
 
     updateLeistung();
 
@@ -162,7 +164,7 @@ function Aufgabe() {
     username: localStorage.getItem('username'),
     faehigkeit: getnewlevel(),
     kategorie: localStorage.getItem('kategorie'),
-    zeit: Date().toLocaleString()
+    zeit: localTime
   };
 
   console.log("new level", newlevel);

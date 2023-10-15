@@ -256,6 +256,8 @@ const handleButtonClick = (id, letter) => {
 const navigate = useNavigate();
 
 const handleContinue = async () => {
+  const now = new Date();
+  const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
 
   setIsLoading(true);
 
@@ -265,7 +267,7 @@ const handleContinue = async () => {
     username: localStorage.getItem('username'),
     faehigkeit: calculateLevel(),
     kategorie: localStorage.getItem('kategorie'),
-    zeit: Date().toLocaleString()
+    zeit: localTime
   };
 
   const requestOptions = {
