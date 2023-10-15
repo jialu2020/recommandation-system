@@ -1,72 +1,122 @@
-.second_title{
-    margin-left: 50px;
-
-    margin-right: 50px;
-
-}
-.box{
-         width:60%;
-
-		    background-color: transparent;
-		    display: block;
-		    margin:50px auto;
-
+/* Facebook的蓝色 */
+:root {
+  --fb-blue: #1877F2;
 }
 
-
-.left {
-        float: left;
-        width: 300px;
-        height: 300px;
-        background-color: transparent;
-       margin-right: 50px;
-      }
-.right {
-        background-color: transparent;
-        margin-left: 310px;
-        height: 300px;
-       flex: 1;
-       padding: 0 20px;
-
+/* 整体样式 */
+body {
+  font-family: Arial, sans-serif;
 }
 
-.title {
-
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-
-
-}
-
-.second_title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.description {
-  font-size: 18px;
-  text-align: justify;
-  margin-top: 20px;
-  word-wrap: break-word;
-}
-
-.slick-slider {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.slick-slide {
+.button-container {
   display: flex;
   justify-content: center;
-  width: 100%;
+  margin-top: 20px;
+  gap: 20px;
 }
 
+.apple-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.apple-btn-login {
+  background-color: #007AFF; /* 苹果蓝色 */
+  color: white;
+}
+
+.apple-btn-register {
+  background-color: #f1f1f1; /* 灰色背景 */
+  color: #007AFF;
+  border: 1px solid #007AFF;
+}
+
+.apple-btn-login:hover {
+  background-color: #0058D3; /* 深蓝色 */
+}
+
+.apple-btn-register:hover {
+  background-color: #e5e5e5;
+}
+
+/* 标题 */
+.title, .second_title {
+  text-align: center;
+  color: var(--fb-blue);
+}
+
+/* 左右布局 */
+.box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-top: 5%;
+}
+
+.left {
+  width: 45%;
+  padding: 20px;
+}
+
+.left > Slider > div {
+    height: 500px;  /* 根据需要设置一个固定高度 */
+    overflow: hidden;
+}
+
+
+.right {
+  width: 50%;
+  padding: 20px;
+}
+
+/* 轮播图 */
 .homepage-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+  width: 100%;      /* 设置宽度为100% */
+  height: 100%;
+   max-height: 800px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.homepage-image:hover {
+  transform: scale(1.05);  /* 轻微的放大效果 */
+}
+
+/* 描述文字 */
+.description {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600; /* Increased font weight */
+  color: transparent;
+  background: linear-gradient(45deg, rgba(101, 116, 164, 0.6), #00509E); /* Gradients from light blue to dark blue */
+  -webkit-background-clip: text;
+  background-clip: text;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+
+.fade-in {
+  animation-name: fadeIn;
+  animation-duration: 1.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+html {
+  scroll-behavior: smooth;
 }

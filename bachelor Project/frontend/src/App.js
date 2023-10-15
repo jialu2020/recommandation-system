@@ -6,7 +6,6 @@ import Homepage from "./pages/Homepage";
 import Navbar from "./Navbar";
 import Myprofile from "./pages/Myprofile";
 import Search from "./pages/Search";
-import Like from "./pages/Like";
 import {Login} from "./pages/Login";
 import {Register} from "./pages/Register";
 import Aufgabe from "./pages/Aufgabe";
@@ -43,14 +42,14 @@ function App() {
         <header>
 
           <Routes>
-
+            <Route  path="/" element={<Homepage/>}  />
             <Route path= "/homepage" element= {<Homepage/>} />
             <Route path= "/course" element= {<OptionPage/>} />
             <Route path= "/statistik" element= {<StudentStatisticsPage/>} />
             <Route path= "/search" element= {<Search/>} />
             <Route path= "/ranklist" element= {<Ranklist/>} />
             <Route path= "/myprofile" element= {<Myprofile/>} />
-            <Route  path="/" element={<Login />}  />
+             <Route  path="/login" element={<Login />}  />
             <Route  path="/register" element={<Register />}  />
               {/*<Route path= "/english-options" element= {<OptionPage/>} />*/}
             <Route  path="/course/aufgabe" element={<Aufgabe />}  />

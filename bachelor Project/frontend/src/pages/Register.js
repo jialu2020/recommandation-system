@@ -15,7 +15,7 @@ export const Register = () => {
   const navigate = useNavigate();
 
   function handleSubmit(event) {
-     const api = "http://www.indilearnlj.de/api/register"
+     const api = "http://www.indilearnlj.de/backend/api/register"
      const api2 = "http://localhost:5000/api/register"
     event.preventDefault();
 
@@ -82,7 +82,7 @@ export const Register = () => {
             {/*  </label>*/}
             {/*</div>*/}
             <button type="submit" >
-              Anmelden
+              Registrieren
             </button>
           </form>
           <div className="policy-checkbox">

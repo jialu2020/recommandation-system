@@ -13,8 +13,13 @@ function UserRankings() {
 
   useEffect(() => {
     async function fetchRankings() {
+
+       const api = "http://www.indilearnlj.de/backend/getallranks"
+       const api2 = "http://127.0.0.1:5000/getallranks"
+
+
       try {
-        const response = await fetch('http://127.0.0.1:5000/getallranks');
+        const response = await fetch(api);
         if (!response.ok) {
           throw new Error('请求失败');
         }

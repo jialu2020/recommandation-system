@@ -57,16 +57,16 @@ function Navbar({ isLoggedIn }) {
         </a>
         <div>
           <ul id="navbar">
-            <li>
-              <NavLink
-                to="/Homepage"
-                className={activeLink === '/Homepage' ? 'active' : ''}
-                onClick={() => handleLinkClick('/Homepage')}
-                title="Meine Startseite"
-              >
-                Home
-              </NavLink>
-            </li>
+            {/*<li>*/}
+            {/*  <NavLink*/}
+            {/*    to="/Homepage"*/}
+            {/*    className={activeLink === '/Homepage' ? 'active' : ''}*/}
+            {/*    onClick={() => handleLinkClick('/Homepage')}*/}
+            {/*    title="Meine Startseite"*/}
+            {/*  >*/}
+            {/*    Home*/}
+            {/*  </NavLink>*/}
+            {/*</li>*/}
             <li>
               <NavLink
                 to="/Course"

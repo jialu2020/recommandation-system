@@ -15,7 +15,7 @@ export const Login = () => {
     event.preventDefault();
 
     // Send a request to the backend to check the login credentials
-    const api = "http://www.indilearnlj.de/api/login"
+    const api = "http://www.indilearnlj.de/backend/api/login"
     const api2 = "http://localhost:5000/api/login"
 
     fetch(api, {
@@ -45,7 +45,7 @@ export const Login = () => {
           // Redirect the user to the home page
           setIsLoggedIn(true); // 登录成功时设置为true
           setTimeout(() => {
-            navigate('/homepage');
+            navigate('/course');
           }, 1000);
           console.log('isLoggedIn1:', isLoggedIn);
 

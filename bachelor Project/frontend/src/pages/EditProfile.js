@@ -7,7 +7,7 @@ export default ({changeToFalse})=>{
 
     function handleSubmit(event) {
     event.preventDefault();
-    const updateURL = 'http://localhost:5000/update/'+ localStorage.getItem('username')
+    const updateURL = 'http://www.indilearnlj.de/backend/update/'+ localStorage.getItem('username')
     fetch(updateURL, {
       method: 'PUT',
       headers: {

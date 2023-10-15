@@ -63,11 +63,13 @@ useEffect(() => {
 
 
   let apiPath = '';
+  const apiPath2 = 'http://localhost:5000/getaufgabe/';
+
   if (userType === 'normal') {
-    apiPath = 'http://localhost:5000/getaufgabeNormal/';
+    apiPath = 'http://www.indilearnlj.de/backend/getaufgabeNormal/';
     console.log("it is normal api")
   } else if (userType === 'recommendation') {
-    apiPath = 'http://localhost:5000/getaufgabe/';
+    apiPath = 'http://www.indilearnlj.de/backend/getaufgabe/';
     console.log("it is RS api")
   }
 
@@ -273,7 +275,7 @@ const handleContinue = async () => {
   };
 
   try {
-    const response = await fetch('http://localhost:5000/addlevel', requestOptions);
+    const response = await fetch('http://www.indilearnlj.de/backend/addlevel', requestOptions);
     const levelData = await response.json();
     setLevel(levelData);
     setIsLoading(false);
@@ -342,7 +344,7 @@ const handleContinue = async () => {
           body: JSON.stringify(leistung)
         };
 
-        fetch('http://127.0.0.1:5000/addleistung', requestOptions)
+        fetch('http://www.indilearnlj.de/backend/addleistung', requestOptions)
           .then(response => response.json())
           .then(leistungData => {
             console.log(leistungData);
@@ -367,7 +369,15 @@ const handleContinue = async () => {
         };
 
         // 发起 POST 请求调用 addrank 方法
-        const response = await fetch(`http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`, requestOptions);
+        const api1 = `http://www.indilearnlj.de/backend/addrank/${username}/${rankToAdd}`;
+        const api2 = `http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`;
+
+        // 根据条件选择使用的API
+        const useApi2 = false; // 这里只是一个示例，您可以根据需要修改这个条件
+
+        const apiUrl = useApi2 ? api2 : api1;
+
+        const response = await fetch(apiUrl, requestOptions);
 
         if (!response.ok) {
           throw new Error('request fail');
