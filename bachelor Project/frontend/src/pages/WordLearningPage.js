@@ -258,12 +258,11 @@ const handleButtonClick = (id, letter) => {
 
 const navigate = useNavigate();
 
-const handleContinue = async () => {
+const handleContinue = () => {
   const now = new Date();
   const localTime = now.toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
 
   setIsLoading(true);
-
   updateLeistung();
 
   let newLevel = {
@@ -279,23 +278,29 @@ const handleContinue = async () => {
     body: JSON.stringify(newLevel),
   };
 
-  try {
-    const response = await fetch('http://www.indilearnlj.de/backend/addlevel', requestOptions);
-    const levelData = await response.json();
-    setLevel(levelData);
-    setIsLoading(false);
-  } catch (error) {
-    console.log(error);
-    setIsLoading(false);
-  }
+  fetch('http://www.indilearnlj.de/backend/addlevel', requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(levelData => {
+      setLevel(levelData);
+      setIsLoading(false);
 
-    const options = ['/course/aufgabe', '/course/multiple-choice'];
-    const randomIndex = Math.floor(Math.random() * options.length);
-    navigate(options[randomIndex]);
+    })
+    .catch(error => {
+      console.log(error);
+      setIsLoading(false);
+    });
 
+
+
+      const options = ['/course/aufgabe', '/course/multiple-choice'];
+      const randomIndex = Math.floor(Math.random() * options.length);
+      navigate(options[randomIndex]);
 };
-
-
 
 
     function calculateLevel() {
