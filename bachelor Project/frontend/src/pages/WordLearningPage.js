@@ -181,6 +181,7 @@ const handleButtonClick = (id, letter) => {
 
       setScore((prevScore) => prevScore + 1);
       setShowScore(true);
+         addRank();
 
     } else {
       setHearts((prevHearts) => prevHearts - 1);
@@ -198,6 +199,8 @@ const handleButtonClick = (id, letter) => {
           },
         ]);
         setShowScore(true);
+           addRank();
+
       }
     }
   }
@@ -281,10 +284,6 @@ const handleContinue = async () => {
     const levelData = await response.json();
     setLevel(levelData);
     setIsLoading(false);
-
-    // 这里等待一段时间再跳转页面，可以根据需要调整等待的时间
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    await addRank();
 
     const options = ['/course/aufgabe', '/course/multiple-choice'];
     const randomIndex = Math.floor(Math.random() * options.length);
