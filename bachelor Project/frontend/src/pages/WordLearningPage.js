@@ -264,7 +264,7 @@ const handleContinue = async () => {
 
   setIsLoading(true);
 
-  await updateLeistung();
+  updateLeistung();
 
   let newLevel = {
     username: localStorage.getItem('username'),
@@ -284,13 +284,15 @@ const handleContinue = async () => {
     const levelData = await response.json();
     setLevel(levelData);
     setIsLoading(false);
+  } catch (error) {
+    console.log(error);
+    setIsLoading(false);
+  }
 
     const options = ['/course/aufgabe', '/course/multiple-choice'];
     const randomIndex = Math.floor(Math.random() * options.length);
     navigate(options[randomIndex]);
-  } catch (error) {
-    console.log(error);
-  }
+
 };
 
 
@@ -374,7 +376,7 @@ const handleContinue = async () => {
         const api2 = `http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`;
 
         // 根据条件选择使用的API
-        const useApi2 = false; // 这里只是一个示例，您可以根据需要修改这个条件
+        const useApi2 = false;
 
         const apiUrl = useApi2 ? api2 : api1;
 
