@@ -234,7 +234,7 @@ return (
           </ul>
           <p style={{ marginBottom : '15px', marginTop: '25px'}}>
             <a  className="infolink" href="#" onClick={() => setShowExplanation(!showExplanation)}>
-              Um die Erklärungen zu den Symbolen zu sehen, klicken Sie hier.
+              Um die Erklärungen zu den Symbolen zu sehen, klicken Sie hier
             </a>
           </p>
           {showExplanation && (
