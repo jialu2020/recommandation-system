@@ -7,8 +7,6 @@ body {
   padding: 0;
 }
 
-/* 导航栏样式 */
-
 
 /* 得分部分样式 */
 .score-section {
@@ -87,4 +85,43 @@ body {
 }
 .mb10 {
   margin-bottom: 10px;
+}
+/* Use media queries for responsive adjustments */
+@media (max-width: 768px) { /* for tablets */
+  .quiz-content {
+    width: 90%  !important;
+  }
+
+  .score-section,
+  .question-section,
+  .answer-section {
+    padding: 10px;
+  }
+
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button,
+  .back,
+  .next {
+    width: 100%; /* Full width buttons */
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  /* Input field should not be too wide on mobile */
+  .input {
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box; /* To make sure padding does not add to width */
+  }
+
+  /* Adjust text sizes for smaller screens */
+  .score-text,
+  .question-text {
+    font-size: 16px;
+  }
 }

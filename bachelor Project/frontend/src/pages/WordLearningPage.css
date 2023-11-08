@@ -165,3 +165,71 @@
 .mt20{
   margin-top: 20px;
 }
+
+@media (max-width: 768px) {
+
+.heart-container {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    transform: translate(-50%, 0); /* Correctly center the container */
+    z-index: 10; /* Make sure it's above other content if necessary */
+    width: 100%; /* Make sure the container spans the full width */
+    display: flex; /* Use flexbox to center contents */
+    justify-content: center; /* Center contents horizontally */
+    align-items: flex-start; /* Align contents to the top */
+  }
+
+  .hearts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .heart-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .title {
+    color: #2064bd;
+    margin-top: 60px; /* increased to push content down below the hearts */
+  }
+
+  .word-learning-page {
+    position: relative;
+    width: 100%;
+    height: auto; /* changed to auto for flexible height */
+    margin-bottom: 20px;
+    padding-top: 60px; /* added padding to top to avoid overlapping with hearts */
+  }
+
+  .answer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .answer-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .answer-input {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
+  .delete-button {
+    white-space: nowrap;
+  }
+
+  .submit-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+}

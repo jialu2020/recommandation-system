@@ -41,5 +41,11 @@
 .title2{
   margin-top: 10px;
   color: #2064bd;
+}
 
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .option-container {
+    flex-direction: column; /* Stack the options vertically on small screens */
+  }
 }

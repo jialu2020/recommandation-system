@@ -127,3 +127,39 @@
 .delete-button1:focus {
   outline: none;
 }
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .profile-container {
+    max-width: 100%;
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  .user-info-container, .level-list {
+    width: auto; /* Allows the width to adjust to the screen size */
+    max-width: 100%; /* Ensures it doesn't exceed the viewport width */
+    height: auto; /* Makes height flexible */
+    padding: 10px; /* Adjust padding for smaller screens */
+    margin-bottom: 10px;
+  }
+
+  .username-password {
+    display: block; /* Stack the username and change password link */
+  }
+
+  .link-btn {
+    display: block; /* Ensure the change password link goes on a new line */
+    margin-top: 10px;
+    margin-left: -15px;
+  }
+
+  .delete-button1, .delete-button2 {
+    width: 100%; /* Full width buttons on mobile */
+    margin-top: 20px;
+  }
+
+  .explanation-box {
+    margin-top: 20px; /* Ensure there's space between this and the list above on mobile */
+  }
+
+}
