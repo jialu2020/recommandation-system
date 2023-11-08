@@ -120,3 +120,33 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+
+/* 媒体查询适应手机屏幕 */
+@media screen and (max-width: 768px) {
+  .box {
+    flex-direction: column; /* 在小屏幕上改变布局方向为垂直排列 */
+  }
+
+  .left, .right {
+    width: calc(100% - 20px); /* 减去左右的margin */
+    margin: 0 10px; /* 上下保持0，左右各10px的边距 */
+    padding: 10px; /* 根据实际情况调整内边距，这会增加内容内部的间距 */
+    box-sizing: border-box; /* 确保元素的宽度包括了padding和border，但不包括margin */
+  }
+
+  .right {
+    order: 1; /* 将标题排在图片之前 */
+  }
+
+  .left {
+    order: 3; /* 将图片排在标题之后 */
+    /* 图片相关的样式不变，可以根据需要调整 */
+  }
+
+  /* 如果描述性文本单独作为一个元素，比如<p class="description">，我们可以直接给它设置order属性 */
+  .description {
+    order: 2; /* 将描述性文本排在图片之后 */
+    margin-top: 20px; /* 为描述性文本增加一些顶部边距 */
+  }
+}

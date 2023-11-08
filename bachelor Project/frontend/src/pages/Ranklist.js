@@ -40,7 +40,7 @@ function UserRankings() {
       <Navbar />
       <div className="user-rankings-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '90vh' }}>
         <h1 className="title">Rangliste</h1>
-        <p >
+        <p style={{ marginLeft : "20px"}}>
           Zur Erläuterung der Ranglisten, {' '}
           <a className="infolink" href="#" onClick={handleExplanationClick}>
             {showExplanation ? 'Erläuterung ausblenden' : 'Click hier'}

@@ -37,3 +37,23 @@
   text-align: center;
   font-size: 16px;
 }
+@media screen and (max-width: 768px) {
+  .footer-content {
+    flex-direction: column; /* 在小屏幕上垂直堆叠项 */
+    padding: 10px 0; /* 调整内边距 */
+  }
+
+  .footer-content a {
+    margin: 5px 0; /* 调整链接的上下边距，移除左右边距 */
+    justify-content: center; /* 在移动视图中居中每个链接 */
+  }
+
+  .footer-content a::after {
+    content: ""; /* 在移动视图中不显示竖线 */
+  }
+
+  .footer {
+    padding: 15px; /* 减少填充 */
+    font-size: 14px; /* 减小字体大小以适应更小的屏幕 */
+  }
+}

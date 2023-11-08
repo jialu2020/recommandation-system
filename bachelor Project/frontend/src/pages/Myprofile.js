@@ -207,12 +207,13 @@ return (
               </button>
 
             </div>
-            <div id="buttonclass" style={{ marginBottom : '20px'}}>
-          <button className="delete-button1" onClick={handleDeleteAccount}>
-            Konto deaktivieren
-          </button>
+            <div id="buttonclass" style={{ marginBottom : '20px', marginTop: '50px'}}>
 
-              <button className="delete-button1" onClick={handleDeleteUserName}>
+              <button className="delete-button1" onClick={handleDeleteAccount}>
+                Konto deaktivieren
+              </button>
+
+               <button className="delete-button1" onClick={handleDeleteUserName}>
                 Projektstudien beenden
               </button>
 
@@ -231,7 +232,7 @@ return (
               </li>
             ))}
           </ul>
-          <p>
+          <p style={{ marginBottom : '15px', marginTop: '25px'}}>
             <a  className="infolink" href="#" onClick={() => setShowExplanation(!showExplanation)}>
               Um die Erklärungen zu den Symbolen zu sehen, klicken Sie hier.
             </a>
