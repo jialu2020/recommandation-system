@@ -297,9 +297,11 @@ def get_aufgabe(username, kategorie):
     filtered_aufgaben = [aufgabe for aufgabe in all_aufgabe if
                          0.25 < calculateProbability(aufgabe.schwerigkeit, aufgabe.discrimination,
                                                      latest_ability) < 0.75]
-    filtered_aufgaben = random.sample(filtered_aufgaben, 4)
-
-    results = aufgabe_schema.dump(filtered_aufgaben)
+    if len(filtered_aufgaben) < 4:
+        results = aufgabe_schema.dump(filtered_aufgaben)
+    else:
+        random_aufgaben = random.sample(filtered_aufgaben, 4)
+        results = aufgabe_schema.dump(random_aufgaben)
     print("Returned data:", results)
     return jsonify(results)
 
