@@ -2,7 +2,7 @@ import pandas as pd
 import psycopg2
 
 # 读取包含德语翻译的 CSV 文件
-csv_file_path = 'processed_lemmas_60k_with_translation.csv'
+csv_file_path = '../Prototype/processed_lemmas_60k_with_translation.csv'
 df = pd.read_csv(csv_file_path)
 
 # 建立数据库连接
