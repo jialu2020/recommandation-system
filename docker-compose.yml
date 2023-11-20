@@ -28,7 +28,7 @@ services:
     image: postgres:13
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgrespassword  # 你应该使用环境变量或secrets来避免在配置文件中硬编码密码
+      - POSTGRES_PASSWORD=472372239 # 你应该使用环境变量或secrets来避免在配置文件中硬编码密码
       - POSTGRES_DB=users
     volumes:
       - postgres_data:/var/lib/postgresql/data

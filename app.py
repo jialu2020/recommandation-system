@@ -26,7 +26,7 @@ CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de","http://
 
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@db/users"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
 
