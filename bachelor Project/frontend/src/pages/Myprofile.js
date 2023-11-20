@@ -20,7 +20,7 @@ function Myprofile() {
 
   useEffect(() => {
     axios
-      .get(`http://www.indilearnlj.de/backend/getlevel/${username}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/getlevel/${username}`)
       .then(response => {
         console.log("SUCCESS", response);
         const levelData = response.data;
@@ -45,7 +45,7 @@ function Myprofile() {
 
     if (shouldDelete) {
       // 向服务器发送 DELETE 请求删除用户账号
-      axios.delete(`http://www.indilearnlj.de/backend/delete-username/${username}`)
+      axios.delete(`${process.env.REACT_APP_BACKEND_URL}/delete-username/${username}`)
         .then(response => {
           console.log("SUCCESS", response);
           // 处理删除成功的情况，例如显示成功消息，并执行注销操作

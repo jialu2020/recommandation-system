@@ -66,10 +66,10 @@ useEffect(() => {
   const apiPath2 = 'http://localhost:5000/getaufgabe/';
 
   if (userType === 'normal') {
-    apiPath = 'http://www.indilearnlj.de/backend/getaufgabeNormal/';
+    apiPath = `${process.env.REACT_APP_BACKEND_URL}/getaufgabeNormal/`;
     console.log("it is normal api")
   } else if (userType === 'recommendation') {
-    apiPath = 'http://www.indilearnlj.de/backend/getaufgabe/';
+    apiPath = `${process.env.REACT_APP_BACKEND_URL}/getaufgabe/`;
     console.log("it is RS api")
   }
 
@@ -278,7 +278,7 @@ const handleContinue = () => {
     body: JSON.stringify(newLevel),
   };
 
-  fetch('http://www.indilearnlj.de/backend/addlevel', requestOptions)
+  fetch(`${process.env.REACT_APP_BACKEND_URL}/addlevel`, requestOptions)
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -352,7 +352,7 @@ const handleContinue = () => {
           body: JSON.stringify(leistung)
         };
 
-        fetch('http://www.indilearnlj.de/backend/addleistung', requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/addleistung`, requestOptions)
           .then(response => response.json())
           .then(leistungData => {
             console.log(leistungData);
@@ -377,7 +377,7 @@ const handleContinue = () => {
         };
 
         // 发起 POST 请求调用 addrank 方法
-        const api1 = `http://www.indilearnlj.de/backend/addrank/${username}/${rankToAdd}`;
+        const api1 = `${process.env.REACT_APP_BACKEND_URL}/addrank/${username}/${rankToAdd}`;
         const api2 = `http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`;
 
         // 根据条件选择使用的API

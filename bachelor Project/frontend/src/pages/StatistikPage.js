@@ -12,8 +12,8 @@ const StudentStatisticsPage = () => {
   useEffect(() => {
     // 使用Promise.all同时发起两个API请求
     Promise.all([
-      fetch(`http://www.indilearnlj.de/backend/accuracy/correct/${username}`).then((response) => response.json()),
-      fetch(`http://www.indilearnlj.de/backend/accuracy/incorrect/${username}`).then((response) => response.json()),
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/accuracy/correct/${username}`).then((response) => response.json()),
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/accuracy/incorrect/${username}`).then((response) => response.json()),
     ])
       .then(([statisticsData, accuracyData]) => {
 

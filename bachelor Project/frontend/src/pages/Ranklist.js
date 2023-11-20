@@ -14,7 +14,7 @@ function UserRankings() {
   useEffect(() => {
     async function fetchRankings() {
 
-       const api = "http://www.indilearnlj.de/backend/getallranks"
+       const api = `${process.env.REACT_APP_BACKEND_URL}/getallranks`
        const api2 = "http://127.0.0.1:5000/getallranks"
 
 

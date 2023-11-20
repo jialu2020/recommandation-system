@@ -18,17 +18,31 @@ from email.mime.text import MIMEText
 from flask import request, jsonify
 from sqlalchemy import and_
 
-app = Flask(__name__, static_folder='frontend/build/static')
+app = Flask(__name__, static_folder='frontend/build', static_url_path='')
 
 api = Api(app)
 
-CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de"])
+CORS(app, origins=["http://localhost:3000", "http://www.indilearnlj.de","http://localhost"])
 
 # to avoid CORS policy: No 'Access-Control-Allow-Origin'
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:472372239@localhost/users"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lujia2023:123456@92.205.13.53:3306/indilearn"
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:123456@92.205.13.53/indilearn"
+
+# 定义允许访问的本地 IP 地址
+allowed_ips = ['127.0.0.1', 'localhost', '92.205.13.53']
+
+
+# 在每个请求之前进行 IP 地址检查
+@app.before_request
+def limit_remote_addr():
+    remote_ip = request.remote_addr
+    endpoint = request.endpoint
+    current_time = datetime.now()
+
+    print(f"当前时间: {current_time}，请求接口: {endpoint}，IP 地址: {remote_ip}")
+
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -260,7 +274,7 @@ def update_pwd_with_name(username):
 
     db.session.commit()
     response = jsonify({'username': username, 'password': password})
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
     return response
 
 
@@ -344,7 +358,7 @@ def add_sub():
     subject = Subjects.query.filter_by(username=username, fachname=fachname).first()
     if subject:
         response = jsonify({'error': 'you have added this course already'})
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
         return response
 
     newSubject = Subjects(fachname, username)
@@ -533,7 +547,7 @@ def add_level():
         db.session.commit()
         print("Added newLevel to the database")
         response = LevelSchema().jsonify(newLevel)
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost')
         return response
 
     except Exception as e:
@@ -620,7 +634,7 @@ def login():
     }
 
     response = jsonify(response_data)
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
     return response
 
 
@@ -633,13 +647,13 @@ def add_subject():
     subject = Subjects.query.filter_by(username=username, fachname=fachname).first()
     if subject:
         response = jsonify({'error': 'course already have, please chose another one'})
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
         return response
     new_sub = Subjects(fachname=fachname, username=username)
     db.session.add(new_sub)
     db.session.commit()
     response = jsonify({'message': 'successfully add a course'})
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
     return response
 
 
@@ -653,7 +667,7 @@ def register():
     user = Users.query.filter_by(username=username).first()
     if user:
         response = jsonify({'error': 'User already exists'})
-        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
         return response
 
     new_user = Users(username=username, password=hash_password(password),
@@ -662,7 +676,7 @@ def register():
     db.session.commit()
 
     response = jsonify({'message': 'User created successfully'})
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost'
     return response
 
 

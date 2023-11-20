@@ -15,7 +15,7 @@ export const Register = () => {
   const navigate = useNavigate();
 
   function handleSubmit(event) {
-     const api = "http://www.indilearnlj.de/backend/api/register"
+     const api = `${process.env.REACT_APP_BACKEND_URL}/api/register`
      const api2 = "http://localhost:5000/api/register"
     event.preventDefault();
 

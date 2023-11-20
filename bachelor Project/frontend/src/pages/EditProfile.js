@@ -7,7 +7,7 @@ export default ({changeToFalse})=>{
 
     function handleSubmit(event) {
     event.preventDefault();
-    const updateURL = 'http://www.indilearnlj.de/backend/update/'+ localStorage.getItem('username')
+    const updateURL = `${process.env.REACT_APP_BACKEND_URL}/update/`+ localStorage.getItem('username')
     fetch(updateURL, {
       method: 'PUT',
       headers: {

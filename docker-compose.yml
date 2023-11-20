@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./bachelor Project/frontend  # 正确的前端项目路径
+      dockerfile: Dockerfile  # 指定 Dockerfile 的名称和
+    ports:
+      - "80:80"  # 映射 Nginx 的端口
+    depends_on:
+      - backend  # 前端依赖后端服务启动
+
+  backend:
+    build:
+      context: ./  # 设置 Dockerfile 的上下文目录为项目根目录
+      dockerfile: Dockerfile  # 指定后端 Dockerfile 的名称和位置
+    ports:
+      - "5000:5000"  # 映射 Flask 的端口
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - FLASK_RUN_HOST=0.0.0.0
+    volumes:
+      - .:/app  # 映射整个项目目录
+    depends_on:
+      - db  # 后端依赖数据库服务启动
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespassword  # 你应该使用环境变量或secrets来避免在配置文件中硬编码密码
+      - POSTGRES_DB=users
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

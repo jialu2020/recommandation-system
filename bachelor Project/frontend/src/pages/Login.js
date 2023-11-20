@@ -15,9 +15,7 @@ export const Login = () => {
     event.preventDefault();
 
     // Send a request to the backend to check the login credentials
-    const api = "http://www.indilearnlj.de/backend/api/login"
-    const api2 = "http://localhost:5000/api/login"
-
+    const api = `${process.env.REACT_APP_BACKEND_URL}/api/login`;
     fetch(api, {
       method: 'POST',
       headers: {

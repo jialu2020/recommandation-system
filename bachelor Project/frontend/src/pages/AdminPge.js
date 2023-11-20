@@ -24,7 +24,7 @@ function AdminPage() {
 
   // get all Email address
   useEffect(() => {
-    axios.get('http://www.indilearnlj.de/backend/api/get_email_addresses')
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/get_email_addresses`)
       .then((response) => {
         setEmailList(response.data.email_addresses);
       })
@@ -36,7 +36,7 @@ function AdminPage() {
 
   useEffect(() => {
     // 调用API以获取今天的活跃用户数
-    axios.get('http://www.indilearnlj.de/backend/api/today_active_users')
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/today_active_users`)
       .then((response) => {
         setTodayActiveUsers(response.data.today_active_users);
       })
@@ -54,7 +54,7 @@ function AdminPage() {
     }
 
 
-    axios.post('http://www.indilearnlj.de/backend/api/admin_add_email', { address: newEmail })
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/admin_add_email`, { address: newEmail })
       .then((response) => {
         // 处理API的响应
         if (response.data.success) {
@@ -85,7 +85,7 @@ const handleSendEmail = () => {
     };
 
     // 调用API发送电子邮件
-     axios.post('http://www.indilearnlj.de/backend/api/send_email', emailData)
+     axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/send_email`, emailData)
     .then((response) => {
       if (response.data.success) {
         setEmailSentMessage('Email sent successfully');

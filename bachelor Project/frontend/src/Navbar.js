@@ -3,7 +3,8 @@ import "./Navbar.css"
 import { useState } from 'react';
 import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 import logoutIcon from "./icons/logout.png"
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+
 
 function Navbar({ isLoggedIn }) {
   const location = useLocation();
@@ -21,7 +22,7 @@ function Navbar({ isLoggedIn }) {
 
     if (token) {
       // 解码令牌
-      const decodedToken = jwt_decode(token);
+     const decodedToken = jwtDecode(token);
       // 现在你可以访问解码后的令牌数据，例如 is_admin 标识
       const isAdmin = decodedToken.is_admin;
 

@@ -51,10 +51,10 @@ function Aufgabe() {
     if (userType === 'normal') {
 
 
-      apiPath = 'http://www.indilearnlj.de/backend/getaufgabeNormal/';
+      apiPath = `${process.env.REACT_APP_BACKEND_URL}/getaufgabeNormal/`;
       console.log("it is normal api")
     } else if (userType === 'recommendation') {
-      apiPath = 'http://www.indilearnlj.de/backend/getaufgabe/';
+      apiPath = `${process.env.REACT_APP_BACKEND_URL}/getaufgabe/`;
       console.log("it is RS api")
     }
 
@@ -125,7 +125,7 @@ function Aufgabe() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(leistung)
       };
-      fetch('http://www.indilearnlj.de/backend/addleistung', requestOptions)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/addleistung`, requestOptions)
         .then(response => response.json())
         .then(leistung);
   }
@@ -175,7 +175,7 @@ function Aufgabe() {
     body: JSON.stringify(newlevel)
   };
 
-  fetch('http://www.indilearnlj.de/backend/addlevel', requestOptions)
+  fetch(`${process.env.REACT_APP_BACKEND_URL}/addlevel`, requestOptions)
     .then(response => response.json())
     .then(newlevel);
 
@@ -244,7 +244,7 @@ async function addRank() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rank: rankToAdd }),
     };
-      const api1 = `http://www.indilearnlj.de/backend/addrank/${username}/${rankToAdd}`;
+      const api1 = `${process.env.REACT_APP_BACKEND_URL}/addrank/${username}/${rankToAdd}`;
       const api2 = `http://127.0.0.1:5000/addrank/${username}/${rankToAdd}`;
 
       // 根据条件选择使用的API
