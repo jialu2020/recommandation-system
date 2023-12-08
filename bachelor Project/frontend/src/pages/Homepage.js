@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 import homepageImage1 from "../icons/Indilearn-logo.png";
-import homepageImage2 from "../icons/puuhgigjgon283.png";
-import homepageImage3 from "../icons/WechatIMG4031.jpeg";
+// import homepageImage2 from "../icons/indilearn.png";
+import homepageImage3 from "../icons/indilearn flyer.png";
 import Footer from "../footer";
 
 
@@ -49,9 +49,9 @@ return (
               <div>
                 <img className="homepage-image" src={homepageImage1} alt="image 1" />
               </div>
-              <div>
-                <img className="homepage-image" src={homepageImage2} alt="image 2" />
-              </div>
+              {/*<div>*/}
+              {/*  <img className="homepage-image" src={homepageImage2} alt="image 2" />*/}
+              {/*</div>*/}
               <div>
                 <img className="homepage-image" src={homepageImage3} alt="image 3" />
               </div>

@@ -7,8 +7,8 @@ function Contact() {
           <h1 style={headingStyle}>Kontakt</h1>
           <p style={paragraphStyle}>Wenn Sie Anregungen oder Fragen haben, zögern Sie nicht, mich zu kontaktieren:</p>
           <p style={emailStyle}>jia.lu.2@stud.uni-due.de</p>
-          <p style={paragraphStyle}>Sie können mir auch auf den sozialen Medien folgen:</p>
-          <a style={socialMediaStyle} href="https://www.instagram.com/luuujia" target="_blank" rel="noopener noreferrer">Instagram: @luuujia</a>
+          {/*<p style={paragraphStyle}>Sie können mir auch auf den sozialen Medien folgen:</p>*/}
+          {/*<a style={socialMediaStyle} href="https://www.instagram.com/luuujia" target="_blank" rel="noopener noreferrer">Instagram: @luuujia</a>*/}
         </div>
 
         <div style={sectionStyle}>
