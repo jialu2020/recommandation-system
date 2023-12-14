@@ -4,17 +4,17 @@ services:
     build:
       context: ./bachelor Project/frontend  # 正确的前端项目路径
       dockerfile: Dockerfile  # 指定 Dockerfile 的名称和
-    ports:
-      - "80:80"  # 映射 Nginx 的端口
     depends_on:
       - backend  # 前端依赖后端服务启动
+    networks:
+      indilearn-network:
+        ipv4_address: 172.21.0.2
+    restart: always
 
   backend:
     build:
       context: ./  # 设置 Dockerfile 的上下文目录为项目根目录
       dockerfile: Dockerfile  # 指定后端 Dockerfile 的名称和位置
-    ports:
-      - "5000:5000"  # 映射 Flask 的端口
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
@@ -23,6 +23,10 @@ services:
       - .:/app  # 映射整个项目目录
     depends_on:
       - db  # 后端依赖数据库服务启动
+    networks:
+      indilearn-network:
+        ipv4_address: 172.21.0.3
+    restart: always
 
   db:
     image: postgres:13
@@ -32,8 +36,17 @@ services:
       - POSTGRES_DB=users
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    networks:
+      indilearn-network:
+        ipv4_address: 172.21.0.4
+    restart: always
 
 volumes:
   postgres_data:
+
+
+networks:
+  indilearn-network:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
